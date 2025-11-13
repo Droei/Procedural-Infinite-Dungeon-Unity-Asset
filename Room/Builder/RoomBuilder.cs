@@ -7,7 +7,7 @@ public class RoomBuilder : IRoomBuilder
     private readonly DungeonManager dungeonManager;
     private readonly IEnemySpawnFactory enemyFactory;
     private readonly Dungeon dungeon;
-    private readonly RoomSidesFactory doorFactory;
+    private readonly RoomSidesFactory sideFactory;
 
     private Vector2Int gridPos;
     private RoomSpawnData spawnData;
@@ -24,7 +24,7 @@ public class RoomBuilder : IRoomBuilder
         this.dungeonManager = dungeonManager;
         this.enemyFactory = enemyFactory;
         this.dungeon = dungeon;
-        doorFactory = new(dungeon);
+        sideFactory = new(dungeon);
     }
 
     public Room Build()
@@ -39,31 +39,30 @@ public class RoomBuilder : IRoomBuilder
 
         if (spawnData != null && spawnData.Is2x2)
         {
-            var combinations = Dungeon2x2Helper.Find2x2CombinationsWithRoom(dungeon, room);
+            List<Dictionary<Vector2Int, DirectionEnum>> combinations = Dungeon2x2Helper.Find2x2CombinationsWithRoom(dungeon, room);
 
             if (combinations.Count > 0)
             {
-                var firstCombo = combinations[0];
+                Dictionary<Vector2Int, DirectionEnum> firstCombo = combinations[0];
 
                 List<string> parts = new();
-                foreach (var kv in firstCombo)
+                foreach (KeyValuePair<Vector2Int, DirectionEnum> kv in firstCombo)
                 {
+
                     parts.Add($"{kv.Key} ({kv.Value})");
                 }
 
+                RoomConnectionHandler.Setup2x2RoomSides(room, sideFactory, firstCombo);
                 Debug.Log("First combination: " + string.Join(", ", parts));
             }
-            RoomConnectionHandler.Setup2x2RoomSides(room, doorFactory);
         }
         else
         {
-            RoomConnectionHandler.SetupRoomSides(room, doorFactory);
+            RoomConnectionHandler.SetupRoomSides(room, sideFactory);
         }
 
         RoomEnemyHandler.SpawnEnemies(room, enemyFactory, roomSize, dungeonManager.GetCurrentWave, spawnData);
         RoomViewHandler.InitView(room, dungeonManager);
-
-
 
         if (isConnectedBuild && fromRoom != null)
             RoomConnectionHandler.HandleConnections(room, fromRoom, fromDir);

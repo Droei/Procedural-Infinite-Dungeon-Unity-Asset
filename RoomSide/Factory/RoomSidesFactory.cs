@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoomSidesFactory : IRoomSidesFactory
@@ -27,8 +29,11 @@ public class RoomSidesFactory : IRoomSidesFactory
         builder.Build();
     }
 
-    public void Built2x2Room(Room room, Vector2Int[] sides)
+    public void Built2x2Room(Room room, Dictionary<Vector2Int, DirectionEnum> parts)
     {
-
+        var builder = new RoomSidesBuilder(dungeon, doorRandomiser)
+        .WithRoom(room)
+        .ForcedOpeningDirection(parts.Values.First());
+        builder.Build();
     }
 }

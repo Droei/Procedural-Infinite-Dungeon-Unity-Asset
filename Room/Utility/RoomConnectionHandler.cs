@@ -1,14 +1,18 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 public static class RoomConnectionHandler
 {
-    public static void SetupRoomSides(Room room, RoomSidesFactory doorFactory)
+    public static void SetupRoomSides(Room room, RoomSidesFactory sideFactory)
     {
-        doorFactory.AddRandomSides(room);
-        doorFactory.SyncSidesWithNeighbors(room);
+        sideFactory.AddRandomSides(room);
+        sideFactory.SyncSidesWithNeighbors(room);
     }
 
-    public static void Setup2x2RoomSides(Room room, RoomSidesFactory doorFactory)
+    public static void Setup2x2RoomSides(Room room, RoomSidesFactory sideFactory, Dictionary<Vector2Int, DirectionEnum> parts)
     {
-        doorFactory.SyncSidesWithNeighbors(room);
+        sideFactory.Built2x2Room(room, parts);
+        sideFactory.SyncSidesWithNeighbors(room);
     }
 
     public static void HandleConnections(Room room, Room fromRoom, DirectionEnum fromDir)

@@ -9,6 +9,8 @@ public class RoomSidesBuilder : IRoomSidesBuilder
     private bool doSync;
     private bool removeInvalid;
 
+    private DirectionEnum forcedOpening;
+
     public RoomSidesBuilder(Dungeon dungeon, SidesRandomiser doorRandomiser)
     {
         this.dungeon = dungeon;
@@ -75,4 +77,10 @@ public class RoomSidesBuilder : IRoomSidesBuilder
         }
     }
 
+    public IRoomSidesBuilder ForcedOpeningDirection(DirectionEnum dir)
+    {
+        forcedOpening = dir;
+        Debug.Log(dir);
+        return this;
+    }
 }

@@ -13,29 +13,27 @@ public static class Dungeon2x2Helper
                 return dir;
         }
 
-        return DirectionEnum.North; // default if not exactly cardinal
+        return DirectionEnum.North;
     }
 
-    // Returns all valid 2x2 combinations with the initial room,
-    // mapping each position to its side direction relative to the initial room
     public static List<Dictionary<Vector2Int, DirectionEnum>> Find2x2CombinationsWithRoom(Dungeon dungeon, Room room)
     {
         Vector2Int origin = Vector2Int.RoundToInt(room.GetGridPosition);
 
         Vector2Int[] offsets =
         {
-            new Vector2Int(0, 0),
-            new Vector2Int(1, 0),
-            new Vector2Int(0, 1),
-            new Vector2Int(1, 1)
+            new(0, 0),
+            new(1, 0),
+            new(0, 1),
+            new(1, 1)
         };
 
         Vector2Int[] potentialAnchors =
         {
-            new Vector2Int(0, 0),
-            new Vector2Int(-1, 0),
-            new Vector2Int(0, -1),
-            new Vector2Int(-1, -1)
+            new(0, 0),
+            new(-1, 0),
+            new(0, -1),
+            new(-1, -1)
         };
 
         List<Dictionary<Vector2Int, DirectionEnum>> validCombinations = new();
