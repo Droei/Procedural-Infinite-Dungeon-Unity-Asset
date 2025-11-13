@@ -22,6 +22,8 @@ public class RoomVisualView
     {
         foreach (DirectionEnum dir in System.Enum.GetValues(typeof(DirectionEnum)))
         {
+            if (dir == DirectionEnum.None) continue;
+
             Transform door = doorsParent.Find(dir.ToString() + "Door");
             Transform wall = wallsParent.Find(dir.ToString() + "Wall");
 

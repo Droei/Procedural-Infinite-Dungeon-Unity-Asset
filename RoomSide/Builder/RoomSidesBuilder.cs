@@ -53,6 +53,8 @@ public class RoomSidesBuilder : IRoomSidesBuilder
 
         foreach (DirectionEnum dir in System.Enum.GetValues(typeof(DirectionEnum)))
         {
+            if (dir == DirectionEnum.None) continue;
+
             Vector2Int neighborPos = room.GetGridPosition + RoomHelper.DirectionToOffset(dir);
             Room neighbor = dungeon.GetRoom(neighborPos.x, neighborPos.y);
 

@@ -7,8 +7,10 @@ public static class Dungeon2x2Helper
     {
         Vector2Int offset = to - from;
 
-        foreach (DirectionEnum dir in new[] { DirectionEnum.North, DirectionEnum.South, DirectionEnum.East, DirectionEnum.West })
+        foreach (DirectionEnum dir in System.Enum.GetValues(typeof(DirectionEnum)))
         {
+            if (dir == DirectionEnum.None) continue;
+
             if (RoomHelper.DirectionToOffset(dir) == offset)
                 return dir;
         }

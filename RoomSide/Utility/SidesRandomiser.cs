@@ -25,6 +25,8 @@ public class SidesRandomiser
     {
         foreach (DirectionEnum dir in System.Enum.GetValues(typeof(DirectionEnum)))
         {
+            if (dir == DirectionEnum.None) continue;
+
             if (newRoom.HasDoor(dir))
                 continue;
 
