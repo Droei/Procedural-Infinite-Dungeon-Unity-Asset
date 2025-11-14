@@ -21,8 +21,7 @@ public class SidesGenerator
         foreach (var kvp in freeSpaces)
         {
             DirectionEnum dir = kvp.Key;
-            Vector2Int EmptyLocation = kvp.Value;
-            Debug.Log($"No neighbor to the {dir}: {EmptyLocation}");
+            SidesRandomiser.PlaceDoorOrWallInRoom(room, dir);
         }
     }
 
@@ -34,6 +33,8 @@ public class SidesGenerator
         {
             DirectionEnum dir = kvp.Key;
             Room neighbor = kvp.Value;
+
+            Debug.Log("Neighboor has a door in your direction?: " + neighbor.HasDoor(SideDirectionHelper.Opposite(dir)));
 
             Debug.Log($"Neighbor to the {dir}: {neighbor.GetRoomGameObject.name}");
         }

@@ -30,7 +30,7 @@ public class RoomBuilder : IRoomBuilder
     public Room Build()
     {
         if (isConnectedBuild && fromRoom != null)
-            gridPos = fromRoom.GetGridPosition + RoomHelper.DirectionToOffset(fromDir);
+            gridPos = fromRoom.GetGridPosition + SideDirectionHelper.DirectionToOffset(fromDir);
 
         if (dungeon.RoomExists(gridPos))
             return dungeon.GetRoom(gridPos.x, gridPos.y);
@@ -38,9 +38,9 @@ public class RoomBuilder : IRoomBuilder
         Room room = RoomCreationHandler.CreateRoom(gridPos, roomSize, spawnData, ref roomCount);
 
         // Spawning room for debugging
-        Room room2 = RoomCreationHandler.CreateRoom(new(gridPos.x + 1, gridPos.y), roomSize, spawnData, ref roomCount);
-        dungeon.AddRoom(room2);
-        RoomViewHandler.InitView(room2, dungeonManager);
+        //Room room2 = RoomCreationHandler.CreateRoom(new(gridPos.x + 1, gridPos.y), roomSize, spawnData, ref roomCount);
+        //dungeon.AddRoom(room2);
+        //RoomViewHandler.InitView(room2, dungeonManager);
 
         //DetermineBiggerShape(room);
 

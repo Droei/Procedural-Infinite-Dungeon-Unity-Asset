@@ -11,7 +11,9 @@ public class SideVisualView
 
         if (doorsParent == null || wallsParent == null)
         {
-            Debug.LogWarning($"Room prefab is missing Doors or Walls parent for room {room.GetGridPosition}");
+            Debug.LogWarning(
+                $"Room prefab is missing Doors or Walls parent for room {room.GetGridPosition}"
+            );
             return;
         }
 
@@ -27,13 +29,11 @@ public class SideVisualView
             Transform door = doorsParent.Find(dir.ToString() + "Door");
             Transform wall = wallsParent.Find(dir.ToString() + "Wall");
 
-            bool hasOpening = room.HasRoomOpening(dir);
             bool hasDoor = room.HasDoor(dir);
+            Debug.Log(dir + " has a door?: " + hasDoor);
 
-            //Debug.Log($"Direction: {dir}, HasOpening: {hasOpening}, HasDoor: {hasDoor}");
-
-            if (door != null) door.gameObject.SetActive(hasDoor && !hasOpening);
-            if (wall != null) wall.gameObject.SetActive(!hasDoor && !hasOpening);
+            door.gameObject.SetActive(hasDoor);
+            wall.gameObject.SetActive(!hasDoor);
         }
     }
 }

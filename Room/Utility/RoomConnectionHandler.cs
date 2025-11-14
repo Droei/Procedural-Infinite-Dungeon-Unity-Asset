@@ -25,14 +25,14 @@
 //        if (fromRoom.HasDoor(fromDir))
 //        {
 //            fromRoom.AddDoor(fromDir);
-//            room.AddDoor(RoomHelper.Opposite(fromDir));
-//            view.DisableDoorTrigger(RoomHelper.Opposite(fromDir));
+//            room.AddDoor(SideDirectionHelper.Opposite(fromDir));
+//            view.DisableDoorTrigger(SideDirectionHelper.Opposite(fromDir));
 //        }
 //        else if (fromRoom.HasRoomOpening(fromDir))
 //        {
 //            fromRoom.AddChild(room);
-//            room.AddRoomOpening(RoomHelper.Opposite(fromDir));
-//            view.PreventNewConnectedSpawnInPrevious(RoomHelper.Opposite(fromDir));
+//            room.AddRoomOpening(SideDirectionHelper.Opposite(fromDir));
+//            view.PreventNewConnectedSpawnInPrevious(SideDirectionHelper.Opposite(fromDir));
 //        }
 //    }
 //}

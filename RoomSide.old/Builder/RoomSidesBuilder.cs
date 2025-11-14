@@ -3,7 +3,6 @@ using UnityEngine;
 public class RoomSidesBuilder : IRoomSidesBuilder
 {
     private readonly Dungeon dungeon;
-    private readonly SidesRandomiser doorRandomiser;
     private Room room;
     private bool doRandomDoors;
     private bool doSync;
@@ -11,18 +10,14 @@ public class RoomSidesBuilder : IRoomSidesBuilder
 
     private DirectionEnum forcedOpening;
 
-    public RoomSidesBuilder(Dungeon dungeon, SidesRandomiser doorRandomiser)
+    public RoomSidesBuilder(Dungeon dungeon)
     {
         this.dungeon = dungeon;
-        this.doorRandomiser = doorRandomiser;
     }
 
     public void Build()
     {
         if (room == null) return;
-
-        if (doRandomDoors)
-            doorRandomiser.AddRandomSides(room);
 
         if (doSync)
             SyncDoors();
@@ -56,14 +51,14 @@ public class RoomSidesBuilder : IRoomSidesBuilder
         {
             if (dir == DirectionEnum.None) continue;
 
-            Vector2Int neighborPos = room.GetGridPosition + RoomHelper.DirectionToOffset(dir);
+            Vector2Int neighborPos = room.GetGridPosition + SideDirectionHelper.DirectionToOffset(dir);
             Room neighbor = dungeon.GetRoom(neighborPos.x, neighborPos.y);
 
             bool roomCanHave = room.CanHaveDoor(dir);
 
             if (neighbor != null)
             {
-                bool neighborHasDoor = neighbor.HasDoor(RoomHelper.Opposite(dir));
+                bool neighborHasDoor = neighbor.HasDoor(SideDirectionHelper.Opposite(dir));
 
                 if (neighborHasDoor && !room.HasDoor(dir) && roomCanHave)
                 {

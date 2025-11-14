@@ -13,7 +13,6 @@ public class Room
 
     private GameObject[] Enemies;
     private readonly List<Door> Doors = new();
-    private readonly List<RoomOpening> RoomOpenings = new();
 
     public Room(int x, int y, GameObject prefab)
     {
@@ -36,12 +35,6 @@ public class Room
     public void SetParent(Room room) => ParentRoom = room;
 
     public Room GetParent => ParentRoom;
-    #region Room opening
-    public List<RoomOpening> GetRoomOpenings => RoomOpenings;
-    public void AddRoomOpening(DirectionEnum direction) { RoomOpenings.Add(new(direction)); }
-
-    public bool HasRoomOpening(DirectionEnum direction) { return RoomOpenings.Exists(d => d.GetOpeningDirection == direction); }
-    #endregion
 
     #region Door
     public bool HasDoor(DirectionEnum dir) { return Doors.Exists(d => d.GetDoorDirection == dir); }
