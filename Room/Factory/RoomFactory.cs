@@ -11,7 +11,6 @@ public class RoomFactory : IRoomFactory
     public Room CreateRoom(Vector2Int gridPos) =>
         BuildRoom(builder => builder.WithPosition(gridPos));
 
-    //TODO make this cleaner
     public Room SpawnConnectedRoom(DirectionEnum fromDir, Room fromRoom) =>
         BuildRoom(builder => builder.ConnectedFrom(fromRoom, fromDir));
 

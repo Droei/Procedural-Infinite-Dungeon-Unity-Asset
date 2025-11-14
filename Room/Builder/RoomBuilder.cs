@@ -2,7 +2,7 @@
 
 public class RoomBuilder : IRoomBuilder
 {
-    private readonly IEnemySpawnFactory enemyFactory;
+    private readonly EnemySpawnFactory enemyFactory;
 
     private Vector2Int gridPos;
     private Room fromRoom;
@@ -13,7 +13,7 @@ public class RoomBuilder : IRoomBuilder
 
     private RoomSpawnData roomSpawnData;
 
-    public RoomBuilder(DungeonSettingsData dSD, IEnemySpawnFactory enemyFactory)
+    public RoomBuilder(DungeonSettingsData dSD, EnemySpawnFactory enemyFactory)
     {
         this.dSD = dSD;
         this.enemyFactory = enemyFactory;
@@ -30,7 +30,7 @@ public class RoomBuilder : IRoomBuilder
         if (dSD.GetDungeon.RoomExists(gridPos))
             return dSD.GetDungeon.GetRoom(gridPos.x, gridPos.y);
 
-        Room room = RoomCreationHandler.CreateRoom(gridPos, dSD, roomSpawnData);
+        Room room = RoomCreationHandler.CreateRoom(gridPos, dSD, roomSpawnData, enemyFactory);
 
         if (dSD.GetCrossGenMode || RandomService.Chance(dSD.GetRoomChainLikelyhood))
         {
@@ -40,13 +40,6 @@ public class RoomBuilder : IRoomBuilder
         else
         {
             roomSidesFactory.AddRandomSides(ref room);
-        }
-
-        RoomEnemyHandler.SpawnEnemies(room, enemyFactory, dSD);
-
-        if (room.GetParent == null)
-        {
-            dSD.GetDungeon.IncrementWaveCount();
         }
 
         ResetBuilderState();
@@ -63,7 +56,7 @@ public class RoomBuilder : IRoomBuilder
         {
             if (RandomService.Chance(dSD.GetChancePerDirection)) continue;
 
-            Room newRoom = room.AddChild(RoomCreationHandler.CreateRoom(fS.Value, dSD, roomSpawnData));
+            Room newRoom = room.AddChild(RoomCreationHandler.CreateRoom(fS.Value, dSD, roomSpawnData, enemyFactory));
 
             if (RandomService.Chance(dSD.GetExtendedRoomChainLikelyhood))
             {
@@ -72,11 +65,10 @@ public class RoomBuilder : IRoomBuilder
                 foreach (var eFS in extendedFreeSpaces)
                 {
                     if (RandomService.Chance(dSD.GetChancePerDirection)) continue;
-                    room.AddChild(RoomCreationHandler.CreateRoom(eFS.Value, dSD, roomSpawnData));
+
+                    Room extendedRoom = room.AddChild(RoomCreationHandler.CreateRoom(eFS.Value, dSD, roomSpawnData, enemyFactory));
+
                 }
-
-
-                Debug.Log("Extend room: " + newRoom.GetRoomGameObject.name + "| from: " + room.GetRoomGameObject.name);
             }
         }
     }

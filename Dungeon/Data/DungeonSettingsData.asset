@@ -24,9 +24,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aedc7aa7e26ce414b891cbe242bcca5b, type: 2}
   roomChainLikelyhood: 0.746
   extendedRoomChainLikelyhood: 0.3
+  chancePerDirection: 0.5
   crossGenMode: 0
   debugMode: 1
   useStaticSeed: 1
   seed: 6969
-  useBatchSpawning: 0
+  useBatchSpawning: 1
   debugRoomCount: 30

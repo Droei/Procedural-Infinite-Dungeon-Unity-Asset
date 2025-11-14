@@ -19,7 +19,7 @@ public class DungeonManager : MonoBehaviour
         dSD.SetDungeon(new Dungeon(this));
 
         IEnemySpawnBuilder builder = new EnemySpawnBuilder(dSD);
-        IEnemySpawnFactory enemyFactory = new EnemySpawnFactory(builder);
+        EnemySpawnFactory enemyFactory = new EnemySpawnFactory(builder);
 
         roomBuilder = new RoomBuilder(dSD, enemyFactory);
         roomFactory = new RoomFactory(roomBuilder);

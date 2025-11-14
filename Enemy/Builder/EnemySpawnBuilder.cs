@@ -15,6 +15,7 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
     public List<GameObject> Build()
     {
         var spawned = new List<GameObject>();
+        data = dSD.GetRandomEnemySpawnData;
         if (data == null || room == null) return spawned;
 
         Vector3 roomPos = room.GetRoomGameObject.transform.position;

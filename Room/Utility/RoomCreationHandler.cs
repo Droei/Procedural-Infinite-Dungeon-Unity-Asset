@@ -4,7 +4,7 @@ using UnityEngine;
 public static class RoomCreationHandler
 {
 
-    public static Room CreateRoom(Vector2Int gridPos, DungeonSettingsData dSD, RoomSpawnData roomSpawnData)
+    public static Room CreateRoom(Vector2Int gridPos, DungeonSettingsData dSD, RoomSpawnData roomSpawnData, EnemySpawnFactory enemySpawnFactory)
     {
         Vector3 worldPos = new(gridPos.x * dSD.GetRoomSize, 0, gridPos.y * dSD.GetRoomSize);
         GameObject roomObject = Object.Instantiate(roomSpawnData.RoomObject.gameObject, worldPos, Quaternion.identity);
@@ -15,6 +15,9 @@ public static class RoomCreationHandler
 
         dSD.GetDungeon.AddRoom(room);
         RoomViewHandler.InitView(room, dSD.GetDungeon.GetDungeonManager);
+
+        RoomEnemyHandler.SpawnEnemies(room, enemySpawnFactory, dSD);
+
 
         return room;
     }
