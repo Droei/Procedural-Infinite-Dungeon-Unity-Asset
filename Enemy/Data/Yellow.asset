@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806a60f0fe9013647b3ea3e49c51479b, type: 3}
+  m_Name: Yellow
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnData
+  enemyObject: {fileID: 5303009739808221690, guid: 3b478bc13296b094e96f051852b587f8, type: 3}
+  spawnWeight: 3
+  minWave: 3
+  maxWave: 2147483647
+  minCount: 3
+  maxCount: 100000
+  spawnInterval: 3
+  isCentered: 0
+  difficultyMultiplier: 1

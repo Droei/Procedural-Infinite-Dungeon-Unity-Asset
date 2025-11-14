@@ -15,7 +15,7 @@ public class RoomBuilder : IRoomBuilder
     private bool isConnectedBuild;
 
     private RoomSidesFactory roomSidesFactory;
-
+    private bool crossGenMode;
     private int roomCount = 0;
 
     public RoomBuilder(float roomSize, DungeonManager dungeonManager, IEnemySpawnFactory enemyFactory, Dungeon dungeon)
@@ -38,15 +38,14 @@ public class RoomBuilder : IRoomBuilder
         Room room = RoomCreationHandler.CreateRoom(gridPos, roomSize, spawnData, ref roomCount, dungeonManager, dungeon);
 
         //Spawning room for debugging
-        Room room2 = RoomCreationHandler.CreateRoom(new(gridPos.x + 1, gridPos.y), roomSize, spawnData, ref roomCount, dungeonManager, dungeon);
-        dungeon.AddRoom(room2);
-        roomSidesFactory.AddRandomSides(ref room2);
+        //Room room2 = RoomCreationHandler.CreateRoom(new(gridPos.x + 1, gridPos.y), roomSize, spawnData, ref roomCount, dungeonManager, dungeon);
+        //dungeon.AddRoom(room2);
+        //roomSidesFactory.AddRandomSides(ref room2);
 
-        if (true)
+        if (crossGenMode)
         {
             DetermineBiggerShape(room);
             roomSidesFactory.ProcessRoomCollection(ref room);
-
         }
         else
         {
@@ -108,5 +107,9 @@ public class RoomBuilder : IRoomBuilder
         return this;
     }
 
-
+    public IRoomBuilder CrossGenMode(bool crossGenMode)
+    {
+        this.crossGenMode = crossGenMode;
+        return this;
+    }
 }

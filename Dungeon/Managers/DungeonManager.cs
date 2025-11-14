@@ -1,29 +1,11 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
 {
-    [SerializeField] private float roomSize = 25f;
-    [SerializeField] private List<EnemySpawnData> enemySpawnData;
-    [SerializeField] private List<RoomSpawnData> roomSpawnData;
-    [SerializeField] private TMP_Text waveText;
+    [SerializeField] TMP_Text waveText;
 
-    [Header("Debugging")]
-    [SerializeField] bool debugMode = false;
-
-    [Space(1)]
-    [Header("Seed Settings")]
-    [SerializeField] bool useStaticSeed = true;
-    [SerializeField] int seed = 6969;
-
-    [Space(1)]
-    [Header("Batch Spawning")]
-    [SerializeField] bool useBatchSpawning = true;
-    [SerializeField][Range(0, 100)] int debugRoomCount = 50;
-
-    [Header("MultiSpawning")]
-    //    [SerializeField] bool multiSpawningEnabled = false;
+    [SerializeField] DungeonSettingsData dungeonSettingsData;
 
     Dungeon dungeon;
 
@@ -34,7 +16,7 @@ public class DungeonManager : MonoBehaviour
 
     private void Awake()
     {
-        if (debugMode && useStaticSeed) RandomService.Initialize(seed);
+        if (dungeonSettingsData.GetDebugMode && dungeonSettingsData.GetUseStaticSeed) RandomService.Initialize(dungeonSettingsData.GetSeed);
     }
 
     private void Start()
@@ -44,10 +26,10 @@ public class DungeonManager : MonoBehaviour
 
         IEnemySpawnBuilder builder = new EnemySpawnBuilder();
         IEnemySpawnPlanner planner = new EnemySpawnPlanner();
-        IEnemySpawnFactory enemyFactory = new EnemySpawnFactory(builder, planner, enemySpawnData);
+        IEnemySpawnFactory enemyFactory = new EnemySpawnFactory(builder, planner, dungeonSettingsData.GetEnemySpawnData);
 
-        roomBuilder = new RoomBuilder(roomSize, this, enemyFactory, dungeon);
-        roomFactory = new RoomFactory(roomSpawnData, roomBuilder);
+        roomBuilder = new RoomBuilder(dungeonSettingsData.GetRoomSize, this, enemyFactory, dungeon);
+        roomFactory = new RoomFactory(dungeonSettingsData.GetRoomSpawnData, roomBuilder, dungeonSettingsData.GetCrossGenMode);
 
         roomFactory.CreateRoom(Vector2Int.zero);
     }
@@ -73,9 +55,9 @@ public class DungeonManager : MonoBehaviour
 
     public bool GetMaxDebugRoomsReached()
     {
-        if (currentWave > debugRoomCount) return false;
+        if (currentWave > dungeonSettingsData.GetDebugRoomCount) return false;
 
-        return debugMode && useBatchSpawning;
+        return dungeonSettingsData.GetDebugMode && dungeonSettingsData.GetUseBatchSpawning;
     }
-    public bool GetDebugMode => debugMode;
+    public bool GetDebugMode => dungeonSettingsData.GetDebugMode;
 }
