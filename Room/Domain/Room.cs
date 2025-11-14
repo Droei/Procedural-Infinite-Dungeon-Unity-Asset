@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Room
@@ -8,11 +7,13 @@ public class Room
     private readonly GameObject RoomGameObject;
     private readonly DungeonRoomMonoBehaviour RoomView;
 
-    public List<Room> ChildRooms = new();
+    private readonly List<Room> ChildRooms = new();
     private Room ParentRoom;
 
     private GameObject[] Enemies;
+
     private readonly List<Door> Doors = new();
+    private readonly List<DirectionEnum> OpenAreas = new();
 
     public Room(int x, int y, GameObject prefab)
     {
@@ -24,6 +25,8 @@ public class Room
     public Vector2Int GetGridPosition => GridPosition;
     public GameObject GetRoomGameObject => RoomGameObject;
     public DungeonRoomMonoBehaviour GetRoomView => RoomView;
+    public List<Room> GetChildRooms => ChildRooms;
+
 
     public void AddChild(Room room)
     {
@@ -32,20 +35,13 @@ public class Room
         room.GetRoomGameObject.transform.parent = GetRoomGameObject.transform;
     }
 
-    public void SetParent(Room room) => ParentRoom = room;
-
+    private void SetParent(Room room) => ParentRoom = room;
     public Room GetParent => ParentRoom;
 
-    #region Door
+    #region Sides
     public bool HasDoor(DirectionEnum dir) { return Doors.Exists(d => d.GetDoorDirection == dir); }
 
     public void AddDoor(DirectionEnum doorDirection) { Doors.Add(new(doorDirection)); }
-
-    public void RemoveDoor(DirectionEnum dir)
-    {
-        Door door = Doors.FirstOrDefault(d => d.GetDoorDirection == dir);
-        if (door != null) Doors.Remove(door);
-    }
 
     public bool CanHaveDoor(DirectionEnum dir)
     {
@@ -56,6 +52,12 @@ public class Room
 
         return doorsParent.Find(dir.ToString() + "Door") != null;
     }
+    public void AddOpenArea(DirectionEnum dir)
+    {
+        OpenAreas.Add(dir);
+    }
+
+    public List<DirectionEnum> GetOpenAreas => OpenAreas;
     #endregion
 
     #region Enemies

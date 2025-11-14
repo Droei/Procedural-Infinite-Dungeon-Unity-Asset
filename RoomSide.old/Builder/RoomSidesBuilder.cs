@@ -19,8 +19,6 @@ public class RoomSidesBuilder : IRoomSidesBuilder
     {
         if (room == null) return;
 
-        if (doSync)
-            SyncDoors();
     }
 
     public IRoomSidesBuilder WithRoom(Room room)
@@ -40,39 +38,6 @@ public class RoomSidesBuilder : IRoomSidesBuilder
         doSync = true;
         this.removeInvalid = removeInvalid;
         return this;
-    }
-
-    // This whole syncing system shouldn't happen man, the room should be created with all sides defined before it spawns in this is such a fckn mess
-    private void SyncDoors()
-    {
-        DungeonRoomMonoBehaviour roomView = room.GetRoomView;
-
-        foreach (DirectionEnum dir in System.Enum.GetValues(typeof(DirectionEnum)))
-        {
-            if (dir == DirectionEnum.None) continue;
-
-            Vector2Int neighborPos = room.GetGridPosition + SideDirectionHelper.DirectionToOffset(dir);
-            Room neighbor = dungeon.GetRoom(neighborPos.x, neighborPos.y);
-
-            bool roomCanHave = room.CanHaveDoor(dir);
-
-            if (neighbor != null)
-            {
-                bool neighborHasDoor = neighbor.HasDoor(SideDirectionHelper.Opposite(dir));
-
-                if (neighborHasDoor && !room.HasDoor(dir) && roomCanHave)
-                {
-                    room.AddDoor(dir);
-                    roomView.SetDoorState(dir, true);
-                }
-
-                if (!neighborHasDoor && room.HasDoor(dir) && removeInvalid && roomCanHave)
-                {
-                    room.RemoveDoor(dir);
-                    roomView.SetDoorState(dir, false);
-                }
-            }
-        }
     }
 
     public IRoomSidesBuilder ForcedOpeningDirection(DirectionEnum dir)

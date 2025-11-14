@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SideVisualView
@@ -19,20 +20,28 @@ public class SideVisualView
 
         SetWallsAndDoors(room, doorsParent, wallsParent);
     }
-
     private static void SetWallsAndDoors(Room room, Transform doorsParent, Transform wallsParent)
     {
-        foreach (DirectionEnum dir in System.Enum.GetValues(typeof(DirectionEnum)))
+        foreach (DirectionEnum dir in Enum.GetValues(typeof(DirectionEnum)))
         {
             if (dir == DirectionEnum.None) continue;
 
             Transform door = doorsParent.Find(dir.ToString() + "Door");
             Transform wall = wallsParent.Find(dir.ToString() + "Wall");
 
+            if (door == null && wall == null) continue;
+
+            if (room.GetOpenAreas.Contains(dir))
+            {
+                if (door != null) door.gameObject.SetActive(false);
+                if (wall != null) wall.gameObject.SetActive(false);
+                continue;
+            }
+
             bool hasDoor = room.HasDoor(dir);
 
-            door.gameObject.SetActive(hasDoor);
-            wall.gameObject.SetActive(!hasDoor);
+            if (door != null) door.gameObject.SetActive(hasDoor);
+            if (wall != null) wall.gameObject.SetActive(!hasDoor);
         }
     }
 }

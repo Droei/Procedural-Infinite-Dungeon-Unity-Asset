@@ -35,20 +35,25 @@ public class RoomBuilder : IRoomBuilder
         if (dungeon.RoomExists(gridPos))
             return dungeon.GetRoom(gridPos.x, gridPos.y);
 
-        Room room = RoomCreationHandler.CreateRoom(gridPos, roomSize, spawnData, ref roomCount);
+        Room room = RoomCreationHandler.CreateRoom(gridPos, roomSize, spawnData, ref roomCount, dungeonManager, dungeon);
 
-        // Spawning room for debugging
-        //Room room2 = RoomCreationHandler.CreateRoom(new(gridPos.x + 1, gridPos.y), roomSize, spawnData, ref roomCount);
-        //dungeon.AddRoom(room2);
-        //RoomViewHandler.InitView(room2, dungeonManager);
+        //Spawning room for debugging
+        Room room2 = RoomCreationHandler.CreateRoom(new(gridPos.x + 1, gridPos.y), roomSize, spawnData, ref roomCount, dungeonManager, dungeon);
+        dungeon.AddRoom(room2);
+        roomSidesFactory.AddRandomSides(ref room2);
 
-        //DetermineBiggerShape(room);
+        if (true)
+        {
+            DetermineBiggerShape(room);
+            roomSidesFactory.ProcessRoomCollection(ref room);
 
-        roomSidesFactory.AddRandomSides(ref room);
+        }
+        else
+        {
+            roomSidesFactory.AddRandomSides(ref room);
+        }
+
         RoomEnemyHandler.SpawnEnemies(room, enemyFactory, roomSize, dungeonManager.GetCurrentWave, spawnData);
-        RoomViewHandler.InitView(room, dungeonManager);
-
-        dungeon.AddRoom(room);
 
         if (room.GetParent == null)
         {
@@ -62,18 +67,14 @@ public class RoomBuilder : IRoomBuilder
 
     private void DetermineBiggerShape(Room room)
     {
-        //If conditions are met for the algoritm to think about adding a new room
-        if (true)
-        {
-            var freeSpaces = dungeon.GetNeighborFreeSpaces(room);
 
-            foreach (var kvp in freeSpaces)
-            {
-                DirectionEnum dir = kvp.Key;
-                Vector2Int EmptyLocation = kvp.Value;
-                room.AddChild(RoomCreationHandler.CreateRoom(EmptyLocation, roomSize, spawnData, ref roomCount));
-                Debug.Log($"No neighbor to the {dir}: {EmptyLocation}");
-            }
+        var freeSpaces = dungeon.GetNeighborFreeSpaces(room);
+
+        foreach (var kvp in freeSpaces)
+        {
+            DirectionEnum dir = kvp.Key;
+            Vector2Int EmptyLocation = kvp.Value;
+            room.AddChild(RoomCreationHandler.CreateRoom(EmptyLocation, roomSize, spawnData, ref roomCount, dungeonManager, dungeon));
         }
     }
 
