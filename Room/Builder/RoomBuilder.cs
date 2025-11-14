@@ -11,6 +11,8 @@ public class RoomBuilder : IRoomBuilder
     private RoomSidesFactory roomSidesFactory;
     private DungeonSettingsData dSD;
 
+    private RoomSpawnData roomSpawnData;
+
     public RoomBuilder(DungeonSettingsData dSD, IEnemySpawnFactory enemyFactory)
     {
         this.dSD = dSD;
@@ -20,20 +22,17 @@ public class RoomBuilder : IRoomBuilder
 
     public Room Build()
     {
+        roomSpawnData = dSD.GetRandomRoomSpawnData;
+
         if (isConnectedBuild && fromRoom != null)
             gridPos = fromRoom.GetGridPosition + SideDirectionHelper.DirectionToOffset(fromDir);
 
         if (dSD.GetDungeon.RoomExists(gridPos))
             return dSD.GetDungeon.GetRoom(gridPos.x, gridPos.y);
 
-        Room room = RoomCreationHandler.CreateRoom(gridPos, dSD);
+        Room room = RoomCreationHandler.CreateRoom(gridPos, dSD, roomSpawnData);
 
-        //Spawning room for debugging
-        //Room room2 = RoomCreationHandler.CreateRoom(new(gridPos.x + 1, gridPos.y), roomSize, spawnData, ref roomCount, dungeonManager, dungeon);
-        //dungeon.AddRoom(room2);
-        //roomSidesFactory.AddRandomSides(ref room2);
-
-        if (dSD.GetCrossGenMode)
+        if (dSD.GetCrossGenMode || RandomService.Chance(dSD.GetRoomChainLikelyhood))
         {
             DetermineBiggerShape(room);
             roomSidesFactory.ProcessRoomCollection(ref room);
@@ -60,11 +59,25 @@ public class RoomBuilder : IRoomBuilder
 
         var freeSpaces = dSD.GetDungeon.GetNeighborFreeSpaces(room);
 
-        foreach (var kvp in freeSpaces)
+        foreach (var fS in freeSpaces)
         {
-            DirectionEnum dir = kvp.Key;
-            Vector2Int EmptyLocation = kvp.Value;
-            room.AddChild(RoomCreationHandler.CreateRoom(EmptyLocation, dSD));
+            if (RandomService.Chance(dSD.GetChancePerDirection)) continue;
+
+            Room newRoom = room.AddChild(RoomCreationHandler.CreateRoom(fS.Value, dSD, roomSpawnData));
+
+            if (RandomService.Chance(dSD.GetExtendedRoomChainLikelyhood))
+            {
+                var extendedFreeSpaces = dSD.GetDungeon.GetNeighborFreeSpaces(newRoom);
+
+                foreach (var eFS in extendedFreeSpaces)
+                {
+                    if (RandomService.Chance(dSD.GetChancePerDirection)) continue;
+                    room.AddChild(RoomCreationHandler.CreateRoom(eFS.Value, dSD, roomSpawnData));
+                }
+
+
+                Debug.Log("Extend room: " + newRoom.GetRoomGameObject.name + "| from: " + room.GetRoomGameObject.name);
+            }
         }
     }
 

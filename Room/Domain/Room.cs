@@ -28,11 +28,12 @@ public class Room
     public List<Room> GetChildRooms => ChildRooms;
 
 
-    public void AddChild(Room room)
+    public Room AddChild(Room room)
     {
         ChildRooms.Add(room);
         room.SetParent(this);
         room.GetRoomGameObject.transform.parent = GetRoomGameObject.transform;
+        return room;
     }
 
     private void SetParent(Room room) => ParentRoom = room;

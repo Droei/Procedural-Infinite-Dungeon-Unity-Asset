@@ -9,13 +9,16 @@ public class DungeonSettingsData : ScriptableObject
     [SerializeField] List<RoomSpawnData> roomSpawnData;
 
     [Header("Big room settings")]
+
     [Tooltip("Chances for a chain of rooms to be created")]
-    [SerializeField] float roomChainLikelyhood = .5f;
+    [SerializeField][Range(0.0f, 0.95f)] float roomChainLikelyhood = .5f;
     [Tooltip("Chances for another room to spawn after a chain is started")]
-    [SerializeField] float extendedRoomChain = .3f;
+    [SerializeField][Range(0.0f, 0.95f)] float extendedRoomChainLikelyhood = .3f;
+    [Tooltip("Every available direction will have a set amount of chance of actually spawning a room")]
+    [SerializeField][Range(0.0f, 0.95f)] float chancePerDirection = .5f;
+
     [SerializeField] bool crossGenMode = false;
 
-    [Header("Debugging")]
     [Space(1)]
     [Header("Debugging")]
     [SerializeField] bool debugMode = false;
@@ -39,6 +42,9 @@ public class DungeonSettingsData : ScriptableObject
     public RoomSpawnData GetRandomRoomSpawnData => roomSpawnData[RandomService.Range(0, roomSpawnData.Count)];
 
     public bool GetCrossGenMode => crossGenMode;
+    public float GetRoomChainLikelyhood => roomChainLikelyhood;
+    public float GetExtendedRoomChainLikelyhood => extendedRoomChainLikelyhood;
+    public float GetChancePerDirection => chancePerDirection;
 
     public bool GetDebugMode => debugMode;
     public bool GetUseStaticSeed => useStaticSeed;
