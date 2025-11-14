@@ -4,17 +4,17 @@ using UnityEngine;
 public static class RoomCreationHandler
 {
 
-    public static Room CreateRoom(Vector2Int gridPos, float roomSize, RoomSpawnData spawnData, ref int roomCount, DungeonManager dungeonManager, Dungeon dungeon)
+    public static Room CreateRoom(Vector2Int gridPos, DungeonSettingsData dSD)
     {
-        Vector3 worldPos = new(gridPos.x * roomSize, 0, gridPos.y * roomSize);
-        GameObject roomObject = Object.Instantiate(spawnData.RoomObject.gameObject, worldPos, Quaternion.identity);
+        Vector3 worldPos = new(gridPos.x * dSD.GetRoomSize, 0, gridPos.y * dSD.GetRoomSize);
+        GameObject roomObject = Object.Instantiate(dSD.GetRandomRoomSpawnData.RoomObject.gameObject, worldPos, Quaternion.identity);
 
-        roomObject.name = $"Room ({roomCount++})";
+        roomObject.name = $"Room ({dSD.GetDungeon.IncrementWaveCount()})";
 
         Room room = new(gridPos.x, gridPos.y, roomObject);
 
-        dungeon.AddRoom(room);
-        RoomViewHandler.InitView(room, dungeonManager);
+        dSD.GetDungeon.AddRoom(room);
+        RoomViewHandler.InitView(room, dSD.GetDungeon.GetDungeonManager);
 
         return room;
     }

@@ -1,10 +1,10 @@
 public static class RoomEnemyHandler
 {
-    public static void SpawnEnemies(Room room, IEnemySpawnFactory enemyFactory, float roomSize, int currentWave, RoomSpawnData spawnData)
+    public static void SpawnEnemies(Room room, IEnemySpawnFactory enemyFactory, DungeonSettingsData dSD)
     {
-        if (spawnData.SpecificEnemy != null)
-            enemyFactory.SpawnSpecific(room, roomSize, currentWave, spawnData.SpecificEnemy);
-        else
-            enemyFactory.SpawnForWave(room, roomSize, currentWave);
+        //if (dSD.spawnData.SpecificEnemy != null)
+        //    enemyFactory.SpawnSpecific(room, dSD);
+        //else
+        enemyFactory.SpawnForWave(room);
     }
 }

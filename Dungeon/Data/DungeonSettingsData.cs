@@ -9,6 +9,10 @@ public class DungeonSettingsData : ScriptableObject
     [SerializeField] List<RoomSpawnData> roomSpawnData;
 
     [Header("Big room settings")]
+    [Tooltip("Chances for a chain of rooms to be created")]
+    [SerializeField] float roomChainLikelyhood = .5f;
+    [Tooltip("Chances for another room to spawn after a chain is started")]
+    [SerializeField] float extendedRoomChain = .3f;
     [SerializeField] bool crossGenMode = false;
 
     [Header("Debugging")]
@@ -24,10 +28,15 @@ public class DungeonSettingsData : ScriptableObject
     [SerializeField] bool useBatchSpawning = true;
     [SerializeField][Range(0, 100)] int debugRoomCount = 50;
 
+    private Dungeon dungeon;
 
     public float GetRoomSize => roomSize;
     public List<EnemySpawnData> GetEnemySpawnData => enemySpawnData;
+    public EnemySpawnData GetRandomEnemySpawnData => enemySpawnData[RandomService.Range(0, enemySpawnData.Count)];
+
+
     public List<RoomSpawnData> GetRoomSpawnData => roomSpawnData;
+    public RoomSpawnData GetRandomRoomSpawnData => roomSpawnData[RandomService.Range(0, roomSpawnData.Count)];
 
     public bool GetCrossGenMode => crossGenMode;
 
@@ -37,5 +46,9 @@ public class DungeonSettingsData : ScriptableObject
 
     public bool GetUseBatchSpawning => useBatchSpawning;
     public int GetDebugRoomCount => debugRoomCount;
+
+    public void SetDungeon(Dungeon dungeon) { this.dungeon = dungeon; }
+    public Dungeon GetDungeon => dungeon;
+
 
 }

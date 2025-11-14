@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface IEnemySpawnFactory
 {
-    GameObject[] SpawnForWave(Room room, float roomSize, int currentWave);
-    GameObject[] SpawnSpecific(Room room, float roomSize, int currentWave, EnemySpawnData data);
+    GameObject[] SpawnForWave(Room room);
+    GameObject[] SpawnSpecific(Room room, EnemySpawnData data);
 }

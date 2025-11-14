@@ -2,29 +2,20 @@
 
 public class RoomBuilder : IRoomBuilder
 {
-    private readonly float roomSize;
-    private readonly DungeonManager dungeonManager;
     private readonly IEnemySpawnFactory enemyFactory;
-    private readonly Dungeon dungeon;
 
     private Vector2Int gridPos;
-    private RoomSpawnData spawnData;
-
     private Room fromRoom;
     private DirectionEnum fromDir;
     private bool isConnectedBuild;
-
     private RoomSidesFactory roomSidesFactory;
-    private bool crossGenMode;
-    private int roomCount = 0;
+    private DungeonSettingsData dSD;
 
-    public RoomBuilder(float roomSize, DungeonManager dungeonManager, IEnemySpawnFactory enemyFactory, Dungeon dungeon)
+    public RoomBuilder(DungeonSettingsData dSD, IEnemySpawnFactory enemyFactory)
     {
-        this.roomSize = roomSize;
-        this.dungeonManager = dungeonManager;
+        this.dSD = dSD;
         this.enemyFactory = enemyFactory;
-        this.dungeon = dungeon;
-        roomSidesFactory = new(dungeon);
+        roomSidesFactory = new(dSD.GetDungeon);
     }
 
     public Room Build()
@@ -32,17 +23,17 @@ public class RoomBuilder : IRoomBuilder
         if (isConnectedBuild && fromRoom != null)
             gridPos = fromRoom.GetGridPosition + SideDirectionHelper.DirectionToOffset(fromDir);
 
-        if (dungeon.RoomExists(gridPos))
-            return dungeon.GetRoom(gridPos.x, gridPos.y);
+        if (dSD.GetDungeon.RoomExists(gridPos))
+            return dSD.GetDungeon.GetRoom(gridPos.x, gridPos.y);
 
-        Room room = RoomCreationHandler.CreateRoom(gridPos, roomSize, spawnData, ref roomCount, dungeonManager, dungeon);
+        Room room = RoomCreationHandler.CreateRoom(gridPos, dSD);
 
         //Spawning room for debugging
         //Room room2 = RoomCreationHandler.CreateRoom(new(gridPos.x + 1, gridPos.y), roomSize, spawnData, ref roomCount, dungeonManager, dungeon);
         //dungeon.AddRoom(room2);
         //roomSidesFactory.AddRandomSides(ref room2);
 
-        if (crossGenMode)
+        if (dSD.GetCrossGenMode)
         {
             DetermineBiggerShape(room);
             roomSidesFactory.ProcessRoomCollection(ref room);
@@ -52,11 +43,11 @@ public class RoomBuilder : IRoomBuilder
             roomSidesFactory.AddRandomSides(ref room);
         }
 
-        RoomEnemyHandler.SpawnEnemies(room, enemyFactory, roomSize, dungeonManager.GetCurrentWave, spawnData);
+        RoomEnemyHandler.SpawnEnemies(room, enemyFactory, dSD);
 
         if (room.GetParent == null)
         {
-            dungeonManager.NextWave();
+            dSD.GetDungeon.IncrementWaveCount();
         }
 
         ResetBuilderState();
@@ -67,20 +58,19 @@ public class RoomBuilder : IRoomBuilder
     private void DetermineBiggerShape(Room room)
     {
 
-        var freeSpaces = dungeon.GetNeighborFreeSpaces(room);
+        var freeSpaces = dSD.GetDungeon.GetNeighborFreeSpaces(room);
 
         foreach (var kvp in freeSpaces)
         {
             DirectionEnum dir = kvp.Key;
             Vector2Int EmptyLocation = kvp.Value;
-            room.AddChild(RoomCreationHandler.CreateRoom(EmptyLocation, roomSize, spawnData, ref roomCount, dungeonManager, dungeon));
+            room.AddChild(RoomCreationHandler.CreateRoom(EmptyLocation, dSD));
         }
     }
 
     private void ResetBuilderState()
     {
         gridPos = default;
-        spawnData = null;
         fromRoom = null;
         fromDir = default;
         isConnectedBuild = false;
@@ -93,23 +83,11 @@ public class RoomBuilder : IRoomBuilder
         return this;
     }
 
-    public IRoomBuilder WithSpawnData(RoomSpawnData data)
-    {
-        this.spawnData = data;
-        return this;
-    }
-
     public IRoomBuilder ConnectedFrom(Room fromRoom, DirectionEnum fromDir)
     {
         this.fromRoom = fromRoom;
         this.fromDir = fromDir;
         this.isConnectedBuild = true;
-        return this;
-    }
-
-    public IRoomBuilder CrossGenMode(bool crossGenMode)
-    {
-        this.crossGenMode = crossGenMode;
         return this;
     }
 }

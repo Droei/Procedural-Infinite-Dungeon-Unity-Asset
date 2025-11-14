@@ -4,32 +4,25 @@ using UnityEngine;
 public class DungeonManager : MonoBehaviour
 {
     [SerializeField] TMP_Text waveText;
-
-    [SerializeField] DungeonSettingsData dungeonSettingsData;
-
-    Dungeon dungeon;
-
-    private int currentWave = 0;
+    [SerializeField] DungeonSettingsData dSD;
 
     private IRoomFactory roomFactory;
     private IRoomBuilder roomBuilder;
 
     private void Awake()
     {
-        if (dungeonSettingsData.GetDebugMode && dungeonSettingsData.GetUseStaticSeed) RandomService.Initialize(dungeonSettingsData.GetSeed);
+        if (dSD.GetDebugMode && dSD.GetUseStaticSeed) RandomService.Initialize(dSD.GetSeed);
     }
 
     private void Start()
     {
+        dSD.SetDungeon(new Dungeon(this));
 
-        dungeon = new();
+        IEnemySpawnBuilder builder = new EnemySpawnBuilder(dSD);
+        IEnemySpawnFactory enemyFactory = new EnemySpawnFactory(builder);
 
-        IEnemySpawnBuilder builder = new EnemySpawnBuilder();
-        IEnemySpawnPlanner planner = new EnemySpawnPlanner();
-        IEnemySpawnFactory enemyFactory = new EnemySpawnFactory(builder, planner, dungeonSettingsData.GetEnemySpawnData);
-
-        roomBuilder = new RoomBuilder(dungeonSettingsData.GetRoomSize, this, enemyFactory, dungeon);
-        roomFactory = new RoomFactory(dungeonSettingsData.GetRoomSpawnData, roomBuilder, dungeonSettingsData.GetCrossGenMode);
+        roomBuilder = new RoomBuilder(dSD, enemyFactory);
+        roomFactory = new RoomFactory(roomBuilder);
 
         roomFactory.CreateRoom(Vector2Int.zero);
     }
@@ -37,7 +30,7 @@ public class DungeonManager : MonoBehaviour
 
     private void Update()
     {
-        waveText.text = "Wave: " + currentWave;
+        waveText.text = "Wave: " + dSD.GetDungeon.GetWaveCount;
     }
 
     // TODO: Find a cleaner solution for this later
@@ -46,18 +39,11 @@ public class DungeonManager : MonoBehaviour
         roomFactory.SpawnConnectedRoom(direction, room);
     }
 
-    public void NextWave()
-    {
-        currentWave++;
-    }
-    public Dungeon GetDungeon => dungeon;
-    public int GetCurrentWave => currentWave;
-
     public bool GetMaxDebugRoomsReached()
     {
-        if (currentWave > dungeonSettingsData.GetDebugRoomCount) return false;
+        if (dSD.GetDungeon.GetWaveCount > dSD.GetDebugRoomCount) return false;
 
-        return dungeonSettingsData.GetDebugMode && dungeonSettingsData.GetUseBatchSpawning;
+        return dSD.GetDebugMode && dSD.GetUseBatchSpawning;
     }
-    public bool GetDebugMode => dungeonSettingsData.GetDebugMode;
+    public bool GetDebugMode => dSD.GetDebugMode;
 }

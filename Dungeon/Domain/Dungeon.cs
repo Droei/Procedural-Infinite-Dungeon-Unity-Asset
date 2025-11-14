@@ -12,6 +12,23 @@ public class Dungeon
         { DirectionEnum.West,  Vector2Int.left }
     };
 
+
+    private DungeonManager dungeonManager;
+    private int waveCount = 0;
+
+    public Dungeon(DungeonManager dungeonManager)
+    {
+        this.dungeonManager = dungeonManager;
+    }
+
+    public DungeonManager GetDungeonManager => dungeonManager;
+
+    public int IncrementWaveCount()
+    {
+        return waveCount++;
+    }
+    public int GetWaveCount => waveCount;
+
     public void AddRoom(Room room)
     {
         rooms[room.GetGridPosition] = room;
