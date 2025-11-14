@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RoomBuilder : IRoomBuilder
 {
@@ -7,7 +6,6 @@ public class RoomBuilder : IRoomBuilder
     private readonly DungeonManager dungeonManager;
     private readonly IEnemySpawnFactory enemyFactory;
     private readonly Dungeon dungeon;
-    private readonly RoomSidesFactory sideFactory;
 
     private Vector2Int gridPos;
     private RoomSpawnData spawnData;
@@ -15,6 +13,8 @@ public class RoomBuilder : IRoomBuilder
     private Room fromRoom;
     private DirectionEnum fromDir;
     private bool isConnectedBuild;
+
+    private RoomSidesFactory roomSidesFactory;
 
     private int roomCount = 0;
 
@@ -24,7 +24,7 @@ public class RoomBuilder : IRoomBuilder
         this.dungeonManager = dungeonManager;
         this.enemyFactory = enemyFactory;
         this.dungeon = dungeon;
-        sideFactory = new(dungeon);
+        roomSidesFactory = new(dungeon);
     }
 
     public Room Build()
@@ -37,39 +37,19 @@ public class RoomBuilder : IRoomBuilder
 
         Room room = RoomCreationHandler.CreateRoom(gridPos, roomSize, spawnData, ref roomCount);
 
-        if (spawnData != null && spawnData.Is2x2)
-        {
-            List<Dictionary<Vector2Int, DirectionEnum>> combinations = Dungeon2x2Helper.Find2x2CombinationsWithRoom(dungeon, room);
+        // Spawning room for debugging
+        Room room2 = RoomCreationHandler.CreateRoom(new(gridPos.x + 1, gridPos.y), roomSize, spawnData, ref roomCount);
+        dungeon.AddRoom(room2);
+        RoomViewHandler.InitView(room2, dungeonManager);
 
-            if (combinations.Count > 0)
-            {
-                Dictionary<Vector2Int, DirectionEnum> firstCombo = combinations[0];
+        //DetermineBiggerShape(room);
 
-                List<string> parts = new();
-                foreach (KeyValuePair<Vector2Int, DirectionEnum> kv in firstCombo)
-                {
-
-                    parts.Add($"{kv.Key} ({kv.Value})");
-                }
-
-                RoomConnectionHandler.Setup2x2RoomSides(room, sideFactory, firstCombo);
-                Debug.Log("First combination: " + string.Join(", ", parts));
-            }
-        }
-        else
-        {
-            RoomConnectionHandler.SetupRoomSides(room, sideFactory);
-        }
-
+        roomSidesFactory.AddRandomSides(ref room);
         RoomEnemyHandler.SpawnEnemies(room, enemyFactory, roomSize, dungeonManager.GetCurrentWave, spawnData);
         RoomViewHandler.InitView(room, dungeonManager);
 
-        if (isConnectedBuild && fromRoom != null)
-            RoomConnectionHandler.HandleConnections(room, fromRoom, fromDir);
-
-        RoomVisualView.UpdateRoomVisual(room);
-
         dungeon.AddRoom(room);
+
         if (room.GetParent == null)
         {
             dungeonManager.NextWave();
@@ -78,6 +58,23 @@ public class RoomBuilder : IRoomBuilder
         ResetBuilderState();
 
         return room;
+    }
+
+    private void DetermineBiggerShape(Room room)
+    {
+        //If conditions are met for the algoritm to think about adding a new room
+        if (true)
+        {
+            var freeSpaces = dungeon.GetNeighborFreeSpaces(room);
+
+            foreach (var kvp in freeSpaces)
+            {
+                DirectionEnum dir = kvp.Key;
+                Vector2Int EmptyLocation = kvp.Value;
+                room.AddChild(RoomCreationHandler.CreateRoom(EmptyLocation, roomSize, spawnData, ref roomCount));
+                Debug.Log($"No neighbor to the {dir}: {EmptyLocation}");
+            }
+        }
     }
 
     private void ResetBuilderState()

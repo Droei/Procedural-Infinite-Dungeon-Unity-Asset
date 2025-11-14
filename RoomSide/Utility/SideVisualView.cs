@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RoomVisualView
+public class SideVisualView
 {
     public static void UpdateRoomVisual(Room room)
     {

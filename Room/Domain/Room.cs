@@ -26,7 +26,7 @@ public class Room
     public GameObject GetRoomGameObject => RoomGameObject;
     public DungeonRoomMonoBehaviour GetRoomView => RoomView;
 
-    public void SetAsChildOfThisRoom(Room room)
+    public void AddChild(Room room)
     {
         ChildRooms.Add(room);
         room.SetParent(this);

@@ -58,6 +58,7 @@ public class DungeonManager : MonoBehaviour
         waveText.text = "Wave: " + currentWave;
     }
 
+    // TODO: Find a cleaner solution for this later
     public void SpawnRoom(DirectionEnum direction, Room room)
     {
         roomFactory.SpawnConnectedRoom(direction, room);

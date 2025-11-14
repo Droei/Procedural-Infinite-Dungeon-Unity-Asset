@@ -16,23 +16,6 @@ public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
         this.room = room;
         this.dungeonManager = dungeonManager;
         doors = GetComponentsInChildren<DoorView>();
-
-        foreach (RoomOpening roomOpening in room.GetRoomOpenings)
-        {
-            //Debug.Log("============================= ====");
-            //Debug.Log("Found opening at " + roomOpening.GetOpeningDirection + " for: " + gameObject.name);
-            //Debug.Log((sourceDirection != roomOpening.GetOpeningDirection) + " " + sourceDirection + " " + roomOpening.GetOpeningDirection);
-            if (sourceDirection != roomOpening.GetOpeningDirection)
-            {
-                //Debug.Log("Spawned room in " + roomOpening.GetOpeningDirection + " for: " + gameObject.name);
-                SpawnRoom(roomOpening.GetOpeningDirection);
-            }
-        }
-    }
-
-    private void Update()
-    {
-        //if (room != null) Debug.Log(room.ChildRooms.ToArray());
     }
 
     public virtual void SpawnRoom(DirectionEnum direction)
@@ -51,11 +34,6 @@ public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
         {
             Debug.LogWarning($"No door found in direction {doorDirection} for {gameObject.name}");
         }
-    }
-
-    public virtual void PreventNewConnectedSpawnInPrevious(DirectionEnum direction)
-    {
-        sourceDirection = direction;
     }
 
     public virtual void SetDoorState(DirectionEnum dir, bool open)

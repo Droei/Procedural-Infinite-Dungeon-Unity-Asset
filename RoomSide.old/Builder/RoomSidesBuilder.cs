@@ -47,6 +47,7 @@ public class RoomSidesBuilder : IRoomSidesBuilder
         return this;
     }
 
+    // This whole syncing system shouldn't happen man, the room should be created with all sides defined before it spawns in this is such a fckn mess
     private void SyncDoors()
     {
         DungeonRoomMonoBehaviour roomView = room.GetRoomView;
