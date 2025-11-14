@@ -30,7 +30,6 @@ public class SideVisualView
             Transform wall = wallsParent.Find(dir.ToString() + "Wall");
 
             bool hasDoor = room.HasDoor(dir);
-            Debug.Log(dir + " has a door?: " + hasDoor);
 
             door.gameObject.SetActive(hasDoor);
             wall.gameObject.SetActive(!hasDoor);

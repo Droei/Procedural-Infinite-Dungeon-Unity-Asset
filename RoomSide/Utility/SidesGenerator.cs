@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class SidesGenerator
 {
@@ -33,10 +32,7 @@ public class SidesGenerator
         {
             DirectionEnum dir = kvp.Key;
             Room neighbor = kvp.Value;
-
-            Debug.Log("Neighboor has a door in your direction?: " + neighbor.HasDoor(SideDirectionHelper.Opposite(dir)));
-
-            Debug.Log($"Neighbor to the {dir}: {neighbor.GetRoomGameObject.name}");
+            SidesSyncer.SyncSidesWithNeighbor(room, neighbor, dir);
         }
     }
 }
