@@ -5,11 +5,9 @@ public class RoomCreationHandler
 {
     DungeonSettingsData dSD;
     RoomSpawnData roomSpawnData;
-    EnemySpawnFactory enemySpawnFactory;
-    public RoomCreationHandler(DungeonSettingsData dSD, EnemySpawnFactory enemySpawnFactory)
+    public RoomCreationHandler(DungeonSettingsData dSD)
     {
         this.dSD = dSD;
-        this.enemySpawnFactory = enemySpawnFactory;
     }
 
     public void SetRoomSpawnData(RoomSpawnData roomSpawnData)
@@ -27,7 +25,7 @@ public class RoomCreationHandler
         Vector3 worldPos = new(gridPos.x * dSD.GetRoomSize, 0, gridPos.y * dSD.GetRoomSize);
         GameObject roomObject = Object.Instantiate(roomSpawnData.RoomObject.gameObject, worldPos, Quaternion.identity);
 
-        roomObject.name = $"Room ({dSD.GetDungeon.IncrementWaveCount()})";
+        roomObject.name = $"Room ({dSD.GetDungeon.IncrementWaveCount})";
 
         Room room = new(gridPos.x, gridPos.y, roomObject);
 
@@ -36,9 +34,6 @@ public class RoomCreationHandler
         dSD.GetDungeon.AddRoom(room);
 
         RoomViewHandler.InitView(room, dSD, roomSpawnData);
-        RoomEnemyHandler.SpawnEnemies(room, enemySpawnFactory, dSD);
-
-
         return room;
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Dungeon
@@ -23,10 +24,9 @@ public class Dungeon
 
     public DungeonManager GetDungeonManager => dungeonManager;
 
-    public int IncrementWaveCount()
-    {
-        return waveCount++;
-    }
+    public int IncrementWaveCount => waveCount++;
+
+    public int GetParentCount => rooms.Values.Where(r => r.GetParent == null).Count();
     public int GetWaveCount => waveCount;
 
     public void AddRoom(Room room)

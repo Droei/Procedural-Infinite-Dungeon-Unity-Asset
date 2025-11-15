@@ -26,7 +26,7 @@ public class Room
     public GameObject GetRoomGameObject => RoomGameObject;
     public DungeonRoomMonoBehaviour GetRoomView => RoomView;
     public List<Room> GetChildRooms => ChildRooms;
-
+    public string GetRoomName => RoomGameObject.name;
 
     public Room AddChild(Room room)
     {

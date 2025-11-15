@@ -1,7 +1,26 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class SpawnPositionGenerator
 {
+    public static (Vector3 pos, (float minX, float maxX, float minZ, float maxZ) bounds)[] GetRoomAndChildBounds(Room room, DungeonSettingsData dSD)
+    {
+        List<(Vector3, (float minX, float maxX, float minZ, float maxZ))> result = new List<(Vector3, (float minX, float maxX, float minZ, float maxZ))>();
+
+        Vector3 parentPos = room.GetRoomGameObject.transform.position;
+        var parentBounds = SpawnAreaCalculator.Calculate(parentPos, dSD.GetDungeon.GetWaveCount);
+        result.Add((parentPos, parentBounds));
+
+        foreach (Room child in room.GetChildRooms)
+        {
+            Vector3 childPos = child.GetRoomGameObject.transform.position;
+            var childBounds = SpawnAreaCalculator.Calculate(childPos, dSD.GetDungeon.GetWaveCount);
+            result.Add((childPos, childBounds));
+        }
+
+        return result.ToArray();
+    }
+
     public static Vector3 GetRandomPosition(GameObject prefab, float baseY, (float minX, float maxX, float minZ, float maxZ) bounds)
     {
         float x = RandomService.Range(bounds.minX, bounds.maxX);

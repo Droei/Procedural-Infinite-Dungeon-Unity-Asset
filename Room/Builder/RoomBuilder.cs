@@ -14,12 +14,14 @@ public class RoomBuilder : IRoomBuilder
     private DungeonSettingsData dSD;
     private RoomSpawnData roomSpawnData;
     private RoomCreationHandler roomCreationHandler;
+    private EnemySpawnFactory enemySpawnFactory;
 
-    public RoomBuilder(DungeonSettingsData dSD, EnemySpawnFactory enemyFactory)
+    public RoomBuilder(DungeonSettingsData dSD, EnemySpawnFactory enemySpawnFactory)
     {
         this.dSD = dSD;
         roomSidesFactory = new(dSD);
-        roomCreationHandler = new(dSD, enemyFactory);
+        roomCreationHandler = new(dSD);
+        this.enemySpawnFactory = enemySpawnFactory;
     }
 
     public Room Build()
@@ -56,6 +58,7 @@ public class RoomBuilder : IRoomBuilder
             roomSidesFactory.AddRandomSides(ref room);
         }
 
+        RoomEnemyHandler.SpawnEnemies(room, enemySpawnFactory, dSD);
         ResetBuilderState();
 
         return room;
@@ -63,7 +66,6 @@ public class RoomBuilder : IRoomBuilder
 
     private void DetermineBiggerShape(Room room)
     {
-
         var freeSpaces = dSD.GetDungeon.GetNeighborFreeSpaces(room);
 
         foreach (var fS in freeSpaces)

@@ -18,54 +18,39 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
         data = dSD.GetRandomEnemySpawnData;
 
         if (room.GetParent != null) return null;
-
-        Vector3 roomPos = room.GetRoomGameObject.transform.position;
-        var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.GetDungeon.GetWaveCount);
-
+        Debug.Log("Start room: " + room.GetRoomName);
         int i = 0;
-        while (i + data.SpawnWeight <= dSD.GetDungeon.GetWaveCount)
+        while (i <= dSD.GetDungeon.GetParentCount)
         {
-            Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds);
-            var enemyObj = Object.Instantiate(data.EnemyObject, spawnPos, Quaternion.identity);
-            enemyObj.transform.parent = room.GetRoomGameObject.transform;
-
-            enemyObj.GetComponent<DungeonEnemyMonoBehaviour>().InitForDungeon(room, data.DifficultyMultiplier * dSD.GetDungeon.GetWaveCount);
-
-            spawned.Add(enemyObj);
-            data.ResetSpawn();
+            Debug.Log(i + " " + room.GetRoomName);
+            if (room.GetChildRooms.Count > 0)
+            {
+                // TODO clean this up so I don't need to constantly get bounds
+                // Also create a Bounds class lazy ****
+                var roomAreas = SpawnPositionGenerator.GetRoomAndChildBounds(room, dSD);
+                var (pos, bounds) = roomAreas[RandomService.Range(0, roomAreas.Length)];
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, pos.y, bounds);
+                SetupEnemy(spawned, spawnPos);
+            }
+            else
+            {
+                Vector3 roomPos = room.GetRoomGameObject.transform.position;
+                var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.GetDungeon.GetWaveCount);
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds);
+                SetupEnemy(spawned, spawnPos);
+            }
             i += data.SpawnWeight;
         }
-
         return spawned;
     }
 
-    public List<GameObject> BuildOld()
+    private void SetupEnemy(List<GameObject> spawned, Vector3 spawnPos)
     {
-        var spawned = new List<GameObject>();
-        data = dSD.GetRandomEnemySpawnData;
-        if (data == null || room == null) return spawned;
-
-        Vector3 roomPos = room.GetRoomGameObject.transform.position;
-        var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.GetDungeon.GetWaveCount);
-
-        int i = 0;
-        while ((i + data.SpawnWeight <= dSD.GetDungeon.GetWaveCount || i < data.MinCount) && (i < data.MaxCount))
-        {
-            Vector3 spawnPos = data.IsCentered
-                ? SpawnPositionGenerator.GetCenteredPosition(data.EnemyObject, bounds, roomPos.y)
-                : SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds);
-
-            var enemyObj = Object.Instantiate(data.EnemyObject, spawnPos, Quaternion.identity);
-            enemyObj.transform.parent = room.GetRoomGameObject.transform;
-
-            enemyObj.GetComponent<DungeonEnemyMonoBehaviour>().InitForDungeon(room, data.DifficultyMultiplier * dSD.GetDungeon.GetWaveCount);
-
-            spawned.Add(enemyObj);
-            data.ResetSpawn();
-            i += data.SpawnWeight;
-        }
-
-        return spawned;
+        var enemyObj = Object.Instantiate(data.EnemyObject, spawnPos, Quaternion.identity);
+        enemyObj.transform.parent = room.GetRoomGameObject.transform;
+        enemyObj.GetComponent<DungeonEnemyMonoBehaviour>().InitForDungeon(room, data.DifficultyMultiplier * dSD.GetDungeon.GetWaveCount);
+        spawned.Add(enemyObj);
+        data.ResetSpawn();
     }
 
     public IEnemySpawnBuilder WithSpecificEnemyData(EnemySpawnData data) { this.data = data; return this; }

@@ -30,7 +30,7 @@ public class DungeonManager : MonoBehaviour
 
     private void Update()
     {
-        waveText.text = "Wave: " + dSD.GetDungeon.GetWaveCount;
+        waveText.text = "Rooms spawned: " + dSD.GetDungeon.GetWaveCount + " | Seperate rooms: " + dSD.GetDungeon.GetParentCount;
     }
 
     // TODO: Find a cleaner solution for this later

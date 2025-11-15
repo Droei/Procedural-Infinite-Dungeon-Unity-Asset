@@ -12,10 +12,7 @@ public class EnemySpawnFactory : IEnemySpawnFactory
     public GameObject[] SpawnForWave(Room room)
     {
         var spawned = new List<GameObject>();
-
         room = room.GetParent ?? room;
-
-        Debug.Log(room.GetRoomGameObject.name);
 
         spawned.AddRange(builder
             .WithRoom(room.GetParent ?? room)
