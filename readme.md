@@ -26,7 +26,7 @@ Defines an individual room type.
 Includes the room prefab and all room-specific settings required for infinite procedural placement.
 More on creating a correct room prefab later.
 
-### EnemyDataObject
+#### EnemyDataObject
 Defines an enemy type.
 Contains the enemy prefab, the DungeonEnemyScript, and all enemy-specific settings.
 
