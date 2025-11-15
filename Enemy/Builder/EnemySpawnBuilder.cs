@@ -16,6 +16,33 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
     {
         var spawned = new List<GameObject>();
         data = dSD.GetRandomEnemySpawnData;
+
+        if (room.GetParent != null) return null;
+
+        Vector3 roomPos = room.GetRoomGameObject.transform.position;
+        var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.GetDungeon.GetWaveCount);
+
+        int i = 0;
+        while (i + data.SpawnWeight <= dSD.GetDungeon.GetWaveCount)
+        {
+            Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds);
+            var enemyObj = Object.Instantiate(data.EnemyObject, spawnPos, Quaternion.identity);
+            enemyObj.transform.parent = room.GetRoomGameObject.transform;
+
+            enemyObj.GetComponent<DungeonEnemyMonoBehaviour>().InitForDungeon(room, data.DifficultyMultiplier * dSD.GetDungeon.GetWaveCount);
+
+            spawned.Add(enemyObj);
+            data.ResetSpawn();
+            i += data.SpawnWeight;
+        }
+
+        return spawned;
+    }
+
+    public List<GameObject> BuildOld()
+    {
+        var spawned = new List<GameObject>();
+        data = dSD.GetRandomEnemySpawnData;
         if (data == null || room == null) return spawned;
 
         Vector3 roomPos = room.GetRoomGameObject.transform.position;
