@@ -81,13 +81,12 @@ public class Dungeon
         List<Vector2Int[]> result = new List<Vector2Int[]>();
         Vector2Int c = room.GetGridPosition;
 
-        // These 4 origins ensure the 2x2 square always contains the center room
         Vector2Int[] origins =
         {
-        c,                                                              // center is bottom-left
-        c - directionOffsets[DirectionEnum.East],                       // center is bottom-right
-        c - directionOffsets[DirectionEnum.North],                      // center is top-left
-        c - directionOffsets[DirectionEnum.North] - directionOffsets[DirectionEnum.East] // center is top-right
+        c,
+        c - directionOffsets[DirectionEnum.East],
+        c - directionOffsets[DirectionEnum.North],
+        c - directionOffsets[DirectionEnum.North] - directionOffsets[DirectionEnum.East]
     };
 
         foreach (var origin in origins)
@@ -108,11 +107,9 @@ public class Dungeon
                 else empty.Add(pos);
             }
 
-            // must contain center room exactly once
             if (!filled.Contains(c))
                 continue;
 
-            // must have center + 3 empty
             if (empty.Count == 3 && filled.Count == 1)
                 result.Add(empty.ToArray());
         }
