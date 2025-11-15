@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class RoomBuilder : IRoomBuilder
 {
@@ -32,7 +33,17 @@ public class RoomBuilder : IRoomBuilder
 
         Room room = RoomCreationHandler.CreateRoom(gridPos, dSD, roomSpawnData, enemyFactory);
 
-        if (dSD.GetCrossGenMode || RandomService.Chance(dSD.GetRoomChainLikelyhood))
+        if (roomSpawnData.Is2x2)
+        {
+            List<Vector2Int[]> roomsToSpawn = dSD.GetDungeon.GetFree2x2Triplets(room);
+            Debug.Log(room.GetRoomGameObject.name + " Has: " + roomsToSpawn.Count);
+            if (roomsToSpawn.Count > 0)
+                foreach (Vector2Int loc in roomsToSpawn[RandomService.Range(0, roomsToSpawn.Count - 1)])
+                    room.AddChild(RoomCreationHandler.CreateRoom(loc, dSD, roomSpawnData, enemyFactory));
+
+            roomSidesFactory.ProcessRoomCollection(ref room);
+        }
+        else if (dSD.GetCrossGenMode || RandomService.Chance(dSD.GetRoomChainLikelyhood))
         {
             DetermineBiggerShape(room);
             roomSidesFactory.ProcessRoomCollection(ref room);

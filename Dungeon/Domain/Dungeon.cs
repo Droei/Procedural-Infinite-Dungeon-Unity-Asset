@@ -75,4 +75,50 @@ public class Dungeon
 
         return freeSpaces;
     }
+
+    public List<Vector2Int[]> GetFree2x2Triplets(Room room)
+    {
+        List<Vector2Int[]> result = new List<Vector2Int[]>();
+        Vector2Int c = room.GetGridPosition;
+
+        // These 4 origins ensure the 2x2 square always contains the center room
+        Vector2Int[] origins =
+        {
+        c,                                                              // center is bottom-left
+        c - directionOffsets[DirectionEnum.East],                       // center is bottom-right
+        c - directionOffsets[DirectionEnum.North],                      // center is top-left
+        c - directionOffsets[DirectionEnum.North] - directionOffsets[DirectionEnum.East] // center is top-right
+    };
+
+        foreach (var origin in origins)
+        {
+            Vector2Int A = origin;
+            Vector2Int B = origin + directionOffsets[DirectionEnum.East];
+            Vector2Int C2 = origin + directionOffsets[DirectionEnum.North];
+            Vector2Int D = C2 + directionOffsets[DirectionEnum.East];
+
+            Vector2Int[] block = { A, B, C2, D };
+
+            List<Vector2Int> empty = new();
+            List<Vector2Int> filled = new();
+
+            foreach (var pos in block)
+            {
+                if (RoomExists(pos)) filled.Add(pos);
+                else empty.Add(pos);
+            }
+
+            // must contain center room exactly once
+            if (!filled.Contains(c))
+                continue;
+
+            // must have center + 3 empty
+            if (empty.Count == 3 && filled.Count == 1)
+                result.Add(empty.ToArray());
+        }
+
+        return result;
+    }
+
+
 }
