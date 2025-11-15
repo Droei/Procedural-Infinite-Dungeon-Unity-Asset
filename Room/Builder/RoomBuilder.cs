@@ -30,8 +30,7 @@ public class RoomBuilder : IRoomBuilder
         if (dSD.GetDungeon.RoomExists(gridPos))
             return dSD.GetDungeon.GetRoom(gridPos.x, gridPos.y);
 
-        Room room = RoomCreationHandler.CreateRoom(gridPos, dSD, roomSpawnData);
-        RoomEnemyHandler.SpawnEnemies(room, enemyFactory, dSD);
+        Room room = RoomCreationHandler.CreateRoom(gridPos, dSD, roomSpawnData, enemyFactory);
 
         if (dSD.GetCrossGenMode || RandomService.Chance(dSD.GetRoomChainLikelyhood))
         {
@@ -57,8 +56,7 @@ public class RoomBuilder : IRoomBuilder
         {
             if (RandomService.Chance(dSD.GetChancePerDirection)) continue;
 
-            Room newRoom = room.AddChild(RoomCreationHandler.CreateRoom(fS.Value, dSD, roomSpawnData));
-            RoomEnemyHandler.SpawnEnemies(newRoom, enemyFactory, dSD);
+            Room newRoom = RoomCreationHandler.CreateRoom(fS.Value, dSD, roomSpawnData, enemyFactory, room);
 
             if (RandomService.Chance(dSD.GetExtendedRoomChainLikelyhood))
             {
@@ -68,8 +66,7 @@ public class RoomBuilder : IRoomBuilder
                 {
                     if (RandomService.Chance(dSD.GetChancePerDirection)) continue;
 
-                    Room extendedRoom = room.AddChild(RoomCreationHandler.CreateRoom(eFS.Value, dSD, roomSpawnData));
-                    RoomEnemyHandler.SpawnEnemies(extendedRoom, enemyFactory, dSD);
+                    RoomCreationHandler.CreateRoom(eFS.Value, dSD, roomSpawnData, enemyFactory, room);
                 }
             }
         }
