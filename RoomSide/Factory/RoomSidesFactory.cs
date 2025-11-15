@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// TODO make this into a correct factory implementation (Pls)
 public class RoomSidesFactory
 {
     private readonly Dungeon dungeon;
