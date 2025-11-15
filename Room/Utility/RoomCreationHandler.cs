@@ -1,17 +1,28 @@
 ﻿
 using UnityEngine;
 
-public static class RoomCreationHandler
+public class RoomCreationHandler
 {
-
-
-
-    public static Room CreateRoom(Vector2Int gridPos, DungeonSettingsData dSD, RoomSpawnData roomSpawnData, EnemySpawnFactory enemySpawnFactory)
+    DungeonSettingsData dSD;
+    RoomSpawnData roomSpawnData;
+    EnemySpawnFactory enemySpawnFactory;
+    public RoomCreationHandler(DungeonSettingsData dSD, EnemySpawnFactory enemySpawnFactory)
     {
-        return CreateRoom(gridPos, dSD, roomSpawnData, enemySpawnFactory, null);
+        this.dSD = dSD;
+        this.enemySpawnFactory = enemySpawnFactory;
     }
 
-    public static Room CreateRoom(Vector2Int gridPos, DungeonSettingsData dSD, RoomSpawnData roomSpawnData, EnemySpawnFactory enemySpawnFactory, Room parent)
+    public void SetRoomSpawnData(RoomSpawnData roomSpawnData)
+    {
+        this.roomSpawnData = roomSpawnData;
+    }
+
+    public Room CreateRoom(Vector2Int gridPos)
+    {
+        return CreateRoom(gridPos, null);
+    }
+
+    public Room CreateRoom(Vector2Int gridPos, Room parent)
     {
         Vector3 worldPos = new(gridPos.x * dSD.GetRoomSize, 0, gridPos.y * dSD.GetRoomSize);
         GameObject roomObject = Object.Instantiate(roomSpawnData.RoomObject.gameObject, worldPos, Quaternion.identity);

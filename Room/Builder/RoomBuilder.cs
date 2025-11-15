@@ -2,27 +2,28 @@
 
 public class RoomBuilder : IRoomBuilder
 {
-    private readonly EnemySpawnFactory enemyFactory;
+    private DirectionEnum fromDir;
 
     private Vector2Int gridPos;
     private Room fromRoom;
-    private DirectionEnum fromDir;
     private bool isConnectedBuild;
+
     private RoomSidesFactory roomSidesFactory;
     private DungeonSettingsData dSD;
-
     private RoomSpawnData roomSpawnData;
+    private RoomCreationHandler roomCreationHandler;
 
     public RoomBuilder(DungeonSettingsData dSD, EnemySpawnFactory enemyFactory)
     {
         this.dSD = dSD;
-        this.enemyFactory = enemyFactory;
         roomSidesFactory = new(dSD.GetDungeon);
+        roomCreationHandler = new(dSD, enemyFactory);
     }
 
     public Room Build()
     {
         roomSpawnData = dSD.GetRandomRoomSpawnData;
+        roomCreationHandler.SetRoomSpawnData(roomSpawnData);
 
         if (isConnectedBuild && fromRoom != null)
             gridPos = fromRoom.GetGridPosition + SideDirectionHelper.DirectionToOffset(fromDir);
@@ -30,7 +31,7 @@ public class RoomBuilder : IRoomBuilder
         if (dSD.GetDungeon.RoomExists(gridPos))
             return dSD.GetDungeon.GetRoom(gridPos.x, gridPos.y);
 
-        Room room = RoomCreationHandler.CreateRoom(gridPos, dSD, roomSpawnData, enemyFactory);
+        Room room = roomCreationHandler.CreateRoom(gridPos);
 
         if (dSD.GetCrossGenMode || RandomService.Chance(dSD.GetRoomChainLikelyhood))
         {
@@ -56,7 +57,7 @@ public class RoomBuilder : IRoomBuilder
         {
             if (RandomService.Chance(dSD.GetChancePerDirection)) continue;
 
-            Room newRoom = RoomCreationHandler.CreateRoom(fS.Value, dSD, roomSpawnData, enemyFactory, room);
+            Room newRoom = roomCreationHandler.CreateRoom(fS.Value, room);
 
             if (RandomService.Chance(dSD.GetExtendedRoomChainLikelyhood))
             {
@@ -66,7 +67,7 @@ public class RoomBuilder : IRoomBuilder
                 {
                     if (RandomService.Chance(dSD.GetChancePerDirection)) continue;
 
-                    RoomCreationHandler.CreateRoom(eFS.Value, dSD, roomSpawnData, enemyFactory, room);
+                    roomCreationHandler.CreateRoom(eFS.Value, room);
                 }
             }
         }
