@@ -8,6 +8,7 @@ public class RoomBuilder : IRoomBuilder
     private Vector2Int gridPos;
     private Room fromRoom;
     private bool isConnectedBuild;
+    private bool startRoom;
 
     private RoomSidesFactory roomSidesFactory;
     private DungeonSettingsData dSD;
@@ -17,7 +18,7 @@ public class RoomBuilder : IRoomBuilder
     public RoomBuilder(DungeonSettingsData dSD, EnemySpawnFactory enemyFactory)
     {
         this.dSD = dSD;
-        roomSidesFactory = new(dSD.GetDungeon);
+        roomSidesFactory = new(dSD);
         roomCreationHandler = new(dSD, enemyFactory);
     }
 
@@ -34,7 +35,9 @@ public class RoomBuilder : IRoomBuilder
 
         Room room = roomCreationHandler.CreateRoom(gridPos);
 
-        if (roomSpawnData.Is2x2)
+        if (startRoom)
+            roomSidesFactory.AddRandomSides(ref room, true);
+        else if (roomSpawnData.Is2x2)
         {
             List<Vector2Int[]> roomsToSpawn = dSD.GetDungeon.GetFree2x2Triplets(room);
             if (roomsToSpawn.Count > 0)
@@ -85,6 +88,7 @@ public class RoomBuilder : IRoomBuilder
 
     private void ResetBuilderState()
     {
+        startRoom = false;
         gridPos = default;
         fromRoom = null;
         fromDir = default;
@@ -103,6 +107,12 @@ public class RoomBuilder : IRoomBuilder
         this.fromRoom = fromRoom;
         this.fromDir = fromDir;
         this.isConnectedBuild = true;
+        return this;
+    }
+
+    public IRoomBuilder StartRoom()
+    {
+        startRoom = true;
         return this;
     }
 }

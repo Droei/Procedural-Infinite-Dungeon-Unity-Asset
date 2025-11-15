@@ -6,20 +6,19 @@ using UnityEngine;
 // TODO make this into a correct factory implementation (Pls)
 public class RoomSidesFactory
 {
-    private readonly Dungeon dungeon;
     private readonly SidesGenerator sidesGenerator;
 
-    public RoomSidesFactory(Dungeon dungeon)
+    public RoomSidesFactory(DungeonSettingsData dSD)
     {
-        this.dungeon = dungeon;
-        sidesGenerator = new SidesGenerator(dungeon);
+        sidesGenerator = new SidesGenerator(dSD);
     }
 
-    public void AddRandomSides(ref Room room)
+    public void AddRandomSides(ref Room room, bool startRoom = false)
     {
-        sidesGenerator.GenerateSides(room);
+        sidesGenerator.GenerateSides(room, startRoom);
         SideVisualView.UpdateRoomVisual(room);
     }
+
 
     public void ProcessRoomCollection(ref Room parent)
     {

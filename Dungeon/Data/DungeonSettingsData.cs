@@ -7,6 +7,7 @@ public class DungeonSettingsData : ScriptableObject
     [SerializeField] float roomSize = 25f;
     [SerializeField] List<EnemySpawnData> enemySpawnData;
     [SerializeField] List<RoomSpawnData> roomSpawnData;
+    [SerializeField][Range(0.0f, 1f)] float doorSpawnChance = .5f;
 
     [Header("Big room settings")]
 
@@ -56,5 +57,5 @@ public class DungeonSettingsData : ScriptableObject
     public void SetDungeon(Dungeon dungeon) { this.dungeon = dungeon; }
     public Dungeon GetDungeon => dungeon;
 
-
+    public float GetDoorSpawnChance => doorSpawnChance;
 }

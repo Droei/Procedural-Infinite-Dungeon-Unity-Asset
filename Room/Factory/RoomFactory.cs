@@ -8,6 +8,9 @@ public class RoomFactory : IRoomFactory
         this.roomBuilder = roomBuilder;
     }
 
+    public Room CreateInitialRoom(Vector2Int gridpos) =>
+        BuildRoom(builder => builder.WithPosition(gridpos).StartRoom());
+
     public Room CreateRoom(Vector2Int gridPos) =>
         BuildRoom(builder => builder.WithPosition(gridPos));
 

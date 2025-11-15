@@ -2,31 +2,35 @@
 
 public class SidesGenerator
 {
-    readonly Dungeon dungeon;
-    public SidesGenerator(Dungeon dungeon)
+    DungeonSettingsData dSD;
+    bool startRoom;
+
+    public SidesGenerator(DungeonSettingsData dSD)
     {
-        this.dungeon = dungeon;
+        this.dSD = dSD;
     }
-    public void GenerateSides(Room room)
+
+    public void GenerateSides(Room room, bool startRoom = false)
     {
+        this.startRoom = startRoom;
         HandleNeighbors(room);
         HandleFreeSpaces(room);
     }
 
     private void HandleFreeSpaces(Room room)
     {
-        var freeSpaces = dungeon.GetNeighborFreeSpaces(room);
+        var freeSpaces = dSD.GetDungeon.GetNeighborFreeSpaces(room);
 
         foreach (var kvp in freeSpaces)
         {
             DirectionEnum dir = kvp.Key;
-            SidesRandomiser.PlaceDoorOrWallInRoom(room, dir);
+            SidesRandomiser.PlaceDoorOrWallInRoom(room, dir, startRoom ? 1f : dSD.GetDoorSpawnChance);
         }
     }
 
     private void HandleNeighbors(Room room)
     {
-        Dictionary<DirectionEnum, Room> neighbors = dungeon.GetNeighbors(room);
+        Dictionary<DirectionEnum, Room> neighbors = dSD.GetDungeon.GetNeighbors(room);
 
         foreach (var kvp in neighbors)
         {

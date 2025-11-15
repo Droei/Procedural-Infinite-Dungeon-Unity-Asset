@@ -19,7 +19,6 @@ public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
 
         if (roomSpawnData.RoomLocks)
         {
-            Debug.Log("Room with locks");
             RoomEnterTrigger trigger = GetComponentInChildren<RoomEnterTrigger>();
             if (trigger != null)
             {
@@ -40,13 +39,18 @@ public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
 
     public void CloseDoors()
     {
-        if (room.GetParent == null)
-            ApplyToRoomAndChildren(dv => dv.CloseDoor());
-        else
-            room.GetParent.GetRoomGameObject
-                .GetComponent<DungeonRoomMonoBehaviour>()
-                .ApplyToRoomAndChildren(dv => dv.CloseDoor());
+        Room targetRoomData = room.GetParent ?? room;
+
+        if (targetRoomData.Enemies.Count > 0)
+        {
+            DungeonRoomMonoBehaviour targetMono =
+                targetRoomData.GetRoomGameObject.GetComponent<DungeonRoomMonoBehaviour>();
+
+            targetMono.ApplyToRoomAndChildren(dv => dv.CloseDoor());
+        }
     }
+
+
 
     public void OpenDoors()
     {

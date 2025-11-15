@@ -24,7 +24,7 @@ public class DungeonManager : MonoBehaviour
         roomBuilder = new RoomBuilder(dSD, enemyFactory);
         roomFactory = new RoomFactory(roomBuilder);
 
-        roomFactory.CreateRoom(Vector2Int.zero);
+        roomFactory.CreateInitialRoom(Vector2Int.zero);
     }
 
 
