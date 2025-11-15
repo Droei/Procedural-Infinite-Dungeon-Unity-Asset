@@ -10,7 +10,7 @@ public class Room
     private readonly List<Room> ChildRooms = new();
     private Room ParentRoom;
 
-    private GameObject[] Enemies;
+    public List<GameObject> Enemies = new();
 
     private readonly List<Door> Doors = new();
     private readonly List<DirectionEnum> OpenAreas = new();
@@ -62,20 +62,24 @@ public class Room
     #endregion
 
     #region Enemies
-    public void SetEnemies(GameObject[] enemies) => Enemies = enemies;
+
+    public void AddEnemies(GameObject[] enemies)
+    {
+        Enemies.AddRange(enemies);
+    }
+
 
     internal void EnemyDied(GameObject enemy)
     {
-        for (int i = 0; i < Enemies.Length; i++)
-        {
-            if (Enemies[i] == enemy)
-            {
-                Enemies[i] = null;
-                break;
-            }
-        }
+        Enemies.Remove(enemy);
 
-        RoomGameObject.GetComponent<DungeonRoomMonoBehaviour>().OpenDoors();
+        if (Enemies.Count == 0)
+        {
+            RoomGameObject
+                .GetComponent<DungeonRoomMonoBehaviour>()
+                .OpenDoors();
+        }
     }
+
     #endregion
 }

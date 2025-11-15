@@ -21,7 +21,7 @@ public class EnemySpawnFactory : IEnemySpawnFactory
             .WithRoom(room.GetParent ?? room)
             .Build());
 
-        room.SetEnemies(spawned.ToArray());
+        room.AddEnemies(spawned.ToArray());
         return spawned.ToArray();
     }
 
@@ -34,7 +34,7 @@ public class EnemySpawnFactory : IEnemySpawnFactory
             .WithRoom(room)
             .Build();
 
-        room.SetEnemies(spawned.ToArray());
+        room.AddEnemies(spawned.ToArray());
         return spawned.ToArray();
     }
 }
