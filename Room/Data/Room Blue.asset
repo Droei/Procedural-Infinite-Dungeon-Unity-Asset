@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomSpawning
   roomObject: {fileID: 2803953463680757306, guid: ecb8863186282384db3c32d13a008687, type: 3}
   specificEnemy: {fileID: 0}
+  is2x2: 0
+  roomLocks: 1

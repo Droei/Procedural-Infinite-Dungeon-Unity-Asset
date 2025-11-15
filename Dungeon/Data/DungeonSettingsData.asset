@@ -29,5 +29,5 @@ MonoBehaviour:
   debugMode: 1
   useStaticSeed: 1
   seed: 6969
-  useBatchSpawning: 1
+  useBatchSpawning: 0
   debugRoomCount: 30

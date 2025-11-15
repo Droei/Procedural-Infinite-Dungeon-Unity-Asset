@@ -1,61 +1,81 @@
-using System.Linq;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
 {
     protected Room room;
-    protected DungeonManager dungeonManager;
     protected DoorView[] doors;
     protected RoomOpening[] roomOpening;
-    private Vector2Int gridPos;
+    DungeonSettingsData dSD;
 
     protected DirectionEnum sourceDirection;
 
-    public virtual void Init(Room room, DungeonManager dungeonManager)
+    public virtual void Init(Room room, DungeonSettingsData dungeonSettingsData, RoomSpawnData roomSpawnData)
     {
+        dSD = dungeonSettingsData;
         this.room = room;
-        this.dungeonManager = dungeonManager;
         doors = GetComponentsInChildren<DoorView>();
+
+        if (roomSpawnData.RoomLocks)
+        {
+            Debug.Log("Room with locks");
+            RoomEnterTrigger trigger = GetComponentInChildren<RoomEnterTrigger>();
+            if (trigger != null)
+            {
+                trigger.OnPlayerEntered.AddListener(() => CloseDoors());
+            }
+            else
+            {
+                Debug.LogWarning("No RoomEnterTrigger found in children!");
+            }
+        }
     }
+
 
     public virtual void SpawnRoom(DirectionEnum direction)
     {
-        dungeonManager.SpawnRoom(direction, room);
+        dSD.GetDungeon.GetDungeonManager.SpawnRoom(direction, room);
     }
 
-    public virtual void DisableDoorTrigger(DirectionEnum doorDirection)
+    public void CloseDoors()
     {
-        var door = doors.FirstOrDefault(d => d.GetDirection() == doorDirection);
-        if (door != null)
-        {
-            door.MarkTriggered();
-        }
+        if (room.GetParent == null)
+            ApplyToRoomAndChildren(dv => dv.CloseDoor());
         else
-        {
-            Debug.LogWarning($"No door found in direction {doorDirection} for {gameObject.name}");
-        }
+            room.GetParent.GetRoomGameObject
+                .GetComponent<DungeonRoomMonoBehaviour>()
+                .ApplyToRoomAndChildren(dv => dv.CloseDoor());
     }
 
-    public virtual void SetDoorState(DirectionEnum dir, bool open)
+    public void OpenDoors()
     {
-        if (this == null) return;
-
-        Transform doorsParent = transform.Find("Doors");
-        if (doorsParent == null) return;
-
-        Transform doorTransform = doorsParent.Find(dir.ToString() + "Door");
-        if (doorTransform == null) return;
-
-        DoorManager dm = doorTransform.GetComponent<DoorManager>();
-        if (dm == null) return;
-
-        if (open)
-        {
-            dm.OpenDoor();
-        }
+        if (room.GetParent == null)
+            ApplyToRoomAndChildren(dv => dv.OpenDoor());
         else
-            dm.CloseDoor();
+            room.GetParent.GetRoomGameObject
+                .GetComponent<DungeonRoomMonoBehaviour>()
+                .ApplyToRoomAndChildren(dv => dv.OpenDoor());
     }
 
-    public virtual bool GetDebugMode => dungeonManager.GetMaxDebugRoomsReached();
+    private void ApplyToRoomAndChildren(Action<DoorView> doorAction)
+    {
+        DoorView[] doorViews = GetComponentsInChildren<DoorView>();
+        foreach (DoorView dv in doorViews)
+        {
+            doorAction(dv);
+        }
+
+        List<Room> childRooms = room.GetChildRooms;
+        foreach (Room childRoom in childRooms)
+        {
+            doorViews = childRoom.GetRoomGameObject.GetComponentsInChildren<DoorView>();
+            foreach (DoorView dv in doorViews)
+            {
+                doorAction(dv);
+            }
+        }
+    }
+
+    public virtual bool GetDebugMode => dSD.GetDungeon.GetDungeonManager.GetMaxDebugRoomsReached();
 }

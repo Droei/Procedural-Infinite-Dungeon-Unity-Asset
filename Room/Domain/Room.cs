@@ -74,6 +74,8 @@ public class Room
                 break;
             }
         }
+
+        RoomGameObject.GetComponent<DungeonRoomMonoBehaviour>().OpenDoors();
     }
     #endregion
 }

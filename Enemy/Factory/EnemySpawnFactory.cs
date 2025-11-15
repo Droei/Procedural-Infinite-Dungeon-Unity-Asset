@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawnFactory : IEnemySpawnFactory
@@ -14,8 +13,12 @@ public class EnemySpawnFactory : IEnemySpawnFactory
     {
         var spawned = new List<GameObject>();
 
+        room = room.GetParent ?? room;
+
+        Debug.Log(room.GetRoomGameObject.name);
+
         spawned.AddRange(builder
-            .WithRoom(room)
+            .WithRoom(room.GetParent ?? room)
             .Build());
 
         room.SetEnemies(spawned.ToArray());
@@ -24,7 +27,7 @@ public class EnemySpawnFactory : IEnemySpawnFactory
 
     public GameObject[] SpawnSpecific(Room room, EnemySpawnData data)
     {
-        if (room == null || data == null) return Array.Empty<GameObject>();
+        room = room.GetParent ?? room;
 
         var spawned = builder
             .WithSpecificEnemyData(data)
