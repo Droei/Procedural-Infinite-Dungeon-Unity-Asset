@@ -75,4 +75,47 @@ public class Dungeon
 
         return freeSpaces;
     }
+
+    public List<Vector2Int[]> GetFree2x2Triplets(Room room)
+    {
+        List<Vector2Int[]> result = new List<Vector2Int[]>();
+        Vector2Int c = room.GetGridPosition;
+
+        Vector2Int[] origins =
+        {
+        c,
+        c - directionOffsets[DirectionEnum.East],
+        c - directionOffsets[DirectionEnum.North],
+        c - directionOffsets[DirectionEnum.North] - directionOffsets[DirectionEnum.East]
+    };
+
+        foreach (var origin in origins)
+        {
+            Vector2Int A = origin;
+            Vector2Int B = origin + directionOffsets[DirectionEnum.East];
+            Vector2Int C2 = origin + directionOffsets[DirectionEnum.North];
+            Vector2Int D = C2 + directionOffsets[DirectionEnum.East];
+
+            Vector2Int[] block = { A, B, C2, D };
+
+            List<Vector2Int> empty = new();
+            List<Vector2Int> filled = new();
+
+            foreach (var pos in block)
+            {
+                if (RoomExists(pos)) filled.Add(pos);
+                else empty.Add(pos);
+            }
+
+            if (!filled.Contains(c))
+                continue;
+
+            if (empty.Count == 3 && filled.Count == 1)
+                result.Add(empty.ToArray());
+        }
+
+        return result;
+    }
+
+
 }
