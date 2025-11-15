@@ -58,6 +58,9 @@ public class RoomBuilder : IRoomBuilder
             roomSidesFactory.AddRandomSides(ref room);
         }
 
+        DungeonManager dungeonManager = dSD.GetDungeon.GetDungeonManager;
+        room.GetRoomGameObject.transform.SetParent(dungeonManager.transform);
+        dungeonManager.UpdateNavMesh();
         RoomEnemyHandler.SpawnEnemies(room, enemySpawnFactory, dSD);
         ResetBuilderState();
 

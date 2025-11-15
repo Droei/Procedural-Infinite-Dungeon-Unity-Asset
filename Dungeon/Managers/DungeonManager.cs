@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
@@ -8,7 +9,7 @@ public class DungeonManager : MonoBehaviour
 
     private IRoomFactory roomFactory;
     private IRoomBuilder roomBuilder;
-
+    public NavMeshSurface navSurface;
     private void Awake()
     {
         if (dSD.GetDebugMode && dSD.GetUseStaticSeed) RandomService.Initialize(dSD.GetSeed);
@@ -16,6 +17,7 @@ public class DungeonManager : MonoBehaviour
 
     private void Start()
     {
+        navSurface = GetComponent<NavMeshSurface>();
         dSD.SetDungeon(new Dungeon(this));
 
         IEnemySpawnBuilder builder = new EnemySpawnBuilder(dSD);
@@ -37,6 +39,12 @@ public class DungeonManager : MonoBehaviour
     public void SpawnRoom(DirectionEnum direction, Room room)
     {
         roomFactory.SpawnConnectedRoom(direction, room);
+    }
+
+    public void UpdateNavMesh()
+    {
+        if (navSurface != null)
+            navSurface.BuildNavMesh();
     }
 
     public bool GetMaxDebugRoomsReached()
