@@ -2,10 +2,10 @@ using UnityEngine;
 
 public static class SpawnAreaCalculator
 {
-    public static (float minX, float maxX, float minZ, float maxZ) Calculate(Vector3 roomPos, float roomSize)
+    public static RoomBounds Calculate(Vector3 roomPos, float roomSize)
     {
         const float inset = 1f;
-        return (
+        return new RoomBounds(
             roomPos.x + inset,
             roomPos.x + roomSize - inset,
             roomPos.z + inset,

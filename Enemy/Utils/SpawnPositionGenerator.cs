@@ -3,9 +3,9 @@ using UnityEngine;
 
 public static class SpawnPositionGenerator
 {
-    public static (Vector3 pos, (float minX, float maxX, float minZ, float maxZ) bounds)[] GetRoomAndChildBounds(Room room, DungeonSettingsData dSD)
+    public static (Vector3 pos, RoomBounds bounds)[] GetRoomAndChildBounds(Room room, DungeonSettingsData dSD)
     {
-        List<(Vector3, (float minX, float maxX, float minZ, float maxZ))> result = new List<(Vector3, (float minX, float maxX, float minZ, float maxZ))>();
+        List<(Vector3, RoomBounds)> result = new();
 
         Vector3 parentPos = room.GetRoomGameObject.transform.position;
         var parentBounds = SpawnAreaCalculator.Calculate(parentPos, dSD.GetDungeon.GetWaveCount);
@@ -21,28 +21,13 @@ public static class SpawnPositionGenerator
         return result.ToArray();
     }
 
-    public static Vector3 GetRandomPosition(GameObject prefab, float baseY, (float minX, float maxX, float minZ, float maxZ) bounds)
+    public static Vector3 GetRandomPosition(GameObject prefab, float baseY, RoomBounds bounds, float margin)
     {
-        float x = RandomService.Range(bounds.minX, bounds.maxX);
-        float z = RandomService.Range(bounds.minZ, bounds.maxZ);
-        float y = GetSpawnY(prefab, baseY);
-        return new Vector3(x, y, z);
+        return bounds.RandomSpawnPosition(prefab, baseY, margin);
     }
 
-    public static Vector3 GetCenteredPosition(GameObject prefab, (float minX, float maxX, float minZ, float maxZ) bounds, float baseY)
+    public static Vector3 GetCenteredPosition(GameObject prefab, RoomBounds bounds, float baseY)
     {
-        float centerX = (bounds.minX + bounds.maxX) / 2f;
-        float centerZ = (bounds.minZ + bounds.maxZ) / 2f;
-        float y = GetSpawnY(prefab, baseY);
-        return new Vector3(centerX, y, centerZ);
-    }
-
-
-    private static float GetSpawnY(GameObject prefab, float baseY)
-    {
-        if (prefab == null) return baseY;
-        var col = prefab.GetComponent<Collider>();
-        if (col != null) return baseY + col.bounds.extents.y;
-        return baseY;
+        return bounds.CenterSpawnPosition(prefab, baseY);
     }
 }

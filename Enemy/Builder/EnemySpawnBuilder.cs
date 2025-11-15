@@ -18,25 +18,22 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
         data = dSD.GetRandomEnemySpawnData;
 
         if (room.GetParent != null) return null;
-        Debug.Log("Start room: " + room.GetRoomName);
+
         int i = 0;
         while (i <= dSD.GetDungeon.GetParentCount)
         {
-            Debug.Log(i + " " + room.GetRoomName);
             if (room.GetChildRooms.Count > 0)
             {
-                // TODO clean this up so I don't need to constantly get bounds
-                // Also create a Bounds class lazy ****
                 var roomAreas = SpawnPositionGenerator.GetRoomAndChildBounds(room, dSD);
                 var (pos, bounds) = roomAreas[RandomService.Range(0, roomAreas.Length)];
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, pos.y, bounds);
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, pos.y, bounds, 5f);
                 SetupEnemy(spawned, spawnPos);
             }
             else
             {
                 Vector3 roomPos = room.GetRoomGameObject.transform.position;
                 var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.GetDungeon.GetWaveCount);
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds);
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds, 5f);
                 SetupEnemy(spawned, spawnPos);
             }
             i += data.SpawnWeight;

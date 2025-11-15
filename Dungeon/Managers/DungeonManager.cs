@@ -9,7 +9,7 @@ public class DungeonManager : MonoBehaviour
 
     private IRoomFactory roomFactory;
     private IRoomBuilder roomBuilder;
-    public NavMeshSurface navSurface;
+    private NavMeshSurface navSurface;
     private void Awake()
     {
         if (dSD.GetDebugMode && dSD.GetUseStaticSeed) RandomService.Initialize(dSD.GetSeed);
