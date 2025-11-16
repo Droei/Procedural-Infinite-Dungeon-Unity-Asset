@@ -16,12 +16,8 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
     {
         var spawned = new List<GameObject>();
 
-        Debug.Log(room.GetRoomName + " spawns with predifined enemy?: " + (enemySpawnData == null));
         if (enemySpawnData == null)
-        {
-
-            enemySpawnData = dSD.GetRandomEnemySpawnData;
-        }
+            enemySpawnData = EnemySpawnFilter.GetEnemyData(dSD.EnemySpawnData, dSD.Dungeon.GetWaveCount);
 
         if (room.GetParent != null) return null;
 
@@ -39,24 +35,20 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
                 var roomAreas = SpawnPositionGenerator.GetRoomAndChildBounds(room, dSD);
                 var (pos, bounds) = roomAreas[RandomService.Range(0, roomAreas.Length)];
 
-                spawnPos = SpawnPositionGenerator.GetRandomPosition(
-                    enemySpawnData.EnemyObject,
-                    pos.y,
-                    bounds,
-                    dSD.EnemySpawnMargin
-                );
+                if (enemySpawnData.IsCentered)
+                    spawnPos = SpawnPositionGenerator.GetCenteredPosition(pos.y, bounds);
+                else
+                    spawnPos = SpawnPositionGenerator.GetRandomPosition(pos.y, bounds, dSD.EnemySpawnMargin);
             }
             else
             {
                 Vector3 roomPos = room.GetRoomGameObject.transform.position;
                 var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.Dungeon.GetWaveCount);
 
-                spawnPos = SpawnPositionGenerator.GetRandomPosition(
-                    enemySpawnData.EnemyObject,
-                    roomPos.y,
-                    bounds,
-                    dSD.EnemySpawnMargin
-                );
+                if (enemySpawnData.IsCentered)
+                    spawnPos = SpawnPositionGenerator.GetCenteredPosition(roomPos.y, bounds);
+                else
+                    spawnPos = SpawnPositionGenerator.GetRandomPosition(roomPos.y, bounds, dSD.EnemySpawnMargin);
             }
 
             SetupEnemy(spawned, spawnPos);

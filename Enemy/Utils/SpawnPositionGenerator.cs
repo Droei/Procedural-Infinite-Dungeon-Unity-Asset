@@ -21,13 +21,9 @@ public static class SpawnPositionGenerator
         return result.ToArray();
     }
 
-    public static Vector3 GetRandomPosition(GameObject prefab, float baseY, RoomBounds bounds, float margin)
-    {
-        return bounds.RandomSpawnPosition(prefab, baseY, margin);
-    }
+    public static Vector3 GetRandomPosition(float baseY, RoomBounds bounds, float margin)
+        => bounds.RandomSpawnPosition(baseY, margin);
 
-    public static Vector3 GetCenteredPosition(GameObject prefab, RoomBounds bounds, float baseY)
-    {
-        return bounds.CenterSpawnPosition(prefab, baseY);
-    }
+    public static Vector3 GetCenteredPosition(float baseY, RoomBounds bounds)
+        => bounds.Center(baseY);
 }

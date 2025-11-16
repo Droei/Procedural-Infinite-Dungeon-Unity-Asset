@@ -27,7 +27,7 @@ public class RoomBounds
     {
         float centerX = (minX + maxX) / 2f;
         float centerZ = (minZ + maxZ) / 2f;
-        return new Vector3(centerX, y, centerZ);
+        return new Vector3(.5f, y, .5f);
     }
 
     public Vector3 RandomPoint(float y = 0f)
@@ -37,34 +37,13 @@ public class RoomBounds
         return new Vector3(x, y, z);
     }
 
-    public Vector3 RandomSpawnPosition(GameObject prefab, float baseY, float margin)
+    public Vector3 RandomSpawnPosition(float baseY, float margin = 0f)
     {
         RoomBounds safeBounds = margin > 0 ? Shrink(margin) : this;
-
         float y = baseY;
-
-        if (prefab != null)
-        {
-            var col = prefab.GetComponent<Collider>();
-            if (col != null) y += col.bounds.extents.y;
-        }
-
         return safeBounds.RandomPoint(y);
     }
 
-
-    public Vector3 CenterSpawnPosition(GameObject prefab, float baseY)
-    {
-        float y = baseY;
-
-        if (prefab != null)
-        {
-            var col = prefab.GetComponent<Collider>();
-            if (col != null) y += col.bounds.extents.y;
-        }
-
-        return Center(y);
-    }
 
     public override string ToString()
     {

@@ -43,7 +43,6 @@ public class EnemySpawnData : ScriptableObject
     public int MaxWave => maxWave;
     public int MinCount => minCount;
     public int MaxCount => maxCount;
-    public int SpawnInterval => spawnInterval;
     public bool IsCentered => isCentered;
     public float DifficultyMultiplier => difficultyMultiplier;
 

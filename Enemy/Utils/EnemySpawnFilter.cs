@@ -17,17 +17,10 @@ public static class EnemySpawnFilter
     }
 
     private static List<EnemySpawnData> FilterByWave(List<EnemySpawnData> data, int currentWave)
-    {
-        return data.Where(d =>
-            currentWave >= d.MinWave &&
-            currentWave <= d.MaxWave
-        ).ToList();
-    }
+        => data.Where(d => currentWave >= d.MinWave && currentWave <= d.MaxWave).ToList();
 
     private static List<EnemySpawnData> FilterBySpawnInterval(List<EnemySpawnData> data)
-    {
-        return data.Where(d => d.CanSpawn()).ToList();
-    }
+        => data.Where(d => d.CanSpawn()).ToList();
 
     public static EnemySpawnData GetEnemyData(List<EnemySpawnData> data, int currentWave)
     {
@@ -47,11 +40,10 @@ public static class EnemySpawnFilter
 
             if (roll < cumulative)
             {
-                d.ResetSpawn();
                 return d;
             }
         }
 
-        return filtered[filtered.Count - 1];
+        return filtered[^1];
     }
 }
