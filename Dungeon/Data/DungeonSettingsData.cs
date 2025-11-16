@@ -8,9 +8,9 @@ public class DungeonSettingsData : ScriptableObject
     [SerializeField] List<EnemySpawnData> enemySpawnData;
     [SerializeField] List<RoomSpawnData> roomSpawnData;
     [SerializeField][Range(0.0f, 1f)] float doorSpawnChance = .5f;
+    [SerializeField] float enemySpawnMargin = 15f;
 
     [Header("Big room settings")]
-
     [Tooltip("Chances for a chain of rooms to be created")]
     [SerializeField][Range(0.0f, 0.95f)] float roomChainLikelyhood = .5f;
     [Tooltip("Chances for another room to spawn after a chain is started")]
@@ -58,4 +58,5 @@ public class DungeonSettingsData : ScriptableObject
     public Dungeon GetDungeon => dungeon;
 
     public float GetDoorSpawnChance => doorSpawnChance;
+    public float GetEnemySpawnMargin => enemySpawnMargin;
 }

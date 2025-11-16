@@ -26,14 +26,14 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
             {
                 var roomAreas = SpawnPositionGenerator.GetRoomAndChildBounds(room, dSD);
                 var (pos, bounds) = roomAreas[RandomService.Range(0, roomAreas.Length)];
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, pos.y, bounds, 5f);
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, pos.y, bounds, dSD.GetEnemySpawnMargin);
                 SetupEnemy(spawned, spawnPos);
             }
             else
             {
                 Vector3 roomPos = room.GetRoomGameObject.transform.position;
                 var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.GetDungeon.GetWaveCount);
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds, 5f);
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds, dSD.GetEnemySpawnMargin);
                 SetupEnemy(spawned, spawnPos);
             }
             i += data.SpawnWeight;
