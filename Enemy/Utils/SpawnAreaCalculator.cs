@@ -10,7 +10,6 @@ public static class SpawnAreaCalculator
         float maxZ = roomPos.z + roomSize;
 
         RoomBounds b = new RoomBounds(minX, maxX, minZ, maxZ);
-        Debug.Log(b.ToString() );
         return b;
     }
 
