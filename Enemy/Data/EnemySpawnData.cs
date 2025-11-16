@@ -47,7 +47,6 @@ public class EnemySpawnData : ScriptableObject
     public bool IsCentered => isCentered;
     public float DifficultyMultiplier => difficultyMultiplier;
 
-
     #region Methods
     public bool CanSpawn()
     {

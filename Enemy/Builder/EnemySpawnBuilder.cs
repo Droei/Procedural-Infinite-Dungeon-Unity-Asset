@@ -18,28 +18,50 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
 
         Debug.Log(room.GetRoomName + " spawns with predifined enemy?: " + (enemySpawnData == null));
         if (enemySpawnData == null)
+        {
+
             enemySpawnData = dSD.GetRandomEnemySpawnData;
+        }
 
         if (room.GetParent != null) return null;
 
+        int minIterations = Mathf.CeilToInt(enemySpawnData.MinCount * enemySpawnData.SpawnWeight);
+        int maxIterations = Mathf.FloorToInt(enemySpawnData.MaxCount * enemySpawnData.SpawnWeight);
+        int totalIterations = Mathf.Clamp(dSD.Dungeon.GetParentCount, minIterations, maxIterations);
+
         int i = 0;
-        while (i <= dSD.Dungeon.GetParentCount)
+        while (i < totalIterations)
         {
+            Vector3 spawnPos;
+
             if (room.GetChildRooms.Count > 0)
             {
                 var roomAreas = SpawnPositionGenerator.GetRoomAndChildBounds(room, dSD);
                 var (pos, bounds) = roomAreas[RandomService.Range(0, roomAreas.Length)];
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(enemySpawnData.EnemyObject, pos.y, bounds, dSD.EnemySpawnMargin);
-                SetupEnemy(spawned, spawnPos);
+
+                spawnPos = SpawnPositionGenerator.GetRandomPosition(
+                    enemySpawnData.EnemyObject,
+                    pos.y,
+                    bounds,
+                    dSD.EnemySpawnMargin
+                );
             }
             else
             {
                 Vector3 roomPos = room.GetRoomGameObject.transform.position;
                 var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.Dungeon.GetWaveCount);
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(enemySpawnData.EnemyObject, roomPos.y, bounds, dSD.EnemySpawnMargin);
-                SetupEnemy(spawned, spawnPos);
+
+                spawnPos = SpawnPositionGenerator.GetRandomPosition(
+                    enemySpawnData.EnemyObject,
+                    roomPos.y,
+                    bounds,
+                    dSD.EnemySpawnMargin
+                );
             }
-            i += enemySpawnData.SpawnWeight;
+
+            SetupEnemy(spawned, spawnPos);
+
+            i += Mathf.Max(1, Mathf.CeilToInt(enemySpawnData.SpawnWeight));
         }
         ResetBuilder();
         return spawned;
