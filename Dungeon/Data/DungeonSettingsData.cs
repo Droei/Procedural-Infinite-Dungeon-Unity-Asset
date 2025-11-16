@@ -9,7 +9,7 @@ public class DungeonSettingsData : ScriptableObject
     [SerializeField] private List<EnemySpawnData> enemySpawnData;
     [SerializeField] private List<RoomSpawnData> roomSpawnData;
     [SerializeField, Range(0f, 1f)] private float doorSpawnChance = 0.5f;
-    [SerializeField] private float enemySpawnMargin = 15f;
+    [SerializeField] private float enemySpawnMargin = 5f;
 
     [Header("Big Room Settings")]
     [Tooltip("Chances for a chain of rooms to be created")]

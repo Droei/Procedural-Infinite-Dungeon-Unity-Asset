@@ -30,7 +30,6 @@ public class RoomCreationHandler
         Room room = new(gridPos.x, gridPos.y, roomObject);
 
         parent?.AddChild(room);
-
         dSD.Dungeon.AddRoom(room);
 
         RoomViewHandler.InitView(room, dSD, roomSpawnData);

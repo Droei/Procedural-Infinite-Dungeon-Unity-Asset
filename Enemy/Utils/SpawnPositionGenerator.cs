@@ -8,13 +8,13 @@ public static class SpawnPositionGenerator
         List<(Vector3, RoomBounds)> result = new();
 
         Vector3 parentPos = room.GetRoomGameObject.transform.position;
-        var parentBounds = SpawnAreaCalculator.Calculate(parentPos, dSD.Dungeon.GetWaveCount);
+        var parentBounds = SpawnAreaCalculator.Calculate(parentPos, dSD.RoomSize);
         result.Add((parentPos, parentBounds));
 
         foreach (Room child in room.GetChildRooms)
         {
             Vector3 childPos = child.GetRoomGameObject.transform.position;
-            var childBounds = SpawnAreaCalculator.Calculate(childPos, dSD.Dungeon.GetWaveCount);
+            var childBounds = SpawnAreaCalculator.Calculate(childPos, dSD.RoomSize);
             result.Add((childPos, childBounds));
         }
 

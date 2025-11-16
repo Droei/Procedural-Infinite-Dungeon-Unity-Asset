@@ -59,7 +59,6 @@ public class RoomBuilder : IRoomBuilder
         }
 
         DungeonManager dungeonManager = dSD.Dungeon.GetDungeonManager;
-        room.GetRoomGameObject.transform.SetParent(dungeonManager.transform);
         dungeonManager.UpdateNavMesh();
 
         RoomEnemyHandler.SpawnEnemies(room, enemySpawnFactory, dSD, roomSpawnData.SpecificEnemy);

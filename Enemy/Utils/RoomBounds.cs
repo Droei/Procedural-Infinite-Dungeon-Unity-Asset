@@ -25,10 +25,13 @@ public class RoomBounds
 
     public Vector3 Center(float y = 0f)
     {
-        float centerX = (minX + maxX) / 2f;
-        float centerZ = (minZ + maxZ) / 2f;
-        return new Vector3(.5f, y, .5f);
+        float centerX = minX + Width / 2f;
+        float centerZ = minZ + Depth / 2f;
+
+        return new Vector3(centerX, y, centerZ);
     }
+
+
 
     public Vector3 RandomPoint(float y = 0f)
     {
@@ -37,7 +40,7 @@ public class RoomBounds
         return new Vector3(x, y, z);
     }
 
-    public Vector3 RandomSpawnPosition(float baseY, float margin = 0f)
+    public Vector3 RandomSpawnPosition(float baseY, float margin)
     {
         RoomBounds safeBounds = margin > 0 ? Shrink(margin) : this;
         float y = baseY;

@@ -43,7 +43,7 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
             else
             {
                 Vector3 roomPos = room.GetRoomGameObject.transform.position;
-                var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.Dungeon.GetWaveCount);
+                var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.RoomSize);
 
                 if (enemySpawnData.IsCentered)
                     spawnPos = SpawnPositionGenerator.GetCenteredPosition(roomPos.y, bounds);

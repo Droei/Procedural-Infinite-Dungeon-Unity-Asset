@@ -22,6 +22,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cee0a0aaab049d442962ab40f42828d8, type: 2}
   - {fileID: 11400000, guid: e7136f1753dab8c449194eb22ccf3c43, type: 2}
   - {fileID: 11400000, guid: aedc7aa7e26ce414b891cbe242bcca5b, type: 2}
+  doorSpawnChance: 0.5
+  enemySpawnMargin: 5
   roomChainLikelyhood: 0.746
   extendedRoomChainLikelyhood: 0.3
   chancePerDirection: 0.5
