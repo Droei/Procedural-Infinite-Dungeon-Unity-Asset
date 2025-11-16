@@ -1,4 +1,4 @@
-public class RoomView : DungeonRoomMonoBehaviour
+public class RoomView : DungeonRoom
 {
 
 }

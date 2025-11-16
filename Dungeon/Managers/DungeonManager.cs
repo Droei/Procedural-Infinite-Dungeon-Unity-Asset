@@ -12,7 +12,7 @@ public class DungeonManager : MonoBehaviour
     private NavMeshSurface navSurface;
     private void Awake()
     {
-        if (dSD.GetDebugMode && dSD.GetUseStaticSeed) RandomService.Initialize(dSD.GetSeed);
+        if (dSD.DebugMode && dSD.UseStaticSeed) RandomService.Initialize(dSD.Seed);
     }
 
     private void Start()
@@ -32,7 +32,7 @@ public class DungeonManager : MonoBehaviour
 
     private void Update()
     {
-        waveText.text = "Rooms spawned: " + dSD.GetDungeon.GetWaveCount + " | Seperate rooms: " + dSD.GetDungeon.GetParentCount;
+        waveText.text = "Rooms spawned: " + dSD.Dungeon.GetWaveCount + " | Seperate rooms: " + dSD.Dungeon.GetParentCount;
     }
 
     // TODO: Find a cleaner solution for this later
@@ -49,9 +49,9 @@ public class DungeonManager : MonoBehaviour
 
     public bool GetMaxDebugRoomsReached()
     {
-        if (dSD.GetDungeon.GetWaveCount > dSD.GetDebugRoomCount) return false;
+        if (dSD.Dungeon.GetWaveCount > dSD.DebugRoomCount) return false;
 
-        return dSD.GetDebugMode && dSD.GetUseBatchSpawning;
+        return dSD.DebugMode && dSD.UseBatchSpawning;
     }
-    public bool GetDebugMode => dSD.GetDebugMode;
+    public bool GetDebugMode => dSD.DebugMode;
 }

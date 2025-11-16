@@ -5,7 +5,7 @@ public class DoorView : MonoBehaviour
     [SerializeField] DirectionEnum direction;
     [SerializeField] GameObject gate;
 
-    private DungeonRoomMonoBehaviour roomView;
+    private DungeonRoom roomView;
     private bool triggered = false;
 
     public void Init(bool triggered)
@@ -15,7 +15,7 @@ public class DoorView : MonoBehaviour
 
     private void Start()
     {
-        roomView = GetComponentInParent<DungeonRoomMonoBehaviour>();
+        roomView = GetComponentInParent<DungeonRoom>();
 
         if (roomView.GetDebugMode)
         {

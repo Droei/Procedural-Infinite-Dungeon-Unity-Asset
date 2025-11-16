@@ -2,7 +2,7 @@ public static class RoomViewHandler
 {
     public static void InitView(Room room, DungeonSettingsData dSD, RoomSpawnData roomSpawnData)
     {
-        DungeonRoomMonoBehaviour view = room.GetRoomGameObject.GetComponent<DungeonRoomMonoBehaviour>();
+        DungeonRoom view = room.GetRoomGameObject.GetComponent<DungeonRoom>();
         view.Init(room, dSD, roomSpawnData);
     }
 }

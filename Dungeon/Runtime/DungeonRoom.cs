@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
+public abstract class DungeonRoom : MonoBehaviour
 {
     protected Room room;
     protected DoorView[] doors;
@@ -34,7 +34,7 @@ public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
 
     public virtual void SpawnRoom(DirectionEnum direction)
     {
-        dSD.GetDungeon.GetDungeonManager.SpawnRoom(direction, room);
+        dSD.Dungeon.GetDungeonManager.SpawnRoom(direction, room);
     }
 
     public void CloseDoors()
@@ -43,8 +43,8 @@ public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
 
         if (targetRoomData.Enemies.Count > 0)
         {
-            DungeonRoomMonoBehaviour targetMono =
-                targetRoomData.GetRoomGameObject.GetComponent<DungeonRoomMonoBehaviour>();
+            DungeonRoom targetMono =
+                targetRoomData.GetRoomGameObject.GetComponent<DungeonRoom>();
 
             targetMono.ApplyToRoomAndChildren(dv => dv.CloseDoor());
         }
@@ -58,7 +58,7 @@ public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
             ApplyToRoomAndChildren(dv => dv.OpenDoor());
         else
             room.GetParent.GetRoomGameObject
-                .GetComponent<DungeonRoomMonoBehaviour>()
+                .GetComponent<DungeonRoom>()
                 .ApplyToRoomAndChildren(dv => dv.OpenDoor());
     }
 
@@ -81,5 +81,5 @@ public abstract class DungeonRoomMonoBehaviour : MonoBehaviour
         }
     }
 
-    public virtual bool GetDebugMode => dSD.GetDungeon.GetDungeonManager.GetMaxDebugRoomsReached();
+    public virtual bool GetDebugMode => dSD.Dungeon.GetDungeonManager.GetMaxDebugRoomsReached();
 }

@@ -19,18 +19,18 @@ public class SidesGenerator
 
     private void HandleFreeSpaces(Room room)
     {
-        var freeSpaces = dSD.GetDungeon.GetNeighborFreeSpaces(room);
+        var freeSpaces = dSD.Dungeon.GetNeighborFreeSpaces(room);
 
         foreach (var kvp in freeSpaces)
         {
             DirectionEnum dir = kvp.Key;
-            SidesRandomiser.PlaceDoorOrWallInRoom(room, dir, startRoom ? 1f : dSD.GetDoorSpawnChance);
+            SidesRandomiser.PlaceDoorOrWallInRoom(room, dir, startRoom ? 1f : dSD.DoorSpawnChance);
         }
     }
 
     private void HandleNeighbors(Room room)
     {
-        Dictionary<DirectionEnum, Room> neighbors = dSD.GetDungeon.GetNeighbors(room);
+        Dictionary<DirectionEnum, Room> neighbors = dSD.Dungeon.GetNeighbors(room);
 
         foreach (var kvp in neighbors)
         {

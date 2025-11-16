@@ -4,59 +4,77 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DungeonSettingsData", menuName = "Dungeon/DungeonSettingsData")]
 public class DungeonSettingsData : ScriptableObject
 {
-    [SerializeField] float roomSize = 25f;
-    [SerializeField] List<EnemySpawnData> enemySpawnData;
-    [SerializeField] List<RoomSpawnData> roomSpawnData;
-    [SerializeField][Range(0.0f, 1f)] float doorSpawnChance = .5f;
-    [SerializeField] float enemySpawnMargin = 15f;
+    [Header("General Settings")]
+    [SerializeField] private float roomSize = 25f;
+    [SerializeField] private List<EnemySpawnData> enemySpawnData;
+    [SerializeField] private List<RoomSpawnData> roomSpawnData;
+    [SerializeField, Range(0f, 1f)] private float doorSpawnChance = 0.5f;
+    [SerializeField] private float enemySpawnMargin = 15f;
 
-    [Header("Big room settings")]
+    [Header("Big Room Settings")]
     [Tooltip("Chances for a chain of rooms to be created")]
-    [SerializeField][Range(0.0f, 0.95f)] float roomChainLikelyhood = .5f;
+    [SerializeField, Range(0f, 0.95f)] private float roomChainLikelyhood = 0.5f;
+
     [Tooltip("Chances for another room to spawn after a chain is started")]
-    [SerializeField][Range(0.0f, 0.95f)] float extendedRoomChainLikelyhood = .3f;
+    [SerializeField, Range(0f, 0.95f)] private float extendedRoomChainLikelyhood = 0.3f;
+
     [Tooltip("Every available direction will have a set amount of chance of actually spawning a room")]
-    [SerializeField][Range(0.0f, 0.95f)] float chancePerDirection = .5f;
+    [SerializeField, Range(0f, 0.95f)] private float chancePerDirection = 0.5f;
 
-    [SerializeField] bool crossGenMode = false;
+    [SerializeField] private bool crossGenMode = false;
 
-    [Space(1)]
     [Header("Debugging")]
-    [SerializeField] bool debugMode = false;
+    [SerializeField] private bool debugMode = false;
 
     [Header("Seed Settings")]
-    [SerializeField] bool useStaticSeed = true;
-    [SerializeField] int seed = 6969;
+    [SerializeField] private bool useStaticSeed = true;
+    [SerializeField] private int seed = 6969;
 
     [Header("Batch Spawning")]
-    [SerializeField] bool useBatchSpawning = true;
-    [SerializeField][Range(0, 100)] int debugRoomCount = 50;
+    [SerializeField] private bool useBatchSpawning = true;
+    [SerializeField, Range(0, 100)] private int debugRoomCount = 50;
 
     private Dungeon dungeon;
 
-    public float GetRoomSize => roomSize;
-    public List<EnemySpawnData> GetEnemySpawnData => enemySpawnData;
-    public EnemySpawnData GetRandomEnemySpawnData => enemySpawnData[RandomService.Range(0, enemySpawnData.Count)];
+    #region General
+    public float RoomSize => roomSize;
+    public List<EnemySpawnData> EnemySpawnData => enemySpawnData;
+    public List<RoomSpawnData> RoomSpawnData => roomSpawnData;
+    public float DoorSpawnChance => doorSpawnChance;
+    public float EnemySpawnMargin => enemySpawnMargin;
+    #endregion
 
+    #region Chained Room
+    public float RoomChainLikelyhood => roomChainLikelyhood;
+    public float ExtendedRoomChainLikelyhood => extendedRoomChainLikelyhood;
+    public float ChancePerDirection => chancePerDirection;
+    public bool CrossGenMode => crossGenMode;
+    #endregion
 
-    public List<RoomSpawnData> GetRoomSpawnData => roomSpawnData;
-    public RoomSpawnData GetRandomRoomSpawnData => roomSpawnData[RandomService.Range(0, roomSpawnData.Count)];
+    #region Debugging
+    public bool DebugMode => debugMode;
 
-    public bool GetCrossGenMode => crossGenMode;
-    public float GetRoomChainLikelyhood => roomChainLikelyhood;
-    public float GetExtendedRoomChainLikelyhood => extendedRoomChainLikelyhood;
-    public float GetChancePerDirection => chancePerDirection;
+    public bool UseStaticSeed => useStaticSeed;
+    public int Seed => seed;
 
-    public bool GetDebugMode => debugMode;
-    public bool GetUseStaticSeed => useStaticSeed;
-    public int GetSeed => seed;
+    public bool UseBatchSpawning => useBatchSpawning;
+    public int DebugRoomCount => debugRoomCount;
+    #endregion
 
-    public bool GetUseBatchSpawning => useBatchSpawning;
-    public int GetDebugRoomCount => debugRoomCount;
+    #region Dungeon
+    public Dungeon Dungeon => dungeon;
+    public void SetDungeon(Dungeon dungeon) => this.dungeon = dungeon;
+    #endregion
 
-    public void SetDungeon(Dungeon dungeon) { this.dungeon = dungeon; }
-    public Dungeon GetDungeon => dungeon;
+    #region HelperFunctions
+    public EnemySpawnData GetRandomEnemySpawnData =>
+        enemySpawnData != null && enemySpawnData.Count > 0
+            ? enemySpawnData[RandomService.Range(0, enemySpawnData.Count)]
+            : null;
 
-    public float GetDoorSpawnChance => doorSpawnChance;
-    public float GetEnemySpawnMargin => enemySpawnMargin;
+    public RoomSpawnData GetRandomRoomSpawnData =>
+        roomSpawnData != null && roomSpawnData.Count > 0
+            ? roomSpawnData[RandomService.Range(0, roomSpawnData.Count)]
+            : null;
+    #endregion
 }

@@ -22,16 +22,16 @@ public class RoomCreationHandler
 
     public Room CreateRoom(Vector2Int gridPos, Room parent)
     {
-        Vector3 worldPos = new(gridPos.x * dSD.GetRoomSize, 0, gridPos.y * dSD.GetRoomSize);
+        Vector3 worldPos = new(gridPos.x * dSD.RoomSize, 0, gridPos.y * dSD.RoomSize);
         GameObject roomObject = Object.Instantiate(roomSpawnData.RoomObject.gameObject, worldPos, Quaternion.identity);
 
-        roomObject.name = $"Room ({dSD.GetDungeon.IncrementWaveCount})";
+        roomObject.name = $"Room ({dSD.Dungeon.IncrementWaveCount})";
 
         Room room = new(gridPos.x, gridPos.y, roomObject);
 
         parent?.AddChild(room);
 
-        dSD.GetDungeon.AddRoom(room);
+        dSD.Dungeon.AddRoom(room);
 
         RoomViewHandler.InitView(room, dSD, roomSpawnData);
         return room;

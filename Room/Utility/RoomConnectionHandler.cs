@@ -20,7 +20,7 @@
 //    //Shouldn't be here
 //    public static void HandleConnections(Room room, Room fromRoom, DirectionEnum fromDir)
 //    {
-//        var view = room.GetRoomGameObject.GetComponent<DungeonRoomMonoBehaviour>();
+//        var view = room.GetRoomGameObject.GetComponent<DungeonRoom>();
 
 //        if (fromRoom.HasDoor(fromDir))
 //        {

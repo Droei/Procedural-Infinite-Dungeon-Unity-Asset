@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class DungeonEnemyMonoBehaviour : MonoBehaviour
+public abstract class DungeonEnemy : MonoBehaviour
 {
     protected Room room;
     public float difficultyIncrement = 1.0f;

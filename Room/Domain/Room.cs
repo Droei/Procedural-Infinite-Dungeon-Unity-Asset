@@ -5,7 +5,7 @@ public class Room
 {
     private readonly Vector2Int GridPosition;
     private readonly GameObject RoomGameObject;
-    private readonly DungeonRoomMonoBehaviour RoomView;
+    private readonly DungeonRoom RoomView;
 
     private readonly List<Room> ChildRooms = new();
     private Room ParentRoom;
@@ -19,12 +19,12 @@ public class Room
     {
         GridPosition = new Vector2Int(x, y);
         RoomGameObject = prefab;
-        RoomView = RoomGameObject.GetComponent<DungeonRoomMonoBehaviour>();
+        RoomView = RoomGameObject.GetComponent<DungeonRoom>();
     }
 
     public Vector2Int GetGridPosition => GridPosition;
     public GameObject GetRoomGameObject => RoomGameObject;
-    public DungeonRoomMonoBehaviour GetRoomView => RoomView;
+    public DungeonRoom GetRoomView => RoomView;
     public List<Room> GetChildRooms => ChildRooms;
     public string GetRoomName => RoomGameObject.name;
 
@@ -76,7 +76,7 @@ public class Room
         if (Enemies.Count == 0)
         {
             RoomGameObject
-                .GetComponent<DungeonRoomMonoBehaviour>()
+                .GetComponent<DungeonRoom>()
                 .OpenDoors();
         }
     }

@@ -20,20 +20,20 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
         if (room.GetParent != null) return null;
 
         int i = 0;
-        while (i <= dSD.GetDungeon.GetParentCount)
+        while (i <= dSD.Dungeon.GetParentCount)
         {
             if (room.GetChildRooms.Count > 0)
             {
                 var roomAreas = SpawnPositionGenerator.GetRoomAndChildBounds(room, dSD);
                 var (pos, bounds) = roomAreas[RandomService.Range(0, roomAreas.Length)];
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, pos.y, bounds, dSD.GetEnemySpawnMargin);
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, pos.y, bounds, dSD.EnemySpawnMargin);
                 SetupEnemy(spawned, spawnPos);
             }
             else
             {
                 Vector3 roomPos = room.GetRoomGameObject.transform.position;
-                var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.GetDungeon.GetWaveCount);
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds, dSD.GetEnemySpawnMargin);
+                var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.Dungeon.GetWaveCount);
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds, dSD.EnemySpawnMargin);
                 SetupEnemy(spawned, spawnPos);
             }
             i += data.SpawnWeight;
@@ -45,7 +45,7 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
     {
         var enemyObj = Object.Instantiate(data.EnemyObject, spawnPos, Quaternion.identity);
         enemyObj.transform.parent = room.GetRoomGameObject.transform;
-        enemyObj.GetComponent<DungeonEnemyMonoBehaviour>().InitForDungeon(room, data.DifficultyMultiplier * dSD.GetDungeon.GetWaveCount);
+        enemyObj.GetComponent<DungeonEnemy>().InitForDungeon(room, data.DifficultyMultiplier * dSD.Dungeon.GetWaveCount);
         spawned.Add(enemyObj);
         data.ResetSpawn();
     }
