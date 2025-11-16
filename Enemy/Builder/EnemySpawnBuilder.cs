@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemySpawnBuilder : IEnemySpawnBuilder
 {
-    private EnemySpawnData data;
+    private EnemySpawnData enemySpawnData;
     private Room room;
     private readonly DungeonSettingsData dSD;
 
@@ -15,7 +15,10 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
     public List<GameObject> Build()
     {
         var spawned = new List<GameObject>();
-        data = dSD.GetRandomEnemySpawnData;
+
+        Debug.Log(room.GetRoomName + " spawns with predifined enemy?: " + (enemySpawnData == null));
+        if (enemySpawnData == null)
+            enemySpawnData = dSD.GetRandomEnemySpawnData;
 
         if (room.GetParent != null) return null;
 
@@ -26,30 +29,37 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
             {
                 var roomAreas = SpawnPositionGenerator.GetRoomAndChildBounds(room, dSD);
                 var (pos, bounds) = roomAreas[RandomService.Range(0, roomAreas.Length)];
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, pos.y, bounds, dSD.EnemySpawnMargin);
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(enemySpawnData.EnemyObject, pos.y, bounds, dSD.EnemySpawnMargin);
                 SetupEnemy(spawned, spawnPos);
             }
             else
             {
                 Vector3 roomPos = room.GetRoomGameObject.transform.position;
                 var bounds = SpawnAreaCalculator.Calculate(roomPos, dSD.Dungeon.GetWaveCount);
-                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(data.EnemyObject, roomPos.y, bounds, dSD.EnemySpawnMargin);
+                Vector3 spawnPos = SpawnPositionGenerator.GetRandomPosition(enemySpawnData.EnemyObject, roomPos.y, bounds, dSD.EnemySpawnMargin);
                 SetupEnemy(spawned, spawnPos);
             }
-            i += data.SpawnWeight;
+            i += enemySpawnData.SpawnWeight;
         }
+        ResetBuilder();
         return spawned;
+    }
+
+    private void ResetBuilder()
+    {
+        enemySpawnData = null;
+        room = null;
     }
 
     private void SetupEnemy(List<GameObject> spawned, Vector3 spawnPos)
     {
-        var enemyObj = Object.Instantiate(data.EnemyObject, spawnPos, Quaternion.identity);
+        var enemyObj = Object.Instantiate(enemySpawnData.EnemyObject, spawnPos, Quaternion.identity);
         enemyObj.transform.parent = room.GetRoomGameObject.transform;
-        enemyObj.GetComponent<DungeonEnemy>().InitForDungeon(room, data.DifficultyMultiplier * dSD.Dungeon.GetWaveCount);
+        enemyObj.GetComponent<DungeonEnemy>().InitForDungeon(room, enemySpawnData.DifficultyMultiplier * dSD.Dungeon.GetWaveCount);
         spawned.Add(enemyObj);
-        data.ResetSpawn();
+        enemySpawnData.ResetSpawn();
     }
 
-    public IEnemySpawnBuilder WithSpecificEnemyData(EnemySpawnData data) { this.data = data; return this; }
+    public IEnemySpawnBuilder WithSpecificEnemyData(EnemySpawnData enemySpawnData) { this.enemySpawnData = enemySpawnData; return this; }
     public IEnemySpawnBuilder WithRoom(Room room) { this.room = room; return this; }
 }
