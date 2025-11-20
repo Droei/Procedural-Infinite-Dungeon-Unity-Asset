@@ -16,7 +16,7 @@ public abstract class DungeonRoom : MonoBehaviour
         dSD = dungeonSettingsData;
         this.room = room;
         doors = GetComponentsInChildren<DoorView>();
-
+        OpenDoors();
         if (roomSpawnData.RoomLocks)
         {
             RoomEnterTrigger trigger = GetComponentInChildren<RoomEnterTrigger>();

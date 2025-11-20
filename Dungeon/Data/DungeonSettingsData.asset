@@ -28,7 +28,7 @@ MonoBehaviour:
   extendedRoomChainLikelyhood: 0.3
   chancePerDirection: 0.5
   crossGenMode: 0
-  debugMode: 1
+  debugMode: 0
   useStaticSeed: 1
   seed: 6969
   useBatchSpawning: 1
