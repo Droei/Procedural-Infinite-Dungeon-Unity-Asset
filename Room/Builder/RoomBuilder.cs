@@ -21,7 +21,7 @@ public class RoomBuilder : IRoomBuilder
         this.dSD = dSD;
         this.enemySpawnFactory = enemySpawnFactory;
 
-        roomSidesFactory = new(dSD);
+        roomSidesFactory = new RoomSidesFactory(new RoomSidesBuilder(dSD));
         roomCreationHandler = new(dSD);
     }
 
@@ -54,29 +54,41 @@ public class RoomBuilder : IRoomBuilder
     private void ApplySideGeneration(Room room)
     {
         if (startRoom)
-            roomSidesFactory.AddRandomSides(ref room, true);
+            roomSidesFactory.AddRandomSides(room, true);
+
         else if (roomSpawnData.IsLootRoom)
-            roomSidesFactory.AddRandomSides(ref room);
+            roomSidesFactory.AddRandomSides(room);
+
         else if (roomSpawnData.Is2x2)
         {
-            List<Vector2Int[]> groups = dSD.Dungeon.GetFree2x2Triplets(room);
-            if (groups.Count > 0)
-            {
-                Vector2Int[] selection = groups[RandomService.Range(0, groups.Count - 1)];
-                foreach (Vector2Int cell in selection)
-                    roomCreationHandler.CreateRoom(cell, room);
-            }
-
-            roomSidesFactory.ProcessRoomCollection(ref room);
+            Handle2x2Expansion(room);
+            roomSidesFactory.ProcessRoomCollection(room);
         }
-        else if ((dSD.CrossGenMode || RandomService.Chance(dSD.RoomChainLikelyhood)) && !roomSpawnData.Is1x1)
+
+        else if ((dSD.CrossGenMode || RandomService.Chance(dSD.RoomChainLikelyhood))
+                 && !roomSpawnData.Is1x1)
         {
             DetermineBiggerShape(room);
-            roomSidesFactory.ProcessRoomCollection(ref room);
+            roomSidesFactory.ProcessRoomCollection(room);
         }
+
         else
-            roomSidesFactory.AddRandomSides(ref room);
+            roomSidesFactory.AddRandomSides(room);
     }
+
+    private void Handle2x2Expansion(Room anchorRoom)
+    {
+        List<Vector2Int[]> groups = dSD.Dungeon.GetFree2x2Triplets(anchorRoom);
+
+        if (groups == null || groups.Count == 0)
+            return;
+
+        Vector2Int[] selection = groups[RandomService.Range(0, groups.Count - 1)];
+
+        foreach (Vector2Int cell in selection)
+            roomCreationHandler.CreateRoom(cell, anchorRoom);
+    }
+
 
     private void DetermineBiggerShape(Room room)
     {

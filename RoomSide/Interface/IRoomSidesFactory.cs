@@ -1,5 +1,5 @@
 public interface IRoomSidesFactory
 {
-    void AddRandomSides(Room room);
-    void SyncSidesWithNeighbors(Room room, bool removeInvalid = true);
+    void AddRandomSides(Room room, bool startRoom = false);
+    void ProcessRoomCollection(Room room);
 }
