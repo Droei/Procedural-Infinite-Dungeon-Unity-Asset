@@ -49,7 +49,7 @@ public class DungeonManager : MonoBehaviour
 
     public bool GetMaxDebugRoomsReached()
     {
-        if (dSD.Dungeon.GetWaveCount > dSD.DebugRoomCount) return false;
+        if (dSD.Dungeon.GetParentCount > dSD.DebugRoomCount) return false;
 
         return dSD.DebugMode && dSD.UseBatchSpawning;
     }

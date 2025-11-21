@@ -44,7 +44,7 @@ public class RoomCreationHandler
         GameObject prefab = roomSpawnData.RoomObject.gameObject;
         GameObject roomObject = Object.Instantiate(prefab, worldPos, Quaternion.identity);
 
-        roomObject.name = $"Room ({dSD.Dungeon.IncrementWaveCount})";
+        roomObject.name = $"Room ({dSD.Dungeon.IncrementWaveCount}) | Group ({dSD.Dungeon.GetParentCount})";
 
         return roomObject;
     }

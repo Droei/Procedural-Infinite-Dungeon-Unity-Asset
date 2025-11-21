@@ -36,4 +36,4 @@ MonoBehaviour:
   useStaticSeed: 1
   seed: 6969
   useBatchSpawning: 1
-  debugRoomCount: 45
+  debugRoomCount: 20
