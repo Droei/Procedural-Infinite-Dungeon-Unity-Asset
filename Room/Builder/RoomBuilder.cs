@@ -39,7 +39,7 @@ public class RoomBuilder : IRoomBuilder
         Room room = roomCreationHandler.CreateRoom(gridPos);
 
         if (roomSpawnData.IsLootRoom)
-            BuildLootRoom(room);
+            roomCreationHandler.CreateLootRoom(room);
 
         ApplySideGeneration(room);
         dSD.Dungeon.GetDungeonManager.UpdateNavMesh();
@@ -49,16 +49,6 @@ public class RoomBuilder : IRoomBuilder
         ResetBuilderState();
 
         return room;
-    }
-
-    private void BuildLootRoom(Room room)
-    {
-        var (pos, bounds) = SpawnPositionGenerator.GetRoomBounds(room, dSD);
-
-        var spawnPos = SpawnPositionGenerator.GetCenteredPosition(pos.y, bounds);
-        Object.Instantiate(dSD.GeneralLootChest, spawnPos, Quaternion.identity);
-
-        room.SetAsLootRoom();
     }
 
     private void ApplySideGeneration(Room room)
@@ -99,7 +89,6 @@ public class RoomBuilder : IRoomBuilder
 
             Room newRoom = roomCreationHandler.CreateRoom(fS.Value, room);
 
-            // Larger extended shapes
             if (RandomService.Chance(dSD.ExtendedRoomChainLikelyhood))
             {
                 var extendedFreeSpaces = dSD.Dungeon.GetNeighborFreeSpaces(newRoom);
