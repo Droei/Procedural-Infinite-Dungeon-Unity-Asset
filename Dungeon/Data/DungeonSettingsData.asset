@@ -30,9 +30,10 @@ MonoBehaviour:
   roomChainLikelyhood: 0.856
   extendedRoomChainLikelyhood: 0.3
   chancePerDirection: 0.5
+  lootRoomAppearanceChance: 0.2
   crossGenMode: 0
   debugMode: 1
   useStaticSeed: 1
-  seed: 6968
+  seed: 6969
   useBatchSpawning: 1
   debugRoomCount: 45

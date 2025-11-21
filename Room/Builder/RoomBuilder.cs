@@ -80,6 +80,7 @@ public class RoomBuilder : IRoomBuilder
 
     private void DetermineBiggerShape(Room room)
     {
+        bool hasLootRoom = false;
         var freeSpaces = dSD.Dungeon.GetNeighborFreeSpaces(room);
 
         foreach (var fS in freeSpaces)
@@ -88,6 +89,12 @@ public class RoomBuilder : IRoomBuilder
                 continue;
 
             Room newRoom = roomCreationHandler.CreateRoom(fS.Value, room);
+
+            if (RandomService.Chance(dSD.LootRoomAppearChance) && !hasLootRoom)
+            {
+                hasLootRoom = true;
+                roomCreationHandler.AddLootChest(newRoom);
+            }
 
             if (RandomService.Chance(dSD.ExtendedRoomChainLikelyhood))
             {
@@ -98,7 +105,14 @@ public class RoomBuilder : IRoomBuilder
                     if (RandomService.Chance(dSD.ChancePerDirection))
                         continue;
 
-                    roomCreationHandler.CreateRoom(eFS.Value, room);
+                    Room secondNewRoom = roomCreationHandler.CreateRoom(eFS.Value, room);
+
+                    if (RandomService.Chance(dSD.LootRoomAppearChance) && !hasLootRoom)
+                    {
+                        hasLootRoom = true;
+                        roomCreationHandler.AddLootChest(secondNewRoom);
+                    }
+
                 }
             }
         }

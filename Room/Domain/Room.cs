@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Room
@@ -27,6 +28,7 @@ public class Room
     public GameObject GetRoomGameObject => RoomGameObject;
     public DungeonRoom GetRoomView => RoomView;
     public List<Room> GetChildRooms => ChildRooms;
+    public List<Room> GetNonLootRooms => ChildRooms.Where(r => !r.IsLootRoom).ToList();
     public string GetRoomName => RoomGameObject.name;
     public void SetAsLootRoom() { isLootRoom = true; }
     public bool IsLootRoom => isLootRoom;

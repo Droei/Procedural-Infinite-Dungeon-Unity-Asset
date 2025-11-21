@@ -16,7 +16,7 @@ public static class SpawnPositionGenerator
 
         result.Add(GetRoomBounds(room, dSD));
 
-        foreach (Room child in room.GetChildRooms)
+        foreach (Room child in room.GetNonLootRooms)
         {
             result.Add(GetRoomBounds(child, dSD));
         }

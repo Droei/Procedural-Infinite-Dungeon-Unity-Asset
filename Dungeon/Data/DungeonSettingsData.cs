@@ -23,6 +23,9 @@ public class DungeonSettingsData : ScriptableObject
     [Tooltip("Every available direction will have a set amount of chance of actually spawning a room")]
     [SerializeField, Range(0f, 0.95f)] private float chancePerDirection = 0.5f;
 
+    [Tooltip("How much chance that a loot room gets spawned with a big room")]
+    [SerializeField, Range(0f, 0.95f)] private float lootRoomAppearanceChance = 0.2f;
+
     [SerializeField] private bool crossGenMode = false;
 
     [Header("Debugging")]
@@ -52,6 +55,7 @@ public class DungeonSettingsData : ScriptableObject
     public float ExtendedRoomChainLikelyhood => extendedRoomChainLikelyhood;
     public float ChancePerDirection => chancePerDirection;
     public bool CrossGenMode => crossGenMode;
+    public float LootRoomAppearChance => lootRoomAppearanceChance;
     #endregion
 
     #region Debugging
