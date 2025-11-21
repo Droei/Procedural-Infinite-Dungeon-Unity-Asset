@@ -44,7 +44,7 @@ public class RoomCreationHandler
         GameObject prefab = roomSpawnData.RoomObject.gameObject;
         GameObject roomObject = Object.Instantiate(prefab, worldPos, Quaternion.identity);
 
-        roomObject.name = $"Room ({dSD.Dungeon.IncrementWaveCount}) | Group ({dSD.Dungeon.GetParentCount})";
+        roomObject.name = $"Group ({dSD.Dungeon.GetParentCount}) | Room ({dSD.Dungeon.IncrementWaveCount})";
 
         return roomObject;
     }
@@ -59,7 +59,9 @@ public class RoomCreationHandler
         var (pos, bounds) = SpawnPositionGenerator.GetRoomBounds(room, dSD);
         Vector3 spawnPos = SpawnPositionGenerator.GetCenteredPosition(pos.y, bounds);
 
-        Object.Instantiate(roomSpawnData.SpecificLootChest ? roomSpawnData.SpecificLootChest : dSD.GeneralLootChest, spawnPos, Quaternion.identity);
+        GameObject lootchest = Object.Instantiate(roomSpawnData.SpecificLootChest ? roomSpawnData.SpecificLootChest : dSD.GeneralLootChest, spawnPos, Quaternion.identity);
+
+        lootchest.transform.parent = room.GetRoomGameObject.transform;
 
         room.SetAsLootRoom();
     }
