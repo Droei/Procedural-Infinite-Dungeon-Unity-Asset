@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class DungeonRoom : MonoBehaviour
+public class DungeonRoom : MonoBehaviour
 {
     protected Room room;
     protected DoorView[] doors;
@@ -11,7 +11,7 @@ public abstract class DungeonRoom : MonoBehaviour
 
     protected DirectionEnum sourceDirection;
 
-    public virtual void Init(Room room, DungeonSettingsData dungeonSettingsData, RoomSpawnData roomSpawnData)
+    public void Init(Room room, DungeonSettingsData dungeonSettingsData, RoomSpawnData roomSpawnData)
     {
         dSD = dungeonSettingsData;
         this.room = room;
@@ -32,7 +32,7 @@ public abstract class DungeonRoom : MonoBehaviour
     }
 
 
-    public virtual void SpawnRoom(DirectionEnum direction)
+    public void SpawnRoom(DirectionEnum direction)
     {
         dSD.Dungeon.GetDungeonManager.SpawnRoom(direction, room);
     }
@@ -81,5 +81,5 @@ public abstract class DungeonRoom : MonoBehaviour
         }
     }
 
-    public virtual bool GetDebugMode => dSD.Dungeon.GetDungeonManager.GetMaxDebugRoomsReached();
+    public bool GetDebugMode => dSD.Dungeon.GetDungeonManager.GetMaxDebugRoomsReached();
 }

@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public abstract class DungeonEnemy : MonoBehaviour
+public class DungeonEnemy : MonoBehaviour
 {
     protected Room room;
     public float difficultyIncrement = 1.0f;
 
-    public virtual void InitForDungeon(Room room, float difficultyIncrement)
+    public void InitForDungeon(Room room, float difficultyIncrement)
     {
         this.room = room;
         this.difficultyIncrement = difficultyIncrement;
     }
 
-    public virtual void OnDestroy()
+    public void OnDestroy()
     {
         room.EnemyDied(gameObject);
     }

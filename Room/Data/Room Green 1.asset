@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db36393f4fa4a0419c7eb8fabe5e537, type: 3}
   m_Name: Room Green 1
   m_EditorClassIdentifier: Assembly-CSharp::RoomSpawnData
-  roomObject: {fileID: 2803953463680757306, guid: f3c309e04f7fdab47a8ea669caf1541a, type: 3}
+  roomObject: {fileID: 3255070462562254284, guid: f3c309e04f7fdab47a8ea669caf1541a, type: 3}
   specificEnemy: {fileID: 0}
   maxCooldown: 3
   is1x1: 0
