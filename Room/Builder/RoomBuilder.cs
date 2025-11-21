@@ -38,8 +38,8 @@ public class RoomBuilder : IRoomBuilder
 
         Room room = roomCreationHandler.CreateRoom(gridPos);
 
-        if (roomSpawnData.IsLootRoom)
-            roomCreationHandler.CreateLootRoom(room);
+        if (roomSpawnData.IsLootRoom && !startRoom)
+            roomCreationHandler.AddLootChest(room);
 
         ApplySideGeneration(room);
         dSD.Dungeon.GetDungeonManager.UpdateNavMesh();
@@ -106,11 +106,17 @@ public class RoomBuilder : IRoomBuilder
 
     private void ResetBuilderState()
     {
+        foreach (var data in dSD.RoomSpawnData)
+            data.DecreaseCooldown();
+
         startRoom = false;
         gridPos = default;
         fromRoom = null;
         fromDir = default;
         isConnectedBuild = false;
+
+
+
     }
 
     public IRoomBuilder WithPosition(Vector2Int gridPos)

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0db36393f4fa4a0419c7eb8fabe5e537, type: 3}
-  m_Name: Room Blue
-  m_EditorClassIdentifier: Assembly-CSharp::RoomSpawning
-  roomObject: {fileID: 2803953463680757306, guid: ecb8863186282384db3c32d13a008687, type: 3}
+  m_Name: Room Green 1
+  m_EditorClassIdentifier: Assembly-CSharp::RoomSpawnData
+  roomObject: {fileID: 2803953463680757306, guid: f3c309e04f7fdab47a8ea669caf1541a, type: 3}
   specificEnemy: {fileID: 0}
-  maxCooldown: 1
+  maxCooldown: 5
   is1x1: 0
   is2x2: 0
-  isLootRoom: 0
+  isLootRoom: 1
   canHaveLootroomInSecondarySpawn: 1
-  specificLootChest: {fileID: 0}
-  roomLocks: 1
+  specificLootChest: {fileID: 3140058416170870403, guid: 67c935103729f094bac8e4fd4425c8b5, type: 3}
+  roomLocks: 0
   CanHaveLootRoomInSecondarySpawn: 0

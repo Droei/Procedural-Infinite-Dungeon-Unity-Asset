@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DungeonSettingsData", menuName = "Dungeon/DungeonSettingsData")]
@@ -74,9 +75,29 @@ public class DungeonSettingsData : ScriptableObject
             ? enemySpawnData[RandomService.Range(0, enemySpawnData.Count)]
             : null;
 
-    public RoomSpawnData GetRandomRoomSpawnData =>
-        roomSpawnData != null && roomSpawnData.Count > 0
-            ? roomSpawnData[RandomService.Range(0, roomSpawnData.Count)]
-            : null;
+    public RoomSpawnData GetRandomRoomSpawnData
+    {
+        get
+        {
+            if (roomSpawnData == null || roomSpawnData.Count == 0)
+                return null;
+
+            var available = roomSpawnData.Where(r => r.SpawnCooldown <= 0).ToList();
+
+            if (available.Count == 0)
+            {
+                foreach (var data in roomSpawnData)
+                    data.ResetCooldown();
+
+                available = roomSpawnData;
+            }
+
+            var chosen = available[RandomService.Range(0, available.Count)];
+
+            chosen.SetCooldown();
+
+            return chosen;
+        }
+    }
     #endregion
 }

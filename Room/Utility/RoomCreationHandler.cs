@@ -54,12 +54,12 @@ public class RoomCreationHandler
         return new Room(gridPos.x, gridPos.y, roomObject);
     }
 
-    public void CreateLootRoom(Room room)
+    public void AddLootChest(Room room)
     {
         var (pos, bounds) = SpawnPositionGenerator.GetRoomBounds(room, dSD);
         Vector3 spawnPos = SpawnPositionGenerator.GetCenteredPosition(pos.y, bounds);
 
-        Object.Instantiate(dSD.GeneralLootChest, spawnPos, Quaternion.identity);
+        Object.Instantiate(roomSpawnData.SpecificLootChest ? roomSpawnData.SpecificLootChest : dSD.GeneralLootChest, spawnPos, Quaternion.identity);
 
         room.SetAsLootRoom();
     }

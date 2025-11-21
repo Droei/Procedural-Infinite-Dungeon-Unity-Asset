@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomSpawnData
   roomObject: {fileID: 2803953463680757306, guid: f3c309e04f7fdab47a8ea669caf1541a, type: 3}
   specificEnemy: {fileID: 0}
+  maxCooldown: 3
   is1x1: 1
   is2x2: 0
   isLootRoom: 1
   canHaveLootroomInSecondarySpawn: 1
-  SpecificLootChest: {fileID: 0}
+  specificLootChest: {fileID: 0}
   roomLocks: 0
   CanHaveLootRoomInSecondarySpawn: 0
