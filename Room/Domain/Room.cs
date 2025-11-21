@@ -9,6 +9,7 @@ public class Room
 
     private readonly List<Room> ChildRooms = new();
     private Room ParentRoom;
+    private bool isLootRoom = false;
 
     public List<GameObject> Enemies = new();
 
@@ -27,6 +28,9 @@ public class Room
     public DungeonRoom GetRoomView => RoomView;
     public List<Room> GetChildRooms => ChildRooms;
     public string GetRoomName => RoomGameObject.name;
+    public bool SetAsLootRoom => isLootRoom = true;
+    public bool IsLootRoom => isLootRoom;
+
 
     public Room AddChild(Room room)
     {

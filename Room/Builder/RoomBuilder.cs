@@ -39,6 +39,15 @@ public class RoomBuilder : IRoomBuilder
 
         if (startRoom)
             roomSidesFactory.AddRandomSides(ref room, true);
+        else if (roomSpawnData.IsLootRoom)
+        {
+            var roomArea = SpawnPositionGenerator.GetRoomBounds(room, dSD);
+            var (pos, bounds) = roomArea;
+            var spawnPos = SpawnPositionGenerator.GetCenteredPosition(pos.y, bounds);
+            Object.Instantiate(dSD.GeneralLootChest, spawnPos, Quaternion.identity);
+
+            roomSidesFactory.AddRandomSides(ref room);
+        }
         else if (roomSpawnData.Is2x2)
         {
             List<Vector2Int[]> roomsToSpawn = dSD.Dungeon.GetFree2x2Triplets(room);
@@ -48,7 +57,7 @@ public class RoomBuilder : IRoomBuilder
 
             roomSidesFactory.ProcessRoomCollection(ref room);
         }
-        else if (dSD.CrossGenMode || RandomService.Chance(dSD.RoomChainLikelyhood))
+        else if (dSD.CrossGenMode || RandomService.Chance(dSD.RoomChainLikelyhood) && !roomSpawnData.Is1x1)
         {
             DetermineBiggerShape(room);
             roomSidesFactory.ProcessRoomCollection(ref room);
@@ -57,11 +66,13 @@ public class RoomBuilder : IRoomBuilder
         {
             roomSidesFactory.AddRandomSides(ref room);
         }
-
         DungeonManager dungeonManager = dSD.Dungeon.GetDungeonManager;
         dungeonManager.UpdateNavMesh();
 
-        RoomEnemyHandler.SpawnEnemies(room, enemySpawnFactory, dSD, roomSpawnData.SpecificEnemy);
+        if (!roomSpawnData.IsLootRoom)
+            RoomEnemyHandler.SpawnEnemies(room, enemySpawnFactory, dSD, roomSpawnData.SpecificEnemy);
+
+
         ResetBuilderState();
 
         return room;

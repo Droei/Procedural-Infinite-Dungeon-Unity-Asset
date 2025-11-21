@@ -22,14 +22,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cee0a0aaab049d442962ab40f42828d8, type: 2}
   - {fileID: 11400000, guid: e7136f1753dab8c449194eb22ccf3c43, type: 2}
   - {fileID: 11400000, guid: aedc7aa7e26ce414b891cbe242bcca5b, type: 2}
+  - {fileID: 11400000, guid: 2739d80c05cb0b74fb48b20e0ac06234, type: 2}
+  generalLootChest: {fileID: 3140058416170870403, guid: b7d1fa9c2d72b9547aa001a246f9c5ff, type: 3}
   doorSpawnChance: 0.5
   enemySpawnMargin: 5
-  roomChainLikelyhood: 0.746
+  roomChainLikelyhood: 0.856
   extendedRoomChainLikelyhood: 0.3
   chancePerDirection: 0.5
   crossGenMode: 0
-  debugMode: 0
+  debugMode: 1
   useStaticSeed: 1
   seed: 6969
   useBatchSpawning: 1
-  debugRoomCount: 30
+  debugRoomCount: 45

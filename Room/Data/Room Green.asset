@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0db36393f4fa4a0419c7eb8fabe5e537, type: 3}
+  m_Name: Room Green
+  m_EditorClassIdentifier: Assembly-CSharp::RoomSpawnData
+  roomObject: {fileID: 2803953463680757306, guid: f3c309e04f7fdab47a8ea669caf1541a, type: 3}
+  specificEnemy: {fileID: 0}
+  is1x1: 1
+  is2x2: 0
+  isLootRoom: 1
+  canHaveLootroomInSecondarySpawn: 1
+  SpecificLootChest: {fileID: 0}
+  roomLocks: 0
+  CanHaveLootRoomInSecondarySpawn: 0

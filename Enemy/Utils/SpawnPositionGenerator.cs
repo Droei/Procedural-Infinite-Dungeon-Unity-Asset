@@ -3,19 +3,22 @@ using UnityEngine;
 
 public static class SpawnPositionGenerator
 {
+    public static (Vector3 pos, RoomBounds bounds) GetRoomBounds(Room room, DungeonSettingsData dSD)
+    {
+        Vector3 pos = room.GetRoomGameObject.transform.position;
+        RoomBounds bounds = SpawnAreaCalculator.Calculate(pos, dSD.RoomSize);
+        return (pos, bounds);
+    }
+
     public static (Vector3 pos, RoomBounds bounds)[] GetRoomAndChildBounds(Room room, DungeonSettingsData dSD)
     {
-        List<(Vector3, RoomBounds)> result = new();
+        List<(Vector3 pos, RoomBounds bounds)> result = new();
 
-        Vector3 parentPos = room.GetRoomGameObject.transform.position;
-        var parentBounds = SpawnAreaCalculator.Calculate(parentPos, dSD.RoomSize);
-        result.Add((parentPos, parentBounds));
+        result.Add(GetRoomBounds(room, dSD));
 
         foreach (Room child in room.GetChildRooms)
         {
-            Vector3 childPos = child.GetRoomGameObject.transform.position;
-            var childBounds = SpawnAreaCalculator.Calculate(childPos, dSD.RoomSize);
-            result.Add((childPos, childBounds));
+            result.Add(GetRoomBounds(child, dSD));
         }
 
         return result.ToArray();
