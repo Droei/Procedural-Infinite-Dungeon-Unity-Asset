@@ -19,9 +19,10 @@ public class RoomBuilder : IRoomBuilder
     public RoomBuilder(DungeonSettingsData dSD, EnemySpawnFactory enemySpawnFactory)
     {
         this.dSD = dSD;
+        this.enemySpawnFactory = enemySpawnFactory;
+
         roomSidesFactory = new(dSD);
         roomCreationHandler = new(dSD);
-        this.enemySpawnFactory = enemySpawnFactory;
     }
 
     public Room Build()
@@ -37,47 +38,54 @@ public class RoomBuilder : IRoomBuilder
 
         Room room = roomCreationHandler.CreateRoom(gridPos);
 
+        if (roomSpawnData.IsLootRoom)
+            BuildLootRoom(room);
+
+        ApplySideGeneration(room);
+        dSD.Dungeon.GetDungeonManager.UpdateNavMesh();
+        if (!roomSpawnData.IsLootRoom)
+            RoomEnemyHandler.SpawnEnemies(room, enemySpawnFactory, dSD, roomSpawnData.SpecificEnemy);
+
+        ResetBuilderState();
+
+        return room;
+    }
+
+    private void BuildLootRoom(Room room)
+    {
+        var (pos, bounds) = SpawnPositionGenerator.GetRoomBounds(room, dSD);
+
+        var spawnPos = SpawnPositionGenerator.GetCenteredPosition(pos.y, bounds);
+        Object.Instantiate(dSD.GeneralLootChest, spawnPos, Quaternion.identity);
+
+        room.SetAsLootRoom();
+    }
+
+    private void ApplySideGeneration(Room room)
+    {
         if (startRoom)
             roomSidesFactory.AddRandomSides(ref room, true);
         else if (roomSpawnData.IsLootRoom)
-        {
-            var roomArea = SpawnPositionGenerator.GetRoomBounds(room, dSD);
-            var (pos, bounds) = roomArea;
-            var spawnPos = SpawnPositionGenerator.GetCenteredPosition(pos.y, bounds);
-            Object.Instantiate(dSD.GeneralLootChest, spawnPos, Quaternion.identity);
-
-            room.SetAsLootRoom();
-
             roomSidesFactory.AddRandomSides(ref room);
-        }
         else if (roomSpawnData.Is2x2)
         {
-            List<Vector2Int[]> roomsToSpawn = dSD.Dungeon.GetFree2x2Triplets(room);
-            if (roomsToSpawn.Count > 0)
-                foreach (Vector2Int loc in roomsToSpawn[RandomService.Range(0, roomsToSpawn.Count - 1)])
-                    roomCreationHandler.CreateRoom(loc, room);
+            List<Vector2Int[]> groups = dSD.Dungeon.GetFree2x2Triplets(room);
+            if (groups.Count > 0)
+            {
+                Vector2Int[] selection = groups[RandomService.Range(0, groups.Count - 1)];
+                foreach (Vector2Int cell in selection)
+                    roomCreationHandler.CreateRoom(cell, room);
+            }
 
             roomSidesFactory.ProcessRoomCollection(ref room);
         }
-        else if (dSD.CrossGenMode || RandomService.Chance(dSD.RoomChainLikelyhood) && !roomSpawnData.Is1x1)
+        else if ((dSD.CrossGenMode || RandomService.Chance(dSD.RoomChainLikelyhood)) && !roomSpawnData.Is1x1)
         {
             DetermineBiggerShape(room);
             roomSidesFactory.ProcessRoomCollection(ref room);
         }
         else
-        {
             roomSidesFactory.AddRandomSides(ref room);
-        }
-        DungeonManager dungeonManager = dSD.Dungeon.GetDungeonManager;
-        dungeonManager.UpdateNavMesh();
-
-        if (!roomSpawnData.IsLootRoom)
-            RoomEnemyHandler.SpawnEnemies(room, enemySpawnFactory, dSD, roomSpawnData.SpecificEnemy);
-
-
-        ResetBuilderState();
-
-        return room;
     }
 
     private void DetermineBiggerShape(Room room)
@@ -86,17 +94,20 @@ public class RoomBuilder : IRoomBuilder
 
         foreach (var fS in freeSpaces)
         {
-            if (RandomService.Chance(dSD.ChancePerDirection)) continue;
+            if (RandomService.Chance(dSD.ChancePerDirection))
+                continue;
 
             Room newRoom = roomCreationHandler.CreateRoom(fS.Value, room);
 
+            // Larger extended shapes
             if (RandomService.Chance(dSD.ExtendedRoomChainLikelyhood))
             {
                 var extendedFreeSpaces = dSD.Dungeon.GetNeighborFreeSpaces(newRoom);
 
                 foreach (var eFS in extendedFreeSpaces)
                 {
-                    if (RandomService.Chance(dSD.ChancePerDirection)) continue;
+                    if (RandomService.Chance(dSD.ChancePerDirection))
+                        continue;
 
                     roomCreationHandler.CreateRoom(eFS.Value, room);
                 }
@@ -112,7 +123,6 @@ public class RoomBuilder : IRoomBuilder
         fromDir = default;
         isConnectedBuild = false;
     }
-
 
     public IRoomBuilder WithPosition(Vector2Int gridPos)
     {
