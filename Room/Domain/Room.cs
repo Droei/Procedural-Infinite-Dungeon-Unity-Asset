@@ -28,7 +28,7 @@ public class Room
     public DungeonRoom GetRoomView => RoomView;
     public List<Room> GetChildRooms => ChildRooms;
     public string GetRoomName => RoomGameObject.name;
-    public bool SetAsLootRoom => isLootRoom = true;
+    public void SetAsLootRoom() { isLootRoom = true; }
     public bool IsLootRoom => isLootRoom;
 
 

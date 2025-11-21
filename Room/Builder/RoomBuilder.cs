@@ -46,6 +46,8 @@ public class RoomBuilder : IRoomBuilder
             var spawnPos = SpawnPositionGenerator.GetCenteredPosition(pos.y, bounds);
             Object.Instantiate(dSD.GeneralLootChest, spawnPos, Quaternion.identity);
 
+            room.SetAsLootRoom();
+
             roomSidesFactory.AddRandomSides(ref room);
         }
         else if (roomSpawnData.Is2x2)
