@@ -123,6 +123,7 @@ public class RoomBuilder : IRoomBuilder
         foreach (var data in dSD.RoomSpawnData)
             data.DecreaseCooldown();
 
+        dSD.CountDownLootRoom();
         startRoom = false;
         gridPos = default;
         fromRoom = null;

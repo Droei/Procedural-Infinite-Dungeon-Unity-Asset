@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomSpawning
   roomObject: {fileID: 2803953463680757306, guid: 7427d74dfef60694881007bb852ee7c0, type: 3}
   specificEnemy: {fileID: 11400000, guid: aa1330dc97b998242978a1457d70532b, type: 2}
-  maxCooldown: 1
+  maxCooldown: 3
   is1x1: 0
   is2x2: 1
   isLootRoom: 0

@@ -26,6 +26,9 @@ public class DungeonSettingsData : ScriptableObject
     [Tooltip("How much chance that a loot room gets spawned with a big room")]
     [SerializeField, Range(0f, 0.95f)] private float lootRoomAppearanceChance = 0.2f;
 
+    [Tooltip("How much delay do you want between loot rooms spawning")]
+    [SerializeField] private int lootRoomCooldown = 2;
+
     [SerializeField] private bool crossGenMode = false;
 
     [Header("Debugging")]
@@ -55,7 +58,7 @@ public class DungeonSettingsData : ScriptableObject
     public float ExtendedRoomChainLikelyhood => extendedRoomChainLikelyhood;
     public float ChancePerDirection => chancePerDirection;
     public bool CrossGenMode => crossGenMode;
-    public float LootRoomAppearChance => lootRoomAppearanceChance;
+    public float LootRoomAppearChance => CanLootRoomSpawn ? lootRoomAppearanceChance : 0f;
     #endregion
 
     #region Debugging
@@ -74,6 +77,15 @@ public class DungeonSettingsData : ScriptableObject
     #endregion
 
     #region HelperFunctions
+    public bool CanLootRoomSpawn => lootRoomCooldownCounter <= 0;
+    private int lootRoomCooldownCounter = 0;
+    public void CountDownLootRoom()
+    {
+        if (lootRoomCooldownCounter > 0)
+            lootRoomCooldownCounter--;
+    }
+
+
     public EnemySpawnData GetRandomEnemySpawnData =>
         enemySpawnData != null && enemySpawnData.Count > 0
             ? enemySpawnData[RandomService.Range(0, enemySpawnData.Count)]
@@ -86,7 +98,9 @@ public class DungeonSettingsData : ScriptableObject
             if (roomSpawnData == null || roomSpawnData.Count == 0)
                 return null;
 
-            var available = roomSpawnData.Where(r => r.SpawnCooldown <= 0).ToList();
+            var available = roomSpawnData
+                .Where(r => r.IsAvailable && (r.IsLootRoom == false || CanLootRoomSpawn))
+                .ToList();
 
             if (available.Count == 0)
             {
@@ -100,8 +114,12 @@ public class DungeonSettingsData : ScriptableObject
 
             chosen.SetCooldown();
 
+            if (chosen.IsLootRoom)
+                lootRoomCooldownCounter = lootRoomCooldown;
+
             return chosen;
         }
     }
+
     #endregion
 }
