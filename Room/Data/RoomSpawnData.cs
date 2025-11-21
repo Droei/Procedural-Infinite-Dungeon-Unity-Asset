@@ -26,7 +26,6 @@ public class RoomSpawnData : ScriptableObject
     public GameObject SpecificLootChest => specificLootChest;
     public bool RoomLocks => roomLocks;
 
-    public int SpawnCooldown => spawnCooldown;
     public bool IsAvailable => spawnCooldown <= 0;
 
     public void SetCooldown()
