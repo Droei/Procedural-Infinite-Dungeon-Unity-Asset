@@ -13,7 +13,7 @@ public class RoomSpawnData : ScriptableObject
     [SerializeField] private bool is2x2 = false;
     [SerializeField] private bool isLootRoom = false;
     [SerializeField] private bool canHaveLootroomInSecondarySpawn = true;
-    [SerializeField] private GameObject specificLootChest;
+    [SerializeField] private GameObject specificLootSpace;
     [SerializeField] private bool roomLocks = true;
     private int spawnCooldown = 1;
 
@@ -23,7 +23,7 @@ public class RoomSpawnData : ScriptableObject
     public bool Is1x1 => is1x1;
     public bool IsLootRoom => isLootRoom;
     public bool CanHaveLootRoomInSecondarySpawn;
-    public GameObject SpecificLootChest => specificLootChest;
+    public GameObject SpecificLootSpace => specificLootSpace;
     public bool RoomLocks => roomLocks;
 
     public bool IsAvailable => spawnCooldown <= 0;

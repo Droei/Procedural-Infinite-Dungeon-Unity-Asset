@@ -13,7 +13,7 @@ public class DungeonSettingsData : ScriptableObject
 
     [SerializeField] private List<EnemySpawnData> enemySpawnData;
     [SerializeField] private List<RoomSpawnData> roomSpawnData;
-    [SerializeField] private GameObject generalLootChest;
+    [SerializeField] private GameObject generalLootSpace;
     [SerializeField, Range(0f, 1f)] private float doorSpawnChance = 0.5f;
     [SerializeField] private float enemySpawnMargin = 5f;
 
@@ -47,7 +47,7 @@ public class DungeonSettingsData : ScriptableObject
     public List<RoomSpawnData> RoomSpawnData => roomSpawnData;
     public float DoorSpawnChance => doorSpawnChance;
     public float EnemySpawnMargin => enemySpawnMargin;
-    public GameObject GeneralLootChest => generalLootChest;
+    public GameObject GeneralLootSpace => generalLootSpace;
 
     public float RoomChainLikelyhood => roomChainLikelyhood;
     public float ExtendedRoomChainLikelyhood => extendedRoomChainLikelyhood;
@@ -140,7 +140,7 @@ public class DungeonSettingsData : ScriptableObject
 
         enemySpawnData = new List<EnemySpawnData>(other.enemySpawnData);
         roomSpawnData = new List<RoomSpawnData>(other.roomSpawnData);
-        generalLootChest = other.generalLootChest;
+        generalLootSpace = other.generalLootSpace;
         doorSpawnChance = other.doorSpawnChance;
         enemySpawnMargin = other.enemySpawnMargin;
 

@@ -83,7 +83,7 @@ More detailed explanation on prefab setup coming soon...
 | **takeOverAtWave** | int | 0 | The wave number at which this DungeonSettingsData takes control. Useful for progressive difficulty and changing things over time the deeper you go. |
 | **enemySpawnData** | List<EnemySpawnData> | - | List of enemy spawn configurations for this DungeonSettingsData. Each entry defines enemy type, count, and spawn rules. |
 | **roomSpawnData** | List<RoomSpawnData> | - | List of room spawn configurations. Each entry defines room type, placement rules, and any special attributes. |
-| **generalLootChest** | GameObject | - | Prefab for a general loot chest that can spawn in rooms. (This is a default, each individual RoomSpawnData can have its own chest) |
+| **generalLootSpace** | GameObject | - | Prefab for a general loot chest that can spawn in rooms. (This is a default, each individual RoomSpawnData can have its own chest) |
 | **doorSpawnChance** | float (0–1) | 0.5 | Chance that a door will spawn at any potential direction. 0 = never, 1 = always. |
 | **enemySpawnMargin** | float | 5f | Minimum distance between enemies and the outer edges of the room. |
 | **roomChainLikelyhood** | float (0–0.95) | 0.5 | Likelihood that a room will expand itself |
@@ -109,7 +109,7 @@ More detailed explanation on prefab setup coming soon...
 | **is2x2** | bool | false | Forces the room to always be 2x2. |
 | **isLootRoom** | bool | false | Marks the room as a loot room, which may spawn special chests or rewards. Loot rooms won't spawn enemies |
 | **canHaveLootroomInSecondarySpawn** | bool | true | Determines if a loot room is allowed to spawn in this room at any point. |
-| **specificLootChest** | GameObject | - | If you want an unique loot chest for this specific room. |
+| **specificLootSpace** | GameObject | - | If you want an unique loot chest for this specific room. |
 | **roomLocks** | bool | true | If true this room will close the doors behind you when you enter. |
 
 ### EnemySpawnData

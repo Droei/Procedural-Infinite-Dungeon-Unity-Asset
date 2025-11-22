@@ -59,7 +59,7 @@ public class RoomCreationHandler
         var (pos, bounds) = SpawnPositionGenerator.GetRoomBounds(room, dSD);
         Vector3 spawnPos = SpawnPositionGenerator.GetCenteredPosition(pos.y, bounds);
 
-        GameObject lootchest = Object.Instantiate(roomSpawnData.SpecificLootChest ? roomSpawnData.SpecificLootChest : dSD.GeneralLootChest, spawnPos, Quaternion.identity);
+        GameObject lootchest = Object.Instantiate(roomSpawnData.SpecificLootSpace ? roomSpawnData.SpecificLootSpace : dSD.GeneralLootSpace, spawnPos, Quaternion.identity);
 
         lootchest.transform.parent = room.GetRoomGameObject.transform;
 
