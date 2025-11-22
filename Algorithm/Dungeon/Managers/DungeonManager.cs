@@ -1,10 +1,8 @@
-using TMPro;
 using Unity.AI.Navigation;
 using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
 {
-    [SerializeField] TMP_Text waveText;
     [SerializeField] DungeonSettingsData dSD;
 
     private IRoomFactory roomFactory;
@@ -27,12 +25,6 @@ public class DungeonManager : MonoBehaviour
         roomFactory = new RoomFactory(roomBuilder);
 
         roomFactory.CreateInitialRoom(Vector2Int.zero);
-    }
-
-
-    private void Update()
-    {
-        waveText.text = "Rooms spawned: " + dSD.Dungeon.GetWaveCount + " | Seperate rooms: " + dSD.Dungeon.GetParentCount;
     }
 
     // TODO: Find a cleaner solution for this later
