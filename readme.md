@@ -1,4 +1,4 @@
-*Altough the projects algorithm is already completed the demo scene is still pending, once that is completed a working built will be released on the Unity asset store! Please note the current prefabs will likely not work yet in your project!*
+*Altough the projects algorithm is already completed the demo scene is still pending, once that is completed a working built will be released on the Unity asset store! Please note the current prefabs available in the project won't work in your project!*
 
 # Infinite Procedural Dungeon Generator (Scriptable Objects)
 This is my first public open-source project. Feedback on code quality or structure is very welcome.
