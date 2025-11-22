@@ -53,12 +53,15 @@ Each room prefab should include the following:
 | **Ceiling**         | Optional, required for first-person but not for top-down view.       |
 
 #### Other Components
+Each room can optionally include the following:
+
 | Component           | Notes                                                                 |
 |--------------------|----------------------------------------------------------------------|
 | **Loot Chest**      | A prefab that functions as your loot chest.                           |
 | **Enemy**           | Prefab with the DungeonEnemy script attached.                         |
 
 More detailed explanation on prefab setup coming soon...
+
 
 
 ### Technical Notes
