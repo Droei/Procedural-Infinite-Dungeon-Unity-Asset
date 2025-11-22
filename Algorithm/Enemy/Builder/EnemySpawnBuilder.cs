@@ -6,7 +6,6 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
     private EnemySpawnData enemySpawnData;
     private Room room;
     private readonly DungeonSettingsData dSD;
-
     public EnemySpawnBuilder(DungeonSettingsData dSD)
     {
         this.dSD = dSD;

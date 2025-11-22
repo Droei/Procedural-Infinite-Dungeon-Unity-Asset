@@ -14,15 +14,19 @@ public class RoomBuilder : IRoomBuilder
     private DungeonSettingsData dSD;
     private RoomSpawnData roomSpawnData;
     private RoomCreationHandler roomCreationHandler;
-    private EnemySpawnFactory enemySpawnFactory;
+    private IEnemySpawnFactory enemySpawnFactory;
 
-    public RoomBuilder(DungeonSettingsData dSD, EnemySpawnFactory enemySpawnFactory)
+    List<DungeonSettingsData> dSDList;
+    int dSDIndex = 0;
+
+    public RoomBuilder(DungeonSettingsData dSD, List<DungeonSettingsData> dSDList, IEnemySpawnFactory enemySpawnFactory)
     {
         this.dSD = dSD;
         this.enemySpawnFactory = enemySpawnFactory;
 
         roomSidesFactory = new RoomSidesFactory(new RoomSidesBuilder(dSD));
         roomCreationHandler = new(dSD);
+        this.dSDList = dSDList;
     }
 
     public Room Build()
@@ -132,6 +136,17 @@ public class RoomBuilder : IRoomBuilder
 
     private void ResetBuilderState()
     {
+        int wave = dSD.Dungeon.GetParentCount;
+
+        if (dSDList.Count > dSDIndex + 1)
+        {
+            if (wave >= dSDList[dSDIndex + 1].TakeOverAtWave)
+            {
+                dSDIndex++;
+                dSD.ReplaceSettings(dSDList[dSDIndex]);
+            }
+        }
+
         foreach (var data in dSD.RoomSpawnData)
             data.DecreaseCooldown();
 

@@ -1,15 +1,22 @@
+using System.Collections.Generic;
+using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
 {
-    [SerializeField] DungeonSettingsData dSD;
+    [SerializeField] List<DungeonSettingsData> dSDList;
+    [SerializeField] int RoomSize = 25;
+
+    DungeonSettingsData dSD;
 
     private IRoomFactory roomFactory;
     private IRoomBuilder roomBuilder;
     private NavMeshSurface navSurface;
     private void Awake()
     {
+        dSDList = dSDList.OrderBy(d => d.TakeOverAtWave).ToList();
+        dSD = dSDList[0].CreateRuntimeInstance();
         if (dSD.DebugMode && dSD.UseStaticSeed) RandomService.Initialize(dSD.Seed);
     }
 
@@ -17,11 +24,12 @@ public class DungeonManager : MonoBehaviour
     {
         navSurface = GetComponent<NavMeshSurface>();
         dSD.SetDungeon(new Dungeon(this));
+        dSD.SetRoomSize(RoomSize);
 
         IEnemySpawnBuilder builder = new EnemySpawnBuilder(dSD);
-        EnemySpawnFactory enemyFactory = new EnemySpawnFactory(builder);
+        IEnemySpawnFactory enemyFactory = new EnemySpawnFactory(builder);
 
-        roomBuilder = new RoomBuilder(dSD, enemyFactory);
+        roomBuilder = new RoomBuilder(dSD, dSDList, enemyFactory);
         roomFactory = new RoomFactory(roomBuilder);
 
         roomFactory.CreateInitialRoom(Vector2Int.zero);
