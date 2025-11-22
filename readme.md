@@ -23,8 +23,8 @@ The DungeonManager also contains a NavMeshSurface component that will dynamicall
 The system relies on three ScriptableObject types:
 
 #### DungeonDataSettings
-Contains all dungeon-wide parameters, references, room & enemy collections and generator rules.
-Replacing this ScriptableObject gives you a completely new dungeon configuration.
+- Contains all dungeon-wide parameters, references, room & enemy collections and generator rules.
+- Replacing this ScriptableObject gives you a completely new dungeon configuration.
 
 #### RoomSpawnData
 - Defines an individual room type.
@@ -36,7 +36,7 @@ Replacing this ScriptableObject gives you a completely new dungeon configuration
 - Contains the enemy prefab, the DungeonEnemyScript, and all enemy-specific settings.
 - Enemies can be made however you like, this ScriptableObject only helps with spawning in enemies!
 
-*Note: If anyone has a clean architectural idea for linking RoomDataObjects and EnemyDataObjects under unified spawn conditions (for example: “this room only spawns this enemy” or “this enemy appears only in this room”) without writing dozens of if statements.*
+*Note: If anyone has a clean architectural idea for linking RoomDataObjects and EnemyDataObjects under unified spawn conditions (for example: “this room only spawns this enemy” or “this enemy appears only in this room”) without writing dozens of if statements.) Please let me know!*
 
 ### 3. Adding Your Own Rooms
 Adding rooms involves assembling the required components, configuring them, and registering the room so it can be used by the dungeon algorithm.
@@ -50,9 +50,15 @@ Each room prefab should include the following:
 | **Wall**            | One wall piece. Edges must match with other rooms for proper alignment. |
 | **Gate / Doorwall** | Wall with a built-in gate or passage.                                 |
 | **Door**            | Functional door that opens and closes the gate.                       |
-| **Ceiling**         | Optional, required for first-person or top-down view if needed.       |
-| **Loot Chest**      | Optional. Include if the room should contain loot.                     |
-| **Enemy**           | At least one enemy prefab per room. Additional enemies optional.       |
+| **Ceiling**         | Optional, required for first-person but not for top down ofcorse.       |
+
+
+#### Other components
+| Component           | Notes                                                                 |
+| **Loot Chest**      | A prefab that functions as your loot chest.                     |
+| **Enemy**           | Just your enemy holding the DungeonEnemy script.       |
+
+More detailed explanation on prefab setup soon....
 
 ### Technical Notes
 - Room size is flexible. A reference FBX is provided for **25x25 units** in Unity.
