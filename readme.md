@@ -39,13 +39,36 @@ Replacing this ScriptableObject gives you a completely new dungeon configuration
 *Note: If anyone has a clean architectural idea for linking RoomDataObjects and EnemyDataObjects under unified spawn conditions (for example: “this room only spawns this enemy” or “this enemy appears only in this room”) without writing dozens of if statements.*
 
 ### 3. Adding Your Own Rooms
-Adding rooms is the most "difficult" part. You need to assemble room pieces, apply the correct components, and register the room in your RoomDataObject.
-This process is straightforward (Things will be explained more clearly later):
-- Place: floor, 4 identical walls, doorwalls, doors
-- set up colliders
-- add all required components
-- Add the Prefab to the RoomSpawnerData ScriptableObject
-The room will then be included in the algorithm.
+Adding rooms involves assembling the required components, configuring them, and registering the room so it can be used by the dungeon algorithm.
+
+#### Required Room Components
+Each room prefab should include the following:
+
+| Component           | Notes                                                                 |
+|--------------------|----------------------------------------------------------------------|
+| **Floor**           | Single floor piece.                                                   |
+| **Wall**            | One wall piece. Edges must match with other rooms for proper alignment. |
+| **Gate / Doorwall** | Wall with a built-in gate or passage.                                 |
+| **Door**            | Functional door that opens and closes the gate.                       |
+| **Ceiling**         | Optional, required for first-person or top-down view if needed.       |
+| **Loot Chest**      | Optional. Include if the room should contain loot.                     |
+| **Enemy**           | At least one enemy prefab per room. Additional enemies optional.       |
+
+### Technical Notes
+- Room size is flexible. A reference FBX is provided for **25x25 units** in Unity.
+- Anchor point should be placed at the **bottom-left corner**.
+- Walls must be modular and align with other room prefabs.
+- Colliders should be added to all relevant components.
+- All required scripts/components (loot spawners, enemy spawners, etc.) must be attached.
+
+### Registering the Room
+1. Assemble the prefab with all required components.
+2. Add colliders to necessary objects.
+3. Attach all scripts and functional components.
+4. Add the prefab to the **RoomSpawnerData ScriptableObject**.
+
+Once added, the dungeon generation algorithm will automatically include the room in the procedural generation process.
+
 
 *Note: I’m curious if it would be viable to have a room as scriptableObjects and then assembled in code, just add: floor, wall, doorwalls, door and code assembles it. Sounds sick I might get to that after my thesis! It would be a great way to make rooms have more dynamic possibilities!*
 ## Scriptable Object settings
