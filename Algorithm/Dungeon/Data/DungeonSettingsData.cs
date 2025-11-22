@@ -11,7 +11,6 @@ public class DungeonSettingsData : ScriptableObject
     [Header("General Settings")]
     [SerializeField] private int takeOverAtWave = 0;
 
-    private float roomSize = 25f;
     [SerializeField] private List<EnemySpawnData> enemySpawnData;
     [SerializeField] private List<RoomSpawnData> roomSpawnData;
     [SerializeField] private GameObject generalLootChest;
@@ -31,12 +30,13 @@ public class DungeonSettingsData : ScriptableObject
 
     [Header("Seed Settings")]
     [SerializeField] private bool useStaticSeed = true;
-    [SerializeField] private int seed = 6969;
+    [SerializeField] private int seed = 311625;
 
     [Header("Batch Spawning")]
     [SerializeField] private bool useBatchSpawning = true;
     [SerializeField, Range(0, 100)] private int debugRoomCount = 50;
 
+    private float roomSize = 25f;
     private Dungeon dungeon;
 
     #region Properties
