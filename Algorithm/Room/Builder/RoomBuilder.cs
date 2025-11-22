@@ -101,7 +101,7 @@ public class RoomBuilder : IRoomBuilder
 
         foreach (var fS in freeSpaces)
         {
-            if (RandomService.Chance(dSD.ChancePerDirection))
+            if (RandomService.Chance(dSD.ChancePerDirection) && !dSD.CrossGenMode)
                 continue;
 
             Room newRoom = roomCreationHandler.CreateRoom(fS.Value, room);
@@ -112,7 +112,7 @@ public class RoomBuilder : IRoomBuilder
                 roomCreationHandler.AddLootChest(newRoom);
             }
 
-            if (RandomService.Chance(dSD.ExtendedRoomChainLikelyhood))
+            if (RandomService.Chance(dSD.ExtendedRoomChainLikelyhood) && !dSD.CrossGenMode)
             {
                 var extendedFreeSpaces = dSD.Dungeon.GetNeighborFreeSpaces(newRoom);
 
