@@ -1,3 +1,5 @@
+*Altough the projects algorithm is already completed the demo scene is still pending, once that is completed a working built will be released on the Unity asset store!*
+
 # Infinite Procedural Dungeon Generator (Scriptable Objects)
 This is my first public open-source project. Feedback on code quality or structure is very welcome.
 This project provides an infinite procedural dungeon generator for Unity using ScriptableObjects. It is designed to make procedural dungeons quickly accessible for demos, prototypes, tests, and beginner projects. A demo scene is included with a simple first-person shooter application to show its capabilities.## Foreword
