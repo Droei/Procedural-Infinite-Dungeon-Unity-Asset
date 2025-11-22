@@ -11,6 +11,11 @@ public class DungeonEnemy : MonoBehaviour
         this.difficultyIncrement = difficultyIncrement;
     }
 
+    public float GetDifficultyIncrement()
+    {
+        return difficultyIncrement;
+    }
+
     public void OnDestroy()
     {
         room.EnemyDied(gameObject);

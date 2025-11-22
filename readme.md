@@ -78,4 +78,19 @@ The room will then be included in the algorithm.
 | **roomLocks** | bool | true | If true this room will close the doors behind you when you enter. |
 
 ### EnemySpawnData
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| **enemyObject** | DungeonEnemy | - | Reference to the enemy prefab that this configuration spawns. |
+| **spawnWeight** | int | 1 | Enemies are spawned based on how deep you are in the dungeon, if you are 8 waves in and the weight is 4: 2 enemies can be spawned. When its wave 10 and there is a weight of 6 only 1 will be spawn. |
+| **minWave** | int | 0 | Minimum wave in which this enemy can appear. |
+| **maxWave** | int | int.MaxValue | Maximum wave in which this enemy can appear. |
+| **minCount** | int | 1 | Minimum number of this enemy to spawn per batch. (This will ignore weight if you and enforce the minimum) |
+| **maxCount** | int | int.MaxValue | Maximum number of this enemy to spawn per batch.  (This will ignore weight if you and enforce the maximum) |
+| **spawnInterval** | int | 0 | Waves that need to be between when this enemy spawned and when it has a chance to spawn again. |
+| **isCentered** | bool | false | If true, this enemy will always spawn in the center of the room its assigned too. |
+| **difficultyMultiplier** | float | 1f | Multiplier applied to scale this enemy’s stats. When making your enemy you can call this multiplier through `GetComponent<DungeonEnemy>().GetDifficultyIncrement();` this value is multiplied by the amount of rooms. If you have 100 health and you multiply it by DifficultyIncrement on `Start()` at wave 10 your enemy will have 1000 health. |
+
 ## POTENTIAL future plans
+*After this project is officially out there I want to go back to focussing on school and release some other free assets but if I come back to this or someone is looking to contribute to this project, have a look!*
+- I want room creation to be less messy
+- Mixing enemies in dungeons

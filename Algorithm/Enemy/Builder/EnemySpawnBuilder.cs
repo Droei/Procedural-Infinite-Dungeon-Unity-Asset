@@ -16,7 +16,7 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
         var spawned = new List<GameObject>();
 
         if (enemySpawnData == null)
-            enemySpawnData = EnemySpawnFilter.GetEnemyData(dSD.EnemySpawnData, dSD.Dungeon.GetWaveCount);
+            enemySpawnData = EnemySpawnFilter.GetEnemyData(dSD.EnemySpawnData, dSD.Dungeon.GetParentCount);
 
         if (room.GetParent != null) return null;
 
@@ -68,7 +68,7 @@ public class EnemySpawnBuilder : IEnemySpawnBuilder
     {
         var enemyObj = Object.Instantiate(enemySpawnData.EnemyObject, spawnPos, Quaternion.identity);
         enemyObj.transform.parent = room.GetRoomGameObject.transform;
-        enemyObj.GetComponent<DungeonEnemy>().InitForDungeon(room, enemySpawnData.DifficultyMultiplier * dSD.Dungeon.GetWaveCount);
+        enemyObj.GetComponent<DungeonEnemy>().InitForDungeon(room, enemySpawnData.DifficultyMultiplier * dSD.Dungeon.GetParentCount);
         spawned.Add(enemyObj);
         enemySpawnData.ResetSpawn();
     }
