@@ -50,15 +50,16 @@ Each room prefab should include the following:
 | **Wall**            | One wall piece. Edges must match with other rooms for proper alignment. |
 | **Gate / Doorwall** | Wall with a built-in gate or passage.                                 |
 | **Door**            | Functional door that opens and closes the gate.                       |
-| **Ceiling**         | Optional, required for first-person but not for top down ofcorse.       |
+| **Ceiling**         | Optional, required for first-person but not for top-down view.       |
 
-
-#### Other components
+#### Other Components
 | Component           | Notes                                                                 |
-| **Loot Chest**      | A prefab that functions as your loot chest.                     |
-| **Enemy**           | Just your enemy holding the DungeonEnemy script.       |
+|--------------------|----------------------------------------------------------------------|
+| **Loot Chest**      | A prefab that functions as your loot chest.                           |
+| **Enemy**           | Prefab with the DungeonEnemy script attached.                         |
 
-More detailed explanation on prefab setup soon....
+More detailed explanation on prefab setup coming soon...
+
 
 ### Technical Notes
 - Room size is flexible. A reference FBX is provided for **25x25 units** in Unity.
