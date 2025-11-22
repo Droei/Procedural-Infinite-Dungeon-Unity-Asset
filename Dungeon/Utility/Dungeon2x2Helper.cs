@@ -11,7 +11,7 @@ public static class Dungeon2x2Helper
         {
             if (dir == DirectionEnum.None) continue;
 
-            if (SideDirectionHelper.DirectionToOffset(dir) == offset)
+            if (DirectionHelper.DirectionToOffset(dir) == offset)
                 return dir;
         }
 

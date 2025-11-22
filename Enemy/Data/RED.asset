@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806a60f0fe9013647b3ea3e49c51479b, type: 3}
   m_Name: RED
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnData
-  enemyObject: {fileID: 5303009739808221690, guid: 968b36ef00877464ab78e0b9feb76ab7, type: 3}
+  enemyObject: {fileID: 6213281484898705380, guid: 968b36ef00877464ab78e0b9feb76ab7, type: 3}
   spawnWeight: 1
   minWave: 0
   maxWave: 5

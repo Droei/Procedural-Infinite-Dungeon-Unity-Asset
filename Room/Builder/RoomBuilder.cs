@@ -31,7 +31,7 @@ public class RoomBuilder : IRoomBuilder
         roomCreationHandler.SetRoomSpawnData(roomSpawnData);
 
         if (isConnectedBuild && fromRoom != null)
-            gridPos = fromRoom.GetGridPosition + SideDirectionHelper.DirectionToOffset(fromDir);
+            gridPos = fromRoom.GetGridPosition + DirectionHelper.DirectionToOffset(fromDir);
 
         if (dSD.Dungeon.RoomExists(gridPos))
             return dSD.Dungeon.GetRoom(gridPos.x, gridPos.y);

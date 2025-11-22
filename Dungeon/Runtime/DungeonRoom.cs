@@ -5,8 +5,7 @@ using UnityEngine;
 public class DungeonRoom : MonoBehaviour
 {
     protected Room room;
-    protected DoorView[] doors;
-    protected RoomOpening[] roomOpening;
+    protected DungeonDoorView[] doors;
     DungeonSettingsData dSD;
 
     protected DirectionEnum sourceDirection;
@@ -15,7 +14,7 @@ public class DungeonRoom : MonoBehaviour
     {
         dSD = dungeonSettingsData;
         this.room = room;
-        doors = GetComponentsInChildren<DoorView>();
+        doors = GetComponentsInChildren<DungeonDoorView>();
         OpenDoors();
         if (roomSpawnData.RoomLocks)
         {
@@ -50,8 +49,6 @@ public class DungeonRoom : MonoBehaviour
         }
     }
 
-
-
     public void OpenDoors()
     {
         if (room.GetParent == null)
@@ -62,10 +59,10 @@ public class DungeonRoom : MonoBehaviour
                 .ApplyToRoomAndChildren(dv => dv.OpenDoor());
     }
 
-    private void ApplyToRoomAndChildren(Action<DoorView> doorAction)
+    private void ApplyToRoomAndChildren(Action<DungeonDoorView> doorAction)
     {
-        DoorView[] doorViews = GetComponentsInChildren<DoorView>();
-        foreach (DoorView dv in doorViews)
+        DungeonDoorView[] doorViews = GetComponentsInChildren<DungeonDoorView>();
+        foreach (DungeonDoorView dv in doorViews)
         {
             doorAction(dv);
         }
@@ -73,8 +70,8 @@ public class DungeonRoom : MonoBehaviour
         List<Room> childRooms = room.GetChildRooms;
         foreach (Room childRoom in childRooms)
         {
-            doorViews = childRoom.GetRoomGameObject.GetComponentsInChildren<DoorView>();
-            foreach (DoorView dv in doorViews)
+            doorViews = childRoom.GetRoomGameObject.GetComponentsInChildren<DungeonDoorView>();
+            foreach (DungeonDoorView dv in doorViews)
             {
                 doorAction(dv);
             }

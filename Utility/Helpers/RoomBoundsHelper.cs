@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class RoomBounds
+public class RoomBoundsHelper
 {
     public float minX;
     public float maxX;
     public float minZ;
     public float maxZ;
 
-    public RoomBounds(float minX, float maxX, float minZ, float maxZ)
+    public RoomBoundsHelper(float minX, float maxX, float minZ, float maxZ)
     {
         this.minX = minX;
         this.maxX = maxX;
@@ -18,9 +18,9 @@ public class RoomBounds
     public float Width => maxX - minX;
     public float Depth => maxZ - minZ;
 
-    public RoomBounds Shrink(float margin)
+    public RoomBoundsHelper Shrink(float margin)
     {
-        return new RoomBounds(minX + margin, maxX - margin, minZ + margin, maxZ - margin);
+        return new RoomBoundsHelper(minX + margin, maxX - margin, minZ + margin, maxZ - margin);
     }
 
     public Vector3 Center(float y = 0f)
@@ -42,7 +42,7 @@ public class RoomBounds
 
     public Vector3 RandomSpawnPosition(float baseY, float margin)
     {
-        RoomBounds safeBounds = margin > 0 ? Shrink(margin) : this;
+        RoomBoundsHelper safeBounds = margin > 0 ? Shrink(margin) : this;
         float y = baseY;
         return safeBounds.RandomPoint(y);
     }

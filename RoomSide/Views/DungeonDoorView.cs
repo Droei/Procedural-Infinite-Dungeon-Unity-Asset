@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DoorView : MonoBehaviour
+public class DungeonDoorView : MonoBehaviour
 {
     [SerializeField] DirectionEnum direction;
     [SerializeField] GameObject gate;

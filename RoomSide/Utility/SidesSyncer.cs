@@ -2,7 +2,7 @@
 {
     public static void SyncSidesWithNeighbor(Room room, Room neighbor, DirectionEnum directionFromRoom)
     {
-        if (neighbor.HasDoor(SideDirectionHelper.Opposite(directionFromRoom)))
+        if (neighbor.HasDoor(DirectionHelper.Opposite(directionFromRoom)))
             room.AddDoor(directionFromRoom);
     }
 }

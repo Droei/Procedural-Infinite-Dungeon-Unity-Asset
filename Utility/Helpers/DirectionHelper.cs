@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class SideDirectionHelper
+public static class DirectionHelper
 {
     public static Vector2Int DirectionToOffset(DirectionEnum dir)
     {

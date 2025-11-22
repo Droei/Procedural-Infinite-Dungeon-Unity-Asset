@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806a60f0fe9013647b3ea3e49c51479b, type: 3}
   m_Name: BIGRED
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnData
-  enemyObject: {fileID: 5303009739808221690, guid: 3b796a4e97c0ea34d85998ba14eaabb7, type: 3}
+  enemyObject: {fileID: 1327813764880462404, guid: 3b796a4e97c0ea34d85998ba14eaabb7, type: 3}
   spawnWeight: 1
   minWave: 5
   maxWave: 2147483647
@@ -20,5 +20,4 @@ MonoBehaviour:
   maxCount: 5
   spawnInterval: 0
   isCentered: 0
-  isBoss: 0
   difficultyMultiplier: 1
