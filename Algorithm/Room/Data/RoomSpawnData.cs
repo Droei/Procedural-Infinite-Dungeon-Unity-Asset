@@ -7,7 +7,6 @@ public class RoomSpawnData : ScriptableObject
     [SerializeField] private DungeonRoom roomObject;
     [SerializeField] private EnemySpawnData specificEnemy;
     [SerializeField] private int maxCooldown = 1;
-    private int spawnCooldown = 1;
 
     [Header("Room Specific")]
     [SerializeField] private bool is1x1 = false;
@@ -15,7 +14,8 @@ public class RoomSpawnData : ScriptableObject
     [SerializeField] private bool isLootRoom = false;
     [SerializeField] private bool canHaveLootroomInSecondarySpawn = true;
     [SerializeField] private GameObject specificLootChest;
-    [SerializeField] private bool roomLocks = false;
+    [SerializeField] private bool roomLocks = true;
+    private int spawnCooldown = 1;
 
     public DungeonRoom RoomObject => roomObject;
     public EnemySpawnData SpecificEnemy => specificEnemy;

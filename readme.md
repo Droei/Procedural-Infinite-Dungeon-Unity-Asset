@@ -64,7 +64,18 @@ The room will then be included in the algorithm.
 | **debugRoomCount** | int (0–100) | 50 | Number of rooms to spawn in debug mode when batch spawning is active. |
 | **roomSize** | float | 25f | Size of each room in world units. Editable only in `DungeonManager`. |
 
-
 ### RoomSpawnData
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| **roomObject** | DungeonRoom | - | Reference to the room prefab |
+| **specificEnemy** | EnemySpawnData | - | You can spawn only a specific enemy in this room if you so desire. |
+| **maxCooldown** | int | 1 | Maximum cooldown in spawned rooms before this room can spawn again. |
+| **is1x1** | bool | false | Forces the room to always be 1x1. |
+| **is2x2** | bool | false | Forces the room to always be 2x2. |
+| **isLootRoom** | bool | false | Marks the room as a loot room, which may spawn special chests or rewards. Loot rooms won't spawn enemies |
+| **canHaveLootroomInSecondarySpawn** | bool | true | Determines if a loot room is allowed to spawn in this room at any point. |
+| **specificLootChest** | GameObject | - | If you want an unique loot chest for this specific room. |
+| **roomLocks** | bool | true | If true this room will close the doors behind you when you enter. |
+
 ### EnemySpawnData
 ## POTENTIAL future plans
