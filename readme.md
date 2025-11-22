@@ -9,7 +9,7 @@ Below is the required setup. Clarity feedback is appreciated.
 
 Here an example of generator:
 - It starts with a normal generation until wave: 15
-- Then between wave: 15 and 40 it will only spawn red rooms.
+- Then between wave: 15 and 40 it will only spawn 1x1 red rooms.
 - After wave 40 it will only spawn blue rooms in cross gen mode.
 ![Color example](images/AssetColor.png)
 ![Grouped example](images/AssetPath.png)
