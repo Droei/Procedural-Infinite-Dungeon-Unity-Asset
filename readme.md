@@ -2,9 +2,13 @@
 
 # Infinite Procedural Dungeon Generator (Scriptable Objects)
 This is my first public open-source project. Feedback on code quality or structure is very welcome.
-This project provides an infinite procedural dungeon generator for Unity using ScriptableObjects. It is designed to make procedural dungeons quickly accessible for demos, prototypes, tests, and beginner projects. A demo scene is included with a simple first-person shooter application to show its capabilities.## Foreword
+This project provides an infinite procedural dungeon generator for Unity using ScriptableObjects. It is designed to make procedural dungeons quickly accessible for demos, prototypes, tests, and beginner projects. A demo scene is included with a simple first-person shooter application to show its capabilities.
+
+## Foreword
 Infinite level generation normally requires a lot of setup and logic, even for basic implementations. This asset aims to remove that barrier by providing a complete, configurable generator that can be used immediately or customized through ScriptableObjects.
-A working demo scene is included if you want to quickly test the system or have an example to built from.## Setup and Implementation
+A working demo scene is included if you want to quickly test the system or have an example to built from.
+
+## Setup and Implementation
 Below is the required setup. Clarity feedback is appreciated.
 
 Here an example of generator:
@@ -39,12 +43,10 @@ The system relies on three ScriptableObject types:
 #### RoomSpawnData
 - Defines an individual room type.
 - Includes the room prefab and all room-specific settings.
-- More on creating a correct room prefab later.
 
 #### EnemySpawnData
 - Defines an enemy type.
-- Contains the enemy prefab, the DungeonEnemyScript, and all enemy-specific settings.
-- Enemies can be made however you like, this ScriptableObject only helps with spawning in enemies!
+- Contains the enemy prefab and all enemy-specific settings.
 
 *Note: If anyone has a clean architectural idea for linking RoomDataObjects and EnemyDataObjects under unified spawn conditions (for example: “this room only spawns this enemy” or “this enemy appears only in this room”) without writing dozens of if statements.) Please let me know!*
 
@@ -57,7 +59,7 @@ Each room prefab should include the following:
 | Component           | Notes                                                                 |
 |--------------------|----------------------------------------------------------------------|
 | **Floor**           | Single floor piece.                                                   |
-| **Wall**            | One wall piece. Edges must match with other rooms for proper alignment. |
+| **Wall**            | One wall piece. Edges must match with other walls for proper alignment. |
 | **Gate / Doorwall** | Wall with a built-in gate or passage.                                 |
 | **Door**            | Functional door that opens and closes the gate.                       |
 | **Ceiling**         | Optional, required for first-person but not for top-down view.       |
@@ -67,7 +69,7 @@ Each room can optionally include the following:
 
 | Component           | Notes                                                                 |
 |--------------------|----------------------------------------------------------------------|
-| **Loot Chest**      | A prefab that functions as your loot chest.                           |
+| **Reward space**      | A prefab that functions as your reward space.                           |
 | **Enemy**           | Prefab with the DungeonEnemy script attached.                         |
 
 More detailed explanation on prefab setup coming soon...
