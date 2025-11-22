@@ -5,6 +5,14 @@ Infinite level generation normally requires a lot of setup and logic, even for b
 A working demo scene is included if you want to quickly test the system or have an example to built from.## Setup and Implementation
 Below is the required setup. Clarity feedback is appreciated.
 
+Here an example of generator:
+- It starts with a normal generation until wave: 15
+- Then between wave: 15 and 40 it will only spawn red rooms.
+- After wave 40 it will only spawn blue rooms in cross gen mode.
+![Color example](images/AssetColor.png)
+![Grouped example](images/AssetPath.png)
+*These pictures are made in debug mode with useBatchSpawning enbabled*
+
 ## Setup & Implementation
 ### 1. Add the DungeonManager to Your Scene
 Because this generator creates infinite layouts, it is recommended to start with an empty scene.
