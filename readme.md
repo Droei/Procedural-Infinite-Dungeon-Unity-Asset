@@ -5,6 +5,7 @@ Infinite level generation normally requires a lot of setup and logic, even for b
 A working demo scene is included if you want to quickly test the system or have an example to built from.## Setup and Implementation
 Below is the required setup. Clarity feedback is appreciated.
 
+## Setup & Implementation
 ### 1. Add the DungeonManager to Your Scene
 Because this generator creates infinite layouts, it is recommended to start with an empty scene.
 Drag the DungeonManager prefab into the scene.
