@@ -70,24 +70,6 @@ Each room can optionally include the following:
 
 More detailed explanation on prefab setup coming soon...
 
-
-
-### Technical Notes
-- Room size is flexible. A reference FBX is provided for **25x25 units** in Unity.
-- Anchor point should be placed at the **bottom-left corner**.
-- Walls must be modular and align with other room prefabs.
-- Colliders should be added to all relevant components.
-- All required scripts/components (loot spawners, enemy spawners, etc.) must be attached.
-
-### Registering the Room
-1. Assemble the prefab with all required components.
-2. Add colliders to necessary objects.
-3. Attach all scripts and functional components.
-4. Add the prefab to the **RoomSpawnerData ScriptableObject**.
-
-Once added, the dungeon generation algorithm will automatically include the room in the procedural generation process.
-
-
 *Note: I’m curious if it would be viable to have a room as scriptableObjects and then assembled in code, just add: floor, wall, doorwalls, door and code assembles it. Sounds sick I might get to that after my thesis! It would be a great way to make rooms have more dynamic possibilities!*
 ## Scriptable Object settings
 
