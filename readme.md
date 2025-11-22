@@ -12,6 +12,13 @@ Drag the DungeonManager prefab into the scene.
 It includes the default demo configuration and will generate a functional infinite dungeon as soon as you press Play. You can adjust parameters afterward.
 The DungeonManager also contains a NavMeshSurface component that will dynamically update the Surface, you can delete this if you don't need it!
 
+#### DungeonManager settings
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| **dSDList** | `List<DungeonSettingsData>` | - | List of dungeon settings data entries. Each entry contains configuration for room generation, enemy spawns, and other dungeon parameters. They can be cycled through as the dungeon grows bigger|
+| **RoomSize** | int | 25 | Size of each room in world units. Determines spacing and placement of rooms in the dungeon grid. |
+
+
 ### 2. Prepare Your ScriptableObjects
 The system relies on three ScriptableObject types:
 
