@@ -17,7 +17,7 @@ Here an example of generator:
 ### 1. Add the DungeonManager to Your Scene
 Because this generator creates infinite layouts, it is recommended to start with an empty scene.
 Drag the DungeonManager prefab into the scene.
-It includes the default demo configuration and will generate a functional infinite dungeon as soon as you press Play. You can adjust parameters afterward.
+The asset includes the default demo configuration and will generate a functional infinite dungeon as soon as you press Play when added to the DungeonManager. You can adjust parameters afterward.
 The DungeonManager also contains a NavMeshSurface component that will dynamically update the Surface, you can delete this if you don't need it!
 
 #### DungeonManager settings
